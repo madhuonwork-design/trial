@@ -53,6 +53,83 @@ body.locked .login-screen{display:flex}
 .capacity-note{color:var(--muted);font-size:11px;margin-top:8px}
 </style>
 
+<style>
+/* ================= KMP THEME + BILLING EXTENSION ================= */
+:root{
+  --theme-primary:#7b3f1d;
+  --theme-secondary:#c47b36;
+  --theme-soft:#f3e6d8;
+  --theme-green:#3f7d4d;
+}
+body{
+  transition:background .25s ease,color .25s ease;
+}
+.brand-logo-wrap,.login-logo-wrap,.billing-logo-wrap{
+  background:#fff;
+}
+.billing-logo{width:86px;height:86px;object-fit:contain;display:block;border-radius:8px}
+.billing-quick-panel .panel-head{align-items:flex-start}
+.toolbar-actions{display:flex;gap:8px;flex-wrap:wrap}
+.billing-filterbar{display:flex;gap:9px;flex-wrap:wrap;margin:0 0 14px}
+.billing-filterbar .search{min-width:250px}
+.billing-filterbar select{min-width:150px}
+.billing-table td,.billing-table th{white-space:nowrap}
+.invoice-modal{width:min(1080px,100%)}
+.invoice-head{display:grid;grid-template-columns:1.4fr .8fr;gap:16px;align-items:start}
+.invoice-brand{display:flex;gap:14px;align-items:center}
+.invoice-brand h3{margin:0;font-size:20px}
+.invoice-brand p{margin:4px 0;color:var(--muted);font-size:12px}
+.invoice-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.invoice-meta .field{background:transparent}
+.invoice-customer{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.invoice-items{margin-top:16px}
+.invoice-items table input{width:100%;min-width:70px;padding:8px}
+.invoice-items th,.invoice-items td{padding:7px 5px}
+.invoice-items .item-name{min-width:180px}
+.invoice-total-grid{display:grid;grid-template-columns:1fr 320px;gap:16px;margin-top:15px}
+.invoice-totals{border:1px solid var(--line);border-radius:12px;padding:13px;background:rgba(0,0,0,.08)}
+.total-row{display:flex;justify-content:space-between;padding:6px 0;color:var(--muted)}
+.total-row.grand{font-size:19px;color:var(--text);font-weight:800;border-top:1px solid var(--line);margin-top:5px;padding-top:10px}
+.bill-status{font-weight:800}
+.light-invoice-preview{background:#fff;color:#222}
+body[data-theme="light"]{
+  --bg:#f5f7f6;--panel:#fff;--panel2:#f7faf9;--line:#d6e0dc;
+  --text:#1d2a27;--muted:#63736d;--accent:#2f7d4a;--accent2:#b56a2d;
+  --warn:#a06b00;--danger:#b53b49;--shadow:0 12px 35px rgba(39,58,50,.12)
+}
+body[data-theme="light"]{
+  background:linear-gradient(135deg,#f8fbfa,#eef4f0 55%,#fff);
+}
+body[data-theme="light"] .sidebar{background:rgba(255,255,255,.94)}
+body[data-theme="light"] .card,
+body[data-theme="light"] .panel{background:linear-gradient(145deg,#fff,#f8fbfa)}
+body[data-theme="light"] .btn{background:#fff;color:var(--text)}
+body[data-theme="light"] .btn.primary{background:linear-gradient(135deg,var(--theme-green),var(--theme-secondary));color:#fff}
+body[data-theme="light"] input,
+body[data-theme="light"] select,
+body[data-theme="light"] textarea,
+body[data-theme="light"] .field{background:#fff;color:var(--text)}
+body[data-theme="light"] .nav button:hover,
+body[data-theme="light"] .nav button.active{background:#eef5f1;color:var(--text)}
+body[data-theme="light"] tr:hover td{background:#f4f8f6}
+body[data-theme="light"] .metric,
+body[data-theme="light"] .mini{background:#f5f9f7;border-color:var(--line)}
+body[data-theme="light"] .login-screen{background:linear-gradient(135deg,#f8fbfa,#edf4ef)}
+body[data-theme="light"] .login-card{background:#fff}
+body[data-theme="light"] .login-card input{background:#fff;color:#1d2a27}
+body[data-theme="light"] .modal-box{background:#fff;color:#1d2a27}
+body[data-theme="light"] .invoice-totals{background:#f7faf9}
+@media(max-width:760px){
+ .invoice-head,.invoice-customer,.invoice-total-grid{grid-template-columns:1fr}
+ .billing-filterbar .search{min-width:100%}
+ .invoice-meta{grid-template-columns:1fr}
+}
+@media print{
+ body{background:#fff!important;color:#111!important}
+ .sidebar,.top,.toast,.modal,.assistant-panel,.assistant-launch{display:none!important}
+ .main{margin:0;width:100%;padding:0}
+}
+</style>
 </head>
 <body class="locked">
 
@@ -88,7 +165,7 @@ body.locked .login-screen{display:flex}
   </nav>
 </aside>
 <main class="main">
-<header class="top"><div class="title"><button class="btn icon-btn hamb" onclick="toggleSide()">☰</button><h1 id="pageTitle">Farm Command Center</h1><p id="pageSub">Real-time dairy operations overview</p></div><div class="top-actions"><button class="btn hide-mobile" onclick="openCow()">＋ Add Cow</button><button class="btn" onclick="loadAll()">↻ Sync</button><button class="btn primary" onclick="quickBackup()">↥ Backup</button><button class="btn danger" onclick="handleLogout()" title="Sign out">⏻ Logout</button></div></header>
+<header class="top"><div class="title"><button class="btn icon-btn hamb" onclick="toggleSide()">☰</button><h1 id="pageTitle">Farm Command Center</h1><p id="pageSub">Real-time dairy operations overview</p></div><div class="top-actions"><button class="btn" id="themeToggle" onclick="toggleTheme()" title="Switch theme">☀️ Light</button><button class="btn hide-mobile" onclick="openCow()">＋ Add Cow</button><button class="btn" onclick="loadAll()">↻ Sync</button><button class="btn primary" onclick="quickBackup()">↥ Backup</button><button class="btn danger" onclick="handleLogout()" title="Sign out">⏻ Logout</button></div></header>
 
 <section id="dashboard" class="page active">
   <div class="cards" id="dashCards"></div>
@@ -101,39 +178,56 @@ body.locked .login-screen{display:flex}
 
 <section id="cows" class="page">
   <div class="panel"><div class="panel-head"><h2>Animal Registry</h2><button class="btn primary" onclick="openCow()">＋ Register Cow</button></div>
-  <div class="toolbar"><input class="search" id="cowSearch" placeholder="Search ID, tag, name or breed..." oninput="pageState.cows=1;renderCows()"><select id="cowStatus" onchange="pageState.cows=1;renderCows()"><option value="">All Status</option><option>Lactating</option><option>Pregnant</option><option>Dry</option><option>Calf</option><option>Active</option><option>Sold</option></select></div><div class="capacity-note">Capacity: 2,000,000 cows · Showing 100 per page for fast performance</div>
+  <div class="toolbar"><input class="search" id="cowSearch" placeholder="Search ID, tag, name or breed..." oninput="pageState.cows=1;renderCows()"><select id="cowStatus" onchange="pageState.cows=1;renderCows()"><option value="">All Status</option><option>Lactating</option><option>Pregnant</option><option>Dry</option><option>Calf</option><option>Active</option><option>Sold</option></select><select id="cowSort" onchange="pageState.cows=1;renderCows()"><option value="name">Sort: Name A–Z</option><option value="id">Cow ID</option><option value="milk">Milk High–Low</option><option value="newest">Recently Added</option></select></div><div class="capacity-note">Capacity: 2,000,000 cows · Showing 100 per page for fast performance</div>
   <div class="table-wrap"><table><thead><tr><th>Photo</th><th>ID</th><th>Name</th><th>Breed</th><th>DOB</th><th>Status</th><th>Milk/day</th><th>Actions</th></tr></thead><tbody id="cowTable"></tbody></table></div><div id="cowPagination"></div></div>
 </section>
 
 <section id="milk" class="page">
- <div class="panel"><div class="panel-head"><h2>Milk Production</h2><button class="btn primary" onclick="openMilk()">＋ Record Milk</button></div>
- <div class="toolbar"><input class="search" id="milkSearch" placeholder="Search cow..." oninput="pageState.milk=1;renderMilk()"><input type="date" id="milkDate" onchange="pageState.milk=1;renderMilk()"></div>
+ <div class="panel"><div class="panel-head"><h2>Milk Production</h2><div class="toolbar-actions"><button class="btn" onclick="openMilkBatch()">▦ Batch Entry</button><button class="btn primary" onclick="openMilk()">＋ Record Milk</button></div></div>
+ <div class="toolbar"><input class="search" id="milkSearch" placeholder="Search cow..." oninput="pageState.milk=1;renderMilk()"><input type="date" id="milkDate" onchange="pageState.milk=1;renderMilk()"><select id="milkSort" onchange="pageState.milk=1;renderMilk()"><option value="date-desc">Newest Date</option><option value="date-asc">Oldest Date</option><option value="cow-asc">Cow A–Z</option><option value="total-desc">Highest Total</option><option value="total-asc">Lowest Total</option></select></div>
  <div class="table-wrap"><table><thead><tr><th>Date</th><th>Cow</th><th>Morning</th><th>Afternoon</th><th>Evening</th><th>Total</th><th>Actions</th></tr></thead><tbody id="milkTable"></tbody></table></div><div id="milkPagination"></div></div>
 </section>
 
 <section id="health" class="page">
  <div class="panel"><div class="panel-head"><h2>Health & Vaccination</h2><button class="btn primary" onclick="openHealth()">＋ Health Record</button></div>
+ <div class="toolbar"><select id="healthSort" onchange="pageState.health=1;renderHealth()"><option value="date-desc">Newest Date</option><option value="date-asc">Oldest Date</option><option value="cow-asc">Cow A–Z</option><option value="type-asc">Type A–Z</option><option value="due-asc">Next Due Soonest</option><option value="cost-desc">Highest Cost</option></select></div>
  <div class="table-wrap"><table><thead><tr><th>Date</th><th>Cow</th><th>Type</th><th>Details</th><th>Next Due</th><th>Cost</th><th>Actions</th></tr></thead><tbody id="healthTable"></tbody></table></div><div id="healthPagination"></div></div>
 </section>
 
 <section id="breeding" class="page">
  <div class="panel"><div class="panel-head"><h2>Breeding & Calving</h2><button class="btn primary" onclick="openBreeding()">＋ Breeding Record</button></div>
+ <div class="toolbar"><select id="breedingSort" onchange="pageState.breeding=1;renderBreeding()"><option value="date-desc">Newest Date</option><option value="date-asc">Oldest Date</option><option value="cow-asc">Cow A–Z</option><option value="event-asc">Event A–Z</option><option value="calving-asc">Expected Calving Soonest</option></select></div>
  <div class="table-wrap"><table><thead><tr><th>Date</th><th>Cow</th><th>Event</th><th>Expected Calving</th><th>Result</th><th>Notes</th><th>Actions</th></tr></thead><tbody id="breedingTable"></tbody></table></div><div id="breedingPagination"></div></div>
 </section>
 
 <section id="finance" class="page">
  <div class="cards" id="financeCards"></div>
  <div class="panel"><div class="panel-head"><h2>Income & Expenses</h2><button class="btn primary" onclick="openFinance()">＋ Add Transaction</button></div>
+ <div class="toolbar"><select id="financeSort" onchange="pageState.finance=1;renderFinance()"><option value="date-desc">Newest Date</option><option value="date-asc">Oldest Date</option><option value="amount-desc">Highest Amount</option><option value="amount-asc">Lowest Amount</option><option value="type-asc">Type A–Z</option><option value="category-asc">Category A–Z</option></select></div>
  <div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Category</th><th>Description</th><th>Amount</th><th>Actions</th></tr></thead><tbody id="financeTable"></tbody></table></div><div id="financePagination"></div></div>
 </section>
 
+
+
 <section id="inventory" class="page">
  <div class="panel"><div class="panel-head"><h2>Feed & Inventory</h2><button class="btn primary" onclick="openInventory()">＋ Add Item</button></div>
+ <div class="toolbar"><select id="inventorySort" onchange="renderInventory()"><option value="name">Sort: Item A–Z</option><option value="stock">Low Stock First</option><option value="cost">Highest Cost</option></select></div>
  <div class="table-wrap"><table><thead><tr><th>Item</th><th>Category</th><th>Stock</th><th>Unit</th><th>Min Stock</th><th>Cost</th><th>Actions</th></tr></thead><tbody id="inventoryTable"></tbody></table></div><div id="inventoryPagination"></div></div>
 </section>
 
 <section id="reports" class="page">
- <div class="panel"><div class="panel-head"><h2>Report Center</h2></div>
+ <div class="panel"><div class="panel-head"><div><h2>Report Center</h2><div class="muted">Select a date range before generating reports. Date filters apply to Milk, Finance, Health and Breeding reports.</div></div></div>
+ <div class="report-filter-panel">
+  <div class="report-filter-head"><strong>📅 Report Date Range</strong><span id="reportRangeLabel" class="muted">Today</span></div>
+  <div class="report-filter-grid">
+   <div class="field"><label>From Date</label><input type="date" id="reportFromDate" onchange="document.getElementById('reportQuickRange').value='custom';updateReportRangeLabel()"></div>
+   <div class="field"><label>To Date</label><input type="date" id="reportToDate" onchange="document.getElementById('reportQuickRange').value='custom';updateReportRangeLabel()"></div>
+   <div class="field"><label>Quick Range</label><select id="reportQuickRange" onchange="setReportQuickRange(this.value)"><option value="custom">Custom Range</option><option value="today" selected>Today</option><option value="7">Last 7 Days</option><option value="30">Last 30 Days</option><option value="month">This Month</option><option value="year">This Year</option><option value="all">All Available Data</option></select></div>
+   <div class="field"><label>Cow Filter</label><select id="reportCowFilter"><option value="">All Cows</option></select></div>
+  </div>
+  <div class="report-filter-actions"><button class="btn" onclick="applyReportFilters()">✓ Apply Filter</button><button class="btn" onclick="setReportQuickRange('today')">Today</button><button class="btn" onclick="setReportQuickRange('7')">7 Days</button><button class="btn" onclick="setReportQuickRange('30')">30 Days</button><button class="btn" onclick="setReportQuickRange('month')">This Month</button><button class="btn" onclick="setReportQuickRange('all')">All Data</button></div>
+  <div class="report-note">Tip: For a single day, choose the same date in <b>From Date</b> and <b>To Date</b>. For a period such as 01-Sep-2026 to 15-Sep-2026, enter both dates and click <b>Apply Filter</b>.</div>
+ </div>
  <div class="cards">
   <div class="card report-card"><span class="label">REPORT</span><div class="value">🐄 Cow Register</div><div class="trend">Complete livestock database</div>
    <div class="report-actions"><button class="btn" onclick="reportCows('print')">🖶 Print</button><button class="btn" onclick="reportCows('xlsx')">⇩ Excel</button><button class="btn primary" onclick="reportCows('pdf')">⇩ PDF</button></div></div>
@@ -147,6 +241,16 @@ body.locked .login-screen{display:flex}
    <div class="report-actions"><button class="btn" onclick="reportBreeding('print')">🖶 Print</button><button class="btn" onclick="reportBreeding('xlsx')">⇩ Excel</button><button class="btn primary" onclick="reportBreeding('pdf')">⇩ PDF</button></div></div>
   <div class="card report-card"><span class="label">REPORT</span><div class="value">▤ Inventory</div><div class="trend">Feed & stock levels</div>
    <div class="report-actions"><button class="btn" onclick="reportInventory('print')">🖶 Print</button><button class="btn" onclick="reportInventory('xlsx')">⇩ Excel</button><button class="btn primary" onclick="reportInventory('pdf')">⇩ PDF</button></div></div>
+  <div class="card report-card"><span class="label">ANALYSIS</span><div class="value">◉ Daily Milk Summary</div><div class="trend">Date-wise farm production totals</div>
+   <div class="report-actions"><button class="btn" onclick="reportMilkSummary('print')">🖶 Print</button><button class="btn" onclick="reportMilkSummary('xlsx')">⇩ Excel</button><button class="btn primary" onclick="reportMilkSummary('pdf')">⇩ PDF</button></div></div>
+  <div class="card report-card"><span class="label">ANALYSIS</span><div class="value">↕ Milk by Cow</div><div class="trend">Cow-wise production ranking</div>
+   <div class="report-actions"><button class="btn" onclick="reportMilkByCow('print')">🖶 Print</button><button class="btn" onclick="reportMilkByCow('xlsx')">⇩ Excel</button><button class="btn primary" onclick="reportMilkByCow('pdf')">⇩ PDF</button></div></div>
+  <div class="card report-card"><span class="label">SUMMARY</span><div class="value">₹ Finance P&amp;L</div><div class="trend">Income, expenses and net balance</div>
+   <div class="report-actions"><button class="btn" onclick="reportFinanceSummary('print')">🖶 Print</button><button class="btn" onclick="reportFinanceSummary('xlsx')">⇩ Excel</button><button class="btn primary" onclick="reportFinanceSummary('pdf')">⇩ PDF</button></div></div>
+  <div class="card report-card"><span class="label">DUE</span><div class="value">♥ Health Due</div><div class="trend">Upcoming vaccination & health due dates</div>
+   <div class="report-actions"><button class="btn" onclick="reportHealthDue('print')">🖶 Print</button><button class="btn" onclick="reportHealthDue('xlsx')">⇩ Excel</button><button class="btn primary" onclick="reportHealthDue('pdf')">⇩ PDF</button></div></div>
+  <div class="card report-card"><span class="label">DUE</span><div class="value">🐮 Calving Due</div><div class="trend">Expected calving within selected range</div>
+   <div class="report-actions"><button class="btn" onclick="reportCalvingDue('print')">🖶 Print</button><button class="btn" onclick="reportCalvingDue('xlsx')">⇩ Excel</button><button class="btn primary" onclick="reportCalvingDue('pdf')">⇩ PDF</button></div></div>
  </div></div>
 </section>
 
@@ -161,6 +265,31 @@ body.locked .login-screen{display:flex}
  <div class="panel"><div class="panel-head"><h2>Farm Settings</h2></div>
  <div class="formgrid"><div class="field"><label>Farm Name</label><input id="setFarm"></div><div class="field"><label>Owner</label><input id="setOwner"></div><div class="field"><label>Location</label><input id="setLocation"></div><div class="field"><label>Currency</label><select id="setCurrency"><option>INR ₹</option><option>USD $</option><option>EUR €</option></select></div></div>
  <div class="actions"><button class="btn primary" onclick="saveSettings()">Save Settings</button></div></div>
+
+ <div class="panel" style="margin-top:16px">
+  <div class="panel-head"><div><h2>WhatsApp Alerts</h2><div class="muted">Numbers must include country code. Example: 91XXXXXXXXXX</div></div><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waEnabled" onchange="markWhatsAppDirty()"> Enabled</label></div>
+  <div class="formgrid">
+   <div class="field"><label>WhatsApp Number 1</label><input id="waNum1" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="91XXXXXXXXXX"></div>
+   <div class="field"><label>WhatsApp Number 2</label><input id="waNum2" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"></div>
+   <div class="field"><label>WhatsApp Number 3</label><input id="waNum3" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"></div>
+   <div class="field"><label>WhatsApp Number 4</label><input id="waNum4" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"></div>
+   <div class="field"><label>WhatsApp Number 5</label><input id="waNum5" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"></div>
+   <div class="field"><label>Alert lead days</label><input type="number" min="0" max="60" id="waLeadDays" oninput="markWhatsAppDirty()" value="7"></div>
+  </div>
+  <div class="formgrid" style="margin-top:8px">
+   <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waLowStock" onchange="markWhatsAppDirty()"> Low stock</label>
+   <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waCalving" onchange="markWhatsAppDirty()"> Calving due</label>
+   <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waMilkMissing" onchange="markWhatsAppDirty()"> Missing milk entry</label>
+   <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waLowMilk" onchange="markWhatsAppDirty()"> Low milk</label>
+  </div>
+  <div class="notice" style="margin-top:12px">Meta credentials stay in Apps Script Script Properties. Do not put WA_ACCESS_TOKEN or WA_PHONE_NUMBER_ID in this HTML.</div>
+  <div id="waStatus" class="notice" style="display:none;margin-top:12px"></div>
+  <div class="actions">
+   <button class="btn primary" onclick="saveWhatsAppSettings()">Save WhatsApp Alerts</button>
+   <button class="btn" onclick="testWhatsApp()">Test WhatsApp</button>
+   <button class="btn" onclick="sendWhatsAppAlerts()">Send Alerts Now</button>
+  </div>
+ </div>
 </section>
 </main></div>
 
@@ -171,7 +300,7 @@ body.locked .login-screen{display:flex}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
 
-const API_URL = 'https://script.google.com/macros/s/AKfycby4arqLfUW_lqFp89hPamwfsE1YsasrgD7PKhAetXXyKTgIbvDCBJW_AZe8rcuxvdHH/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyueshnHA80s9D3xHQYyKyxa0Wx6XPz2uUY0WnD2UFd3U6puSGDx_XY00R0dsSyWuv1/exec';
 const SYNC_INTERVAL = 15000;
 
 /* Large-data settings: the application accepts up to 2,000,000 records
@@ -205,16 +334,8 @@ const SESSION_KEY = 'kmp_session_v1';
 const TAB_SESSION_KEY = 'kmp_session_tab_v1';
 
 async function sha256Hex(str){
-  // Web Crypto is unavailable in some browsers when a standalone HTML is opened via file://.
-  // Keep the normal SHA-256 path when available, with a compatibility fallback for this
-  // local/offline app so the login form never silently fails.
-  try{
-    if(window.crypto && window.crypto.subtle && window.TextEncoder){
-      const buf=await window.crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
-      return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-    }
-  }catch(e){}
-  return null;
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
 function toggleLoginPassword(){
@@ -233,6 +354,7 @@ function unlockApp(username){
   $('loginError').textContent='';
   $('loginForm')?.reset();
   bootApp(username);
+  setTimeout(()=>window.ensureFarmAssistant?.(),0);
 }
 
 function getSession(){
@@ -254,12 +376,9 @@ async function handleLogin(e){
   const password=pEl.value||'';
   errEl.textContent='';
   if(!username||!password){ errEl.textContent='Enter your user ID and password.'; return false; }
-  const user = AUTH_USERS.find(u=>u.username.toLowerCase()===username.toLowerCase());
   const hash = await sha256Hex(password);
-  // Standalone file:// compatibility: if Web Crypto is blocked, use the locally
-  // configured default credential instead of failing with a hidden promise error.
-  const offlineDefaultOK = (!hash && username.toLowerCase()==='admin' && password==='KMPDairy@2026');
-  if(user && ((hash && user.hash===hash) || offlineDefaultOK)){
+  const user = AUTH_USERS.find(u=>u.username.toLowerCase()===username.toLowerCase());
+  if(user && user.hash===hash){
     localStorage.setItem(SESSION_KEY, JSON.stringify({u:user.username, exp:Date.now()+SESSION_HOURS*3600*1000}));
     unlockApp(user.username);
   }else{
@@ -281,7 +400,7 @@ function checkSession(){
   if(s){ unlockApp(s.u); }
   else{ document.body.classList.add('locked'); $('loginUser')?.focus(); }
 }
-let data={cows:[],milk:[],health:[],breeding:[],finance:[],inventory:[],settings:{farm:'KMP Dairy Farms',owner:'',location:'',currency:'INR ₹'}};
+let data={cows:[],milk:[],health:[],breeding:[],finance:[],billing:[],inventory:[],settings:{farm:'KMP Dairy Farms',owner:'',location:'',currency:'INR ₹'}};
 let syncBusy=false;
 
 const $=id=>document.getElementById(id);
@@ -350,16 +469,17 @@ function postForm(payload){
     form.appendChild(input);
     document.body.appendChild(form);
 
-    let done=false;
-    const finish=(ok)=>{
-      if(done)return;
-      done=true;
-      setTimeout(()=>{form.remove();frame.remove()},1000);
-      ok?resolve({ok:true}):reject(new Error('Write request failed.'));
-    };
-    frame.onload=()=>setTimeout(()=>finish(true),350);
-    form.submit();
-    setTimeout(()=>finish(true),5000);
+    // Cross-origin Apps Script responses cannot be read safely from this hidden iframe.
+    // Treat this only as "submitted", never as proof that Sheets/WhatsApp completed it.
+    const cleanup=()=>{try{form.remove()}catch(_e){} try{frame.remove()}catch(_e){}};
+    try{
+      form.submit();
+      setTimeout(cleanup,15000);
+      resolve({ok:true,submitted:true,confirmed:false});
+    }catch(e){
+      cleanup();
+      reject(new Error('Could not submit request to Google Apps Script: '+(e?.message||e)));
+    }
   });
 }
 
@@ -375,6 +495,7 @@ async function openDB(){
     $('setLocation').value=data.settings.location;
     $('setCurrency').value=data.settings.currency;
     renderAll();
+    if($('reportCowFilter'))refreshReportCowFilter();
     showSyncStatus('Set your Apps Script URL in index.html',false);
     return;
   }
@@ -391,6 +512,7 @@ async function openDB(){
       health:Array.isArray(incoming.health)?incoming.health:[],
       breeding:Array.isArray(incoming.breeding)?incoming.breeding:[],
       finance:Array.isArray(incoming.finance)?incoming.finance:[],
+      billing:Array.isArray(incoming.billing)?incoming.billing:[],
       inventory:Array.isArray(incoming.inventory)?incoming.inventory:[],
       settings:{...data.settings,...(incoming.settings||{})}
     };
@@ -399,6 +521,8 @@ async function openDB(){
     $('setLocation').value=data.settings.location;
     $('setCurrency').value=data.settings.currency;
     renderAll();
+    renderWhatsAppSettings();
+    if($('reportCowFilter'))refreshReportCowFilter();
     showSyncStatus('Live — Google Sheets synced',true);
   }catch(e){
     console.error(e);
@@ -416,7 +540,7 @@ async function persist(){
   }
   try{
     await postForm({action:'saveAll',data});
-    showSyncStatus('Saved to Google Sheets',true);
+    showSyncStatus('Save request submitted — waiting for Google Sheets sync',true);
     return true;
   }catch(e){
     console.error(e);
@@ -444,7 +568,7 @@ async function save(store,obj){
     }else arr[i]=obj;
   }
   if(!apiConfigured()){
-    renderAll();
+    renderAll();if($('reportCowFilter'))refreshReportCowFilter();
     toast('Configure the Apps Script URL first');
     return false;
   }
@@ -477,13 +601,13 @@ async function remove(store,id){
 function showPage(id){
  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');
  document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
- const titles={dashboard:['Farm Command Center','Real-time dairy operations overview'],cows:['Animal Registry','Complete livestock database'],milk:['Milk Production','Daily and historical production'],health:['Health & Vaccination','Animal health monitoring'],breeding:['Breeding & Calving','Reproductive management'],finance:['Finance','Income, expenses and profitability'],inventory:['Feed & Inventory','Stock and consumables'],reports:['Report Center','Generate printable farm reports'],backup:['Data Protection Center','Backup, restore and data portability'],settings:['Farm Settings','Configure your farm']};
+ const titles={billing:['Billing','Invoices, payments and customer billing'],dashboard:['Farm Command Center','Real-time dairy operations overview'],cows:['Animal Registry','Complete livestock database'],milk:['Milk Production','Daily and historical production'],health:['Health & Vaccination','Animal health monitoring'],breeding:['Breeding & Calving','Reproductive management'],finance:['Finance','Income, expenses and profitability'],inventory:['Feed & Inventory','Stock and consumables'],reports:['Report Center','Generate printable farm reports'],backup:['Data Protection Center','Backup, restore and data portability'],settings:['Farm Settings','Configure your farm']};
  $('pageTitle').textContent=titles[id][0];$('pageSub').textContent=titles[id][1];$('sidebar').classList.remove('open');
- if(id==='dashboard')renderDashboard()
+ if(id==='dashboard')renderDashboard();if(id==='settings')renderWhatsAppSettings()
 }
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 
-function renderAll(){renderDashboard();renderCows();renderMilk();renderHealth();renderBreeding();renderFinance();renderInventory();if(window.renderCharts)window.renderCharts()}
+function renderAll(){renderDashboard();renderCows();renderMilk();renderHealth();renderBreeding();renderFinance();renderBilling();renderInventory();if(window.renderCharts)window.renderCharts()}
 function renderDashboard(){
  const cows=data.cows.filter(c=>c.status!=='Sold'&&c.status!=='Deceased'), lact=cows.filter(c=>c.status==='Lactating').length, preg=cows.filter(c=>c.status==='Pregnant').length;
  const day=today(), milkToday=data.milk.filter(x=>x.date===day).reduce((a,x)=>a+Number(x.total||0),0);
@@ -538,7 +662,14 @@ function pageItems(arr,key){
 
 function renderCows(){
  const q=($('cowSearch')?.value||'').toLowerCase(), st=$('cowStatus')?.value||'';
- const arr=data.cows.filter(c=>(!q||[c.id,c.tag,c.name,c.breed].join(' ').toLowerCase().includes(q))&&(!st||c.status===st));
+ let arr=data.cows.filter(c=>(!q||[c.id,c.tag,c.name,c.breed].join(' ').toLowerCase().includes(q))&&(!st||c.status===st));
+ const cowSort=$('cowSort')?.value||'name';
+ if(cowSort==='id')arr.sort((a,b)=>String(a.id||'').localeCompare(String(b.id||''),undefined,{numeric:true}));
+ else if(cowSort==='newest')arr.sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')));
+ else if(cowSort==='milk'){
+   const mm={};for(const x of data.milk){if(x.date===today())mm[x.cowId]=(mm[x.cowId]||0)+Number(x.total||0);}
+   arr.sort((a,b)=>(mm[b.id]||0)-(mm[a.id]||0));
+ }else arr.sort((a,b)=>String(a.name||a.id||'').localeCompare(String(b.name||b.id||'')));
  const visible=pageItems(arr,'cows');
  const todayMilk={};
  for(const x of data.milk){if(x.date===today())todayMilk[x.cowId]=(todayMilk[x.cowId]||0)+Number(x.total||0);}
@@ -550,34 +681,84 @@ function milkForCow(id){const a=data.milk.filter(x=>x.cowId===id&&x.date===today
 function renderMilk(){
  const q=($('milkSearch')?.value||'').toLowerCase(), d=$('milkDate')?.value||'';
  let arr=data.milk.filter(x=>(!d||x.date===d)&&(!q||cowName(x.cowId).toLowerCase().includes(q)));
- arr=[...arr].sort((a,b)=>b.date.localeCompare(a.date));
+ const milkSort=$('milkSort')?.value||'date-desc';
+ arr=[...arr].sort((a,b)=>{
+   if(milkSort==='date-asc')return String(a.date||'').localeCompare(String(b.date||''));
+   if(milkSort==='cow-asc')return cowName(a.cowId).localeCompare(cowName(b.cowId));
+   if(milkSort==='total-desc')return Number(b.total||0)-Number(a.total||0);
+   if(milkSort==='total-asc')return Number(a.total||0)-Number(b.total||0);
+   return String(b.date||'').localeCompare(String(a.date||''));
+ });
  const visible=pageItems(arr,'milk');
  $('milkTable').innerHTML=visible.length?visible.map(x=>`<tr><td>${x.date}</td><td>${esc(cowName(x.cowId))}</td><td>${x.morning}</td><td>${x.afternoon}</td><td>${x.evening}</td><td><b>${Number(x.total).toFixed(1)} L</b></td><td><button class="btn" onclick="openMilk('${x.id}')">Edit</button> <button class="btn danger" onclick="remove('milk','${x.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="7" class="empty">No milk records.</td></tr>';
  renderPageControls('milk',arr.length);
 }
 
 function renderHealth(){
- const arr=[...data.health].sort((a,b)=>b.date.localeCompare(a.date));
+ const healthSort=$('healthSort')?.value||'date-desc';
+ const arr=[...data.health].sort((a,b)=>{
+   if(healthSort==='date-asc')return String(a.date||'').localeCompare(String(b.date||''));
+   if(healthSort==='cow-asc')return cowName(a.cowId).localeCompare(cowName(b.cowId));
+   if(healthSort==='type-asc')return String(a.type||'').localeCompare(String(b.type||''));
+   if(healthSort==='due-asc')return String(a.nextDue||'9999-12-31').localeCompare(String(b.nextDue||'9999-12-31'));
+   if(healthSort==='cost-desc')return Number(b.cost||0)-Number(a.cost||0);
+   return String(b.date||'').localeCompare(String(a.date||''));
+ });
  const visible=pageItems(arr,'health');
  $('healthTable').innerHTML=visible.length?visible.map(x=>`<tr><td>${x.date}</td><td>${esc(cowName(x.cowId))}</td><td><span class="status ${x.type==='Vaccination'?'green':'yellow'}">${esc(x.type)}</span></td><td>${esc(x.details||x.vaccine||'—')}</td><td>${esc(x.nextDue||'—')}</td><td>${money(x.cost)}</td><td><button class="btn" onclick="openHealth('${x.id}')">Edit</button> <button class="btn danger" onclick="remove('health','${x.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="7" class="empty">No health records.</td></tr>';
  renderPageControls('health',arr.length);
 }
 function renderBreeding(){
- const arr=[...data.breeding].sort((a,b)=>b.date.localeCompare(a.date));
+ const breedingSort=$('breedingSort')?.value||'date-desc';
+ const arr=[...data.breeding].sort((a,b)=>{
+   if(breedingSort==='date-asc')return String(a.date||'').localeCompare(String(b.date||''));
+   if(breedingSort==='cow-asc')return cowName(a.cowId).localeCompare(cowName(b.cowId));
+   if(breedingSort==='event-asc')return String(a.event||'').localeCompare(String(b.event||''));
+   if(breedingSort==='calving-asc')return String(a.calving||'9999-12-31').localeCompare(String(b.calving||'9999-12-31'));
+   return String(b.date||'').localeCompare(String(a.date||''));
+ });
  const visible=pageItems(arr,'breeding');
  $('breedingTable').innerHTML=visible.length?visible.map(x=>`<tr><td>${x.date}</td><td>${esc(cowName(x.cowId))}</td><td>${esc(x.event)}</td><td>${esc(x.calving||'—')}</td><td>${esc(x.result||'—')}</td><td>${esc(x.notes||'—')}</td><td><button class="btn" onclick="openBreeding('${x.id}')">Edit</button> <button class="btn danger" onclick="remove('breeding','${x.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="7" class="empty">No breeding records.</td></tr>';
  renderPageControls('breeding',arr.length);
 }
+function financeDateValue(v){
+ const s=String(v??'').trim();
+ if(!s)return 0;
+ // Normalise common date formats so late-entered transactions are placed by
+ // their transaction date, not by the time they were entered.
+ if(/^\d{4}-\d{2}-\d{2}/.test(s)){
+   const t=Date.parse(s);
+   if(!Number.isNaN(t))return t;
+ }
+ let m=s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+ if(m){const t=Date.parse(`${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`);if(!Number.isNaN(t))return t;}
+ const t=Date.parse(s);
+ return Number.isNaN(t)?0:t;
+}
 function renderFinance(){
  const inc=data.finance.filter(x=>x.type==='Income').reduce((s,x)=>s+Number(x.amount),0),exp=data.finance.filter(x=>x.type==='Expense').reduce((s,x)=>s+Number(x.amount),0);
  $('financeCards').innerHTML=[['TOTAL INCOME',money(inc)],['TOTAL EXPENSE',money(exp)],['NET BALANCE',money(inc-exp)],['TRANSACTIONS',data.finance.length]].map(x=>`<div class="card"><div class="label">${x[0]}</div><div class="value">${x[1]}</div></div>`).join('');
- const arr=[...data.finance].sort((a,b)=>b.date.localeCompare(a.date));
+ const financeSort=$('financeSort')?.value||'date-desc';
+ const arr=[...data.finance].sort((a,b)=>{
+   // Date sorting always uses the transaction DATE. This means a transaction
+   // entered today with an older date goes to its correct historical position.
+   if(financeSort==='date-asc')return financeDateValue(a.date)-financeDateValue(b.date);
+   if(financeSort==='amount-desc')return Number(b.amount||0)-Number(a.amount||0);
+   if(financeSort==='amount-asc')return Number(a.amount||0)-Number(b.amount||0);
+   if(financeSort==='type-asc')return String(a.type||'').localeCompare(String(b.type||''));
+   if(financeSort==='category-asc')return String(a.category||'').localeCompare(String(b.category||''));
+   return financeDateValue(b.date)-financeDateValue(a.date);
+ });
  const visible=pageItems(arr,'finance');
  $('financeTable').innerHTML=visible.length?visible.map(x=>`<tr><td>${x.date}</td><td><span class="status ${x.type==='Income'?'green':'red'}">${x.type}</span></td><td>${esc(x.category)}</td><td>${esc(x.description||'')}</td><td>${money(x.amount)}</td><td><button class="btn" onclick="openFinance('${x.id}')">Edit</button> <button class="btn danger" onclick="remove('finance','${x.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No transactions.</td></tr>';
  renderPageControls('finance',arr.length);
 }
 function renderInventory(){
- const arr=[...data.inventory];
+ let arr=[...data.inventory];
+ const inventorySort=$('inventorySort')?.value||'name';
+ if(inventorySort==='stock')arr.sort((a,b)=>Number(a.stock||0)-Number(b.stock||0));
+ else if(inventorySort==='cost')arr.sort((a,b)=>Number(b.cost||0)-Number(a.cost||0));
+ else arr.sort((a,b)=>String(a.name||'').localeCompare(String(b.name||'')));
  const visible=pageItems(arr,'inventory');
  $('inventoryTable').innerHTML=visible.length?visible.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>${esc(x.category)}</td><td class="${Number(x.stock)<=Number(x.minStock)?'red':''}">${x.stock}</td><td>${esc(x.unit)}</td><td>${x.minStock}</td><td>${money(x.cost)}</td><td><button class="btn" onclick="openInventory('${x.id}')">Edit</button> <button class="btn danger" onclick="remove('inventory','${x.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="7" class="empty">No inventory items.</td></tr>';
  renderPageControls('inventory',arr.length);
@@ -594,8 +775,200 @@ function cowOptions(selected=''){
  return '<option value="">Select cow</option>'+list.map(c=>`<option value="${c.id}" ${c.id===selected?'selected':''}>${esc(c.name||c.id)} — ${esc(c.tag||c.id)}</option>`).join('');
 }
 function modal(title,body){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modal').classList.add('show')}
-function closeModal(){$('modal').classList.remove('show')}
+function closeModal(){$('modal').classList.remove('show');if($('modal'))$('modal').dataset.invoiceId=''}
 window.onclick=e=>{if(e.target===$('modal'))closeModal()}
+
+
+/* ================= BILLING / INVOICE MODULE ================= */
+const BILL_LOGO = "data:image/jpeg;base64,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QdNjS5u/DOpzpMs1uQo+1WVxGfKuoAZNjOnKPhZFQlCfW/Kb6/TisHXPCtn4j/s1b+CSWXTb2LULW7RzFLBOmQHjZeVLIzRuBhXjmlRsq7KSMVHZilJyfvavuV/H3jnQvhr4P1PxT4m1e30XQdLiM9zfXRISNcgKAB8zMzFVVBkuzKoBLAV8Z618avj9+1r/AKH8EPD118Pfhxckx/8ACbeIGFtcXkfkPuKZ3ukbMdivbK7h0VzJF8yV7tN8F5fj140Pir4n2I1Dwjpszjwt4G1C3P2VBhkOp38LZE1zKpbyoZABBE+CizPJt90MTyMr7WOPuqw+Ue/r3I/pSacvJDjJQ1Su/PZHxh8OP+CYfgnTLx9S+IniXWviJq9zJI1yHkewtp3JLCSTYxnaQFpPn84K277lfV3gb4d+GPhppraX4R8NaX4aspJAz2+lWUdtG7AAF2CL8z7QOW5OK60RjuMmn0o04x2HKrOfxMTaKWiitDMKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//9k=";
+let billingSortEnabled = localStorage.getItem('kmpBillingAutoSort') !== '0';
+
+function themeInit(){
+  const theme=localStorage.getItem('kmpTheme')||'dark';
+  document.body.setAttribute('data-theme',theme);
+  updateThemeButton();
+}
+function updateThemeButton(){
+  const b=$('themeToggle');if(!b)return;
+  const light=document.body.getAttribute('data-theme')==='light';
+  b.textContent=light?'🌙 Dark':'☀️ Light';
+  b.title=light?'Switch to dark mode':'Switch to light mode';
+}
+function toggleTheme(){
+  const next=document.body.getAttribute('data-theme')==='light'?'dark':'light';
+  document.body.setAttribute('data-theme',next);localStorage.setItem('kmpTheme',next);updateThemeButton();
+}
+function billingAutoSortToggle(){
+  billingSortEnabled=!billingSortEnabled;
+  localStorage.setItem('kmpBillingAutoSort',billingSortEnabled?'1':'0');
+  updateBillingSortButton();
+  renderBilling();
+}
+function updateBillingSortButton(){
+  const b=$('billingSortToggle');if(b)b.textContent=billingSortEnabled?'↕ Auto Sort: ON':'↕ Auto Sort: OFF';
+}
+function nextInvoiceNo(){
+  const yearMonth=new Date().toISOString().slice(0,7).replace('-','');
+  const prefix='KMP-'+yearMonth+'-';
+  let max=0;
+  for(const x of (data.billing||[])){
+    const m=String(x.invoiceNo||'').match(new RegExp('^'+prefix+'(\\d+)$'));
+    if(m)max=Math.max(max,Number(m[1]));
+  }
+  return prefix+String(max+1).padStart(4,'0');
+}
+function billingItemsTotal(inv){return (inv.items||[]).reduce((s,i)=>s+Number(i.qty||0)*Number(i.rate||0),0)}
+function invoiceDiscountTotal(inv){return Number(inv.discount||0)}
+function invoiceTaxable(inv){return Math.max(0,billingItemsTotal(inv)-invoiceDiscountTotal(inv))}
+function invoiceTaxTotal(inv){return invoiceTaxable(inv)*Number(inv.taxRate||0)/100}
+function invoiceGrand(inv){return Math.max(0,invoiceTaxable(inv)+invoiceTaxTotal(inv))}
+function invoiceBalance(inv){return Math.max(0,invoiceGrand(inv)-Number(inv.paid||0))}
+function invoiceStatus(inv){
+  const g=invoiceGrand(inv),p=Number(inv.paid||0);
+  return p>=g&&g>0?'Paid':p>0?'Partial':'Credit';
+}
+function renderBilling(){
+  if(!$('billingTable'))return;
+  const q=($('billingSearch')?.value||'').toLowerCase().trim();
+  const status=$('billingStatusFilter')?.value||'';
+  let arr=(data.billing||[]).filter(x=>{
+    const hay=[x.invoiceNo,x.customerName,x.customerPhone,x.customerAddress].join(' ').toLowerCase();
+    return (!q||hay.includes(q))&&(!status||invoiceStatus(x)===status);
+  });
+  const sort=$('billingSort')?.value||'date-desc';
+  if(billingSortEnabled){
+    arr.sort((a,b)=>{
+      if(sort==='invoice-asc')return String(a.invoiceNo||'').localeCompare(String(b.invoiceNo||''),undefined,{numeric:true});
+      if(sort==='customer-asc')return String(a.customerName||'').localeCompare(String(b.customerName||''));
+      if(sort==='amount-desc')return invoiceGrand(b)-invoiceGrand(a);
+      if(sort==='amount-asc')return invoiceGrand(a)-invoiceGrand(b);
+      const d=String(a.date||'').localeCompare(String(b.date||''));return sort==='date-asc'?d:-d;
+    });
+  }
+  const totalSales=(data.billing||[]).reduce((s,x)=>s+invoiceGrand(x),0);
+  const paid=(data.billing||[]).reduce((s,x)=>s+Number(x.paid||0),0);
+  const outstanding=Math.max(0,totalSales-paid);
+  const todaySales=(data.billing||[]).filter(x=>x.date===today()).reduce((s,x)=>s+invoiceGrand(x),0);
+  $('billingCards').innerHTML=[
+    ['TOTAL BILLS',(data.billing||[]).length,'Saved invoices'],
+    ['TODAY SALES',money(todaySales),'Today’s billed value'],
+    ['TOTAL SALES',money(totalSales),'All saved bills'],
+    ['OUTSTANDING',money(outstanding),'Customer balance']
+  ].map(x=>`<div class="card"><div class="label">${x[0]}</div><div class="value">${x[1]}</div><div class="trend">${x[2]}</div></div>`).join('');
+  $('billingTable').innerHTML=arr.length?arr.map(x=>{
+    const st=invoiceStatus(x), cls=st==='Paid'?'green':st==='Partial'?'yellow':'red';
+    return `<tr><td><b>${esc(x.invoiceNo)}</b></td><td>${esc(x.date||'')}</td><td>${esc(x.customerName||'Walk-in Customer')}<br><small class="muted">${esc(x.customerPhone||'')}</small></td><td>${(x.items||[]).length}</td><td><b>${money(invoiceGrand(x))}</b></td><td>${money(x.paid)}</td><td>${money(invoiceBalance(x))}</td><td><span class="status ${cls}">${st}</span></td><td><button class="btn" onclick="openInvoice('${esc(x.id)}')">Edit</button> <button class="btn" onclick="printInvoice('${esc(x.id)}')">Print</button> <button class="btn danger" onclick="remove('billing','${esc(x.id)}')">Delete</button></td></tr>`;
+  }).join(''):'<tr><td colspan="9" class="empty">No bills found. Create your first bill.</td></tr>';
+  updateBillingSortButton();
+}
+function invoiceRow(item={}){
+  const row=document.createElement('tr');
+  row.innerHTML=`<td><input class="inv-item-name item-name" placeholder="Product / Service" value="${esc(item.name||'')}"></td>
+    <td><input class="inv-item-unit" placeholder="pcs" value="${esc(item.unit||'pcs')}"></td>
+    <td><input class="inv-item-qty" type="number" min="0" step="0.01" value="${Number(item.qty||1)}" oninput="recalcInvoice()"></td>
+    <td><input class="inv-item-rate" type="number" min="0" step="0.01" value="${Number(item.rate||0)}" oninput="recalcInvoice()"></td>
+    <td class="inv-item-amount">₹ 0</td>
+    <td><button type="button" class="btn danger" onclick="this.closest('tr').remove();recalcInvoice()">✕</button></td>`;
+  $('invoiceItemsBody').appendChild(row);
+  recalcInvoice();
+}
+function recalcInvoice(){
+  if(!$('invoiceItemsBody'))return;
+  let subtotal=0;
+  $('invoiceItemsBody').querySelectorAll('tr').forEach(r=>{
+    const q=Number(r.querySelector('.inv-item-qty')?.value||0), rate=Number(r.querySelector('.inv-item-rate')?.value||0), amount=q*rate;
+    subtotal+=amount;
+    const out=r.querySelector('.inv-item-amount');if(out)out.textContent=money(amount);
+  });
+  const discount=Math.max(0,Number($('invDiscount')?.value||0));
+  const taxRate=Math.max(0,Number($('invTaxRate')?.value||0));
+  const taxable=Math.max(0,subtotal-discount),tax=taxable*taxRate/100,total=taxable+tax,paid=Math.max(0,Number($('invPaid')?.value||0)),balance=Math.max(0,total-paid);
+  if($('invSubtotal'))$('invSubtotal').textContent=money(subtotal);
+  if($('invTaxable'))$('invTaxable').textContent=money(taxable);
+  if($('invTax'))$('invTax').textContent=money(tax);
+  if($('invGrand'))$('invGrand').textContent=money(total);
+  if($('invBalance'))$('invBalance').textContent=money(balance);
+  if($('invStatus'))$('invStatus').textContent=paid>=total&&total>0?'Paid':paid>0?'Partial':'Credit';
+}
+function invoiceModalHtml(inv){
+  const x=inv||{id:'',invoiceNo:nextInvoiceNo(),date:today(),customerName:'',customerPhone:'',customerAddress:'',paymentMode:'Cash',discount:0,taxRate:0,paid:0,notes:'',items:[{name:'',unit:'pcs',qty:1,rate:0}]};
+  return `<div class="invoice-head">
+    <div class="invoice-brand"><div class="billing-logo-wrap"><img class="billing-logo" src="${BILL_LOGO}" alt="KMP Dairy Products"></div><div><h3>KMP DAIRY PRODUCTS</h3><p>${esc(data.settings.farm||'KMP Dairy Farms')}<br>${esc(data.settings.location||'')}<br>${esc(data.settings.owner||'')}</p></div></div>
+    <div class="invoice-meta">
+      <div class="field"><label>Invoice No.</label><input id="invNo" value="${esc(x.invoiceNo)}" readonly></div>
+      <div class="field"><label>Bill Date</label><input type="date" id="invDate" value="${esc(x.date||today())}"></div>
+    </div>
+  </div>
+  <div class="invoice-customer">
+    <div class="field"><label>Customer Name</label><input id="invCustomer" placeholder="Customer / Walk-in Customer" value="${esc(x.customerName||'')}"></div>
+    <div class="field"><label>Mobile Number</label><input id="invPhone" placeholder="10-digit mobile" value="${esc(x.customerPhone||'')}"></div>
+    <div class="field full"><label>Customer Address</label><input id="invAddress" placeholder="Address" value="${esc(x.customerAddress||'')}"></div>
+  </div>
+  <div class="invoice-items">
+   <div class="panel-head"><h3 style="margin:0">Items</h3><button type="button" class="btn primary" onclick="invoiceRow()">＋ Add Item</button></div>
+   <div class="table-wrap"><table><thead><tr><th>Product / Service</th><th>Unit</th><th>Qty</th><th>Rate</th><th>Amount</th><th></th></tr></thead><tbody id="invoiceItemsBody"></tbody></table></div>
+  </div>
+  <div class="invoice-total-grid">
+    <div>
+      <div class="field"><label>Notes</label><textarea id="invNotes" placeholder="Thank you / delivery notes">${esc(x.notes||'')}</textarea></div>
+      <div class="invoice-customer" style="margin-top:10px">
+        <div class="field"><label>Payment Mode</label><select id="invPaymentMode">${['Cash','UPI','Card','Bank Transfer','Credit'].map(v=>`<option ${x.paymentMode===v?'selected':''}>${v}</option>`).join('')}</select></div>
+        <div class="field"><label>Payment Status</label><div class="field" style="padding:11px 0;font-weight:800" id="invStatus">${invoiceStatus(x)}</div></div>
+      </div>
+    </div>
+    <div class="invoice-totals">
+      <div class="total-row"><span>Subtotal</span><b id="invSubtotal">₹ 0</b></div>
+      <div class="field"><label>Discount (₹)</label><input id="invDiscount" type="number" min="0" step="0.01" value="${Number(x.discount||0)}" oninput="recalcInvoice()"></div>
+      <div class="field"><label>Tax / GST (%)</label><input id="invTaxRate" type="number" min="0" step="0.01" value="${Number(x.taxRate||0)}" oninput="recalcInvoice()"></div>
+      <div class="total-row"><span>Taxable</span><b id="invTaxable">₹ 0</b></div>
+      <div class="total-row"><span>Tax</span><b id="invTax">₹ 0</b></div>
+      <div class="total-row grand"><span>Grand Total</span><b id="invGrand">₹ 0</b></div>
+      <div class="field"><label>Amount Paid (₹)</label><input id="invPaid" type="number" min="0" step="0.01" value="${Number(x.paid||0)}" oninput="recalcInvoice()"></div>
+      <div class="total-row"><span>Balance</span><b id="invBalance">₹ 0</b></div>
+    </div>
+  </div>
+  <div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn" onclick="saveInvoice(true)">Save & Print</button><button class="btn primary" onclick="saveInvoice(false)">Save Bill</button></div>`;
+}
+function openInvoice(id=''){
+  const inv=(data.billing||[]).find(x=>x.id===id);
+  modal(inv?'Edit Bill':'New Bill',invoiceModalHtml(inv));
+  document.querySelector('#modal .modal-box')?.classList.add('invoice-modal');
+  $('modal').dataset.invoiceId=id||'';
+  const items=(inv?.items?.length?inv.items:[{name:'',unit:'pcs',qty:1,rate:0}]);
+  items.forEach(i=>invoiceRow(i));
+  recalcInvoice();
+}
+async function saveInvoice(andPrint=false){
+  const rows=[...($('invoiceItemsBody')?.querySelectorAll('tr')||[])];
+  const items=rows.map(r=>({name:r.querySelector('.inv-item-name')?.value.trim()||'',unit:r.querySelector('.inv-item-unit')?.value.trim()||'pcs',qty:Number(r.querySelector('.inv-item-qty')?.value||0),rate:Number(r.querySelector('.inv-item-rate')?.value||0)})).filter(i=>i.name&&i.qty>0);
+  if(!items.length)return toast('Add at least one bill item');
+  const id=($('modal')?.dataset.invoiceId)||'';
+  const existing=(data.billing||[]).find(x=>x.id===id);
+  const o={id:id||uid('bill'),invoiceNo:$('invNo').value.trim(),date:$('invDate').value||today(),customerName:$('invCustomer').value.trim()||'Walk-in Customer',customerPhone:$('invPhone').value.trim(),customerAddress:$('invAddress').value.trim(),items,paymentMode:$('invPaymentMode').value,discount:Number($('invDiscount').value||0),taxRate:Number($('invTaxRate').value||0),paid:Number($('invPaid').value||0),notes:$('invNotes').value.trim(),createdAt:existing?.createdAt||new Date().toISOString()};
+  const ok=await save('billing',o);
+  if(ok){
+    closeModal();toast(andPrint?'Bill saved — opening print':'Bill saved successfully');
+    if(andPrint)setTimeout(()=>printInvoice(o.id),250);
+  }
+}
+function printInvoice(id){
+  const x=(data.billing||[]).find(a=>a.id===id);if(!x)return;
+  const rows=(x.items||[]).map((i,n)=>`<tr><td>${n+1}</td><td>${esc(i.name)}</td><td>${esc(i.unit||'pcs')}</td><td>${Number(i.qty||0)}</td><td>₹ ${Number(i.rate||0).toLocaleString('en-IN',{maximumFractionDigits:2})}</td><td>₹ ${(Number(i.qty||0)*Number(i.rate||0)).toLocaleString('en-IN',{maximumFractionDigits:2})}</td></tr>`).join('');
+  const subtotal=billingItemsTotal(x),discount=invoiceDiscountTotal(x),taxable=invoiceTaxable(x),tax=invoiceTaxTotal(x),grand=invoiceGrand(x),balance=invoiceBalance(x);
+  const w=window.open('','_blank');if(!w){toast('Allow pop-ups to print bills');return}
+  w.document.write(`<!doctype html><html><head><title>${esc(x.invoiceNo)}</title><style>
+  *{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;background:#f2f2f2;color:#222}.sheet{width:800px;max-width:96%;margin:20px auto;background:#fff;padding:28px;box-shadow:0 2px 15px #bbb}
+  .head{display:flex;justify-content:space-between;gap:20px;border-bottom:2px solid #7b3f1d;padding-bottom:16px}.brand{display:flex;gap:12px;align-items:center}.brand img{width:80px;height:80px;object-fit:contain}.brand h1{margin:0;font-size:24px;color:#7b3f1d}.brand p,.meta p{margin:4px 0;font-size:12px;color:#666}.meta{text-align:right}.customer{margin:18px 0;padding:12px;background:#f8f4f0;border-left:4px solid #7b3f1d}.customer b{font-size:14px}table{width:100%;border-collapse:collapse;margin-top:15px;font-size:12px}th,td{border:1px solid #ddd;padding:8px}th{background:#f1e7df;text-align:left}.totals{margin:15px 0 0 auto;width:330px}.tr{display:flex;justify-content:space-between;padding:6px}.grand{font-size:18px;font-weight:bold;border-top:2px solid #7b3f1d;margin-top:5px}.balance{color:#9b3a2c;font-weight:bold}.foot{margin-top:25px;border-top:1px solid #ddd;padding-top:12px;font-size:11px;color:#666}
+  @media print{body{background:#fff}.sheet{width:100%;max-width:none;margin:0;box-shadow:none;padding:15px}@page{size:A4;margin:8mm}}
+  </style></head><body><div class="sheet">
+  <div class="head"><div class="brand"><img src="${BILL_LOGO}"><div><h1>KMP DAIRY PRODUCTS</h1><p>${esc(data.settings.farm||'KMP Dairy Farms')}<br>${esc(data.settings.location||'')}</p></div></div>
+  <div class="meta"><p><b>INVOICE</b></p><p>No: <b>${esc(x.invoiceNo)}</b></p><p>Date: ${esc(x.date)}</p><p>Payment: ${esc(x.paymentMode)}</p></div></div>
+  <div class="customer"><b>Bill To: ${esc(x.customerName||'Walk-in Customer')}</b><br>${esc(x.customerPhone||'')}<br>${esc(x.customerAddress||'')}</div>
+  <table><thead><tr><th>#</th><th>Product / Service</th><th>Unit</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead><tbody>${rows}</tbody></table>
+  <div class="totals"><div class="tr"><span>Subtotal</span><b>₹ ${subtotal.toLocaleString('en-IN',{maximumFractionDigits:2})}</b></div><div class="tr"><span>Discount</span><b>₹ ${discount.toLocaleString('en-IN',{maximumFractionDigits:2})}</b></div><div class="tr"><span>Tax (${Number(x.taxRate||0)}%)</span><b>₹ ${tax.toLocaleString('en-IN',{maximumFractionDigits:2})}</b></div><div class="tr grand"><span>Grand Total</span><b>₹ ${grand.toLocaleString('en-IN',{maximumFractionDigits:2})}</b></div><div class="tr"><span>Paid</span><b>₹ ${Number(x.paid||0).toLocaleString('en-IN',{maximumFractionDigits:2})}</b></div><div class="tr balance"><span>Balance</span><b>₹ ${balance.toLocaleString('en-IN',{maximumFractionDigits:2})}</b></div></div>
+  <div class="foot">${esc(x.notes||'Thank you for your business.')}<br><br>Generated by KMP Dairy Farms — Billing</div></div><script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+}
 
 function openCow(id=''){
  if(!id && data.cows.length>=MAX_RECORDS){toast('Cow Management capacity reached: '+MAX_RECORDS.toLocaleString());return;}
@@ -660,6 +1033,41 @@ function openMilk(id=''){
 }
 async function saveMilk(id){const o={id:id||uid('milk'),date:$('m_date').value,cowId:$('m_cow').value,morning:Number($('m_m').value||0),afternoon:Number($('m_a').value||0),evening:Number($('m_e').value||0)};o.total=o.morning+o.afternoon+o.evening;if(!o.cowId)return toast('Select a cow');await save('milk',o);closeModal();toast('Milk record saved')}
 
+
+function openMilkBatch(){
+  const cows=(data.cows||[]).filter(c=>!['Sold','Deceased'].includes(c.status));
+  if(!cows.length)return toast('No active cows found');
+  const rows=cows.map(c=>{
+    const existing=(data.milk||[]).find(x=>x.date===today()&&x.cowId===c.id)||{};
+    return `<tr class="milk-batch-row" data-cow="${esc(c.id)}"><td><b>${esc(c.name||c.id)}</b><div class="muted">${esc(c.tag||c.id)}</div></td><td><input class="bm" type="number" step=".1" min="0" value="${Number(existing.morning||0)}"></td><td><input class="ba" type="number" step=".1" min="0" value="${Number(existing.afternoon||0)}"></td><td><input class="be" type="number" step=".1" min="0" value="${Number(existing.evening||0)}"></td></tr>`;
+  }).join('');
+  modal('Milk Batch Entry',`<div class="field"><label>Date *</label><input type="date" id="mb_date" value="${today()}"></div><div class="table-wrap" style="margin-top:12px"><table><thead><tr><th>Cow</th><th>Morning (L)</th><th>Afternoon (L)</th><th>Evening (L)</th></tr></thead><tbody>${rows}</tbody></table></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveMilkBatch()">Save Batch</button></div>`);
+}
+async function saveMilkBatch(){
+  const date=$('mb_date')?.value;
+  if(!date)return toast('Select a date');
+  const rows=[...document.querySelectorAll('.milk-batch-row')];
+  let changed=0;
+  rows.forEach(row=>{
+    const cowId=row.dataset.cow;
+    const morning=Number(row.querySelector('.bm')?.value||0);
+    const afternoon=Number(row.querySelector('.ba')?.value||0);
+    const evening=Number(row.querySelector('.be')?.value||0);
+    const total=morning+afternoon+evening;
+    if(total<=0)return;
+    let rec=(data.milk||[]).find(x=>x.date===date&&x.cowId===cowId);
+    if(rec){
+      Object.assign(rec,{morning,afternoon,evening,total,updatedAt:new Date().toISOString()});
+    }else{
+      data.milk.push({id:uid('milk'),date,cowId,morning,afternoon,evening,total,updatedAt:new Date().toISOString()});
+    }
+    changed++;
+  });
+  if(!changed)return toast('Enter milk quantity for at least one cow');
+  const ok=await persist();
+  if(ok){closeModal();renderAll();toast(changed+' milk records saved');}
+}
+
 function openHealth(id=''){
  const x=data.health.find(a=>a.id===id)||{date:today(),cowId:'',type:'Vaccination',details:'',nextDue:'',cost:0};
  modal(id?'Edit Health Record':'Health / Vaccination Record',`<div class="formgrid"><div class="field"><label>Date</label><input type="date" id="h_date" value="${x.date}"></div><div class="field"><label>Cow</label><select id="h_cow">${cowOptions(x.cowId)}</select></div><div class="field"><label>Type</label><select id="h_type"><option ${x.type==='Vaccination'?'selected':''}>Vaccination</option><option ${x.type==='Treatment'?'selected':''}>Treatment</option><option ${x.type==='Checkup'?'selected':''}>Checkup</option><option ${x.type==='Other'?'selected':''}>Other</option></select></div><div class="field"><label>Next Due</label><input type="date" id="h_due" value="${x.nextDue||''}"></div><div class="field"><label>Cost</label><input type="number" id="h_cost" value="${x.cost||0}"></div><div class="field full"><label>Details / Medicine / Vaccine</label><textarea id="h_details">${esc(x.details||'')}</textarea></div></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveHealth('${id}')">Save Record</button></div>`)
@@ -702,159 +1110,217 @@ function exportCSV(){
  const rows=[['Cow ID','Tag','Name','Breed','DOB','Status','Weight','Purchase Date','Purchase Cost'],...data.cows.map(c=>[c.id,c.tag,c.name,c.breed,c.dob,c.status,c.weight,c.purchaseDate,c.purchaseCost])];
  const csv=rows.map(r=>r.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`KMP_Cows_${today()}.csv`;a.click()
 }
-function printReport(title,headers,rows){
- const w=window.open('','_blank');w.document.write(`<html><head><title>${title}</title><style>body{font-family:Arial;padding:30px}h1{color:#123}table{width:100%;border-collapse:collapse}th,td{padding:8px;border:1px solid #ddd;text-align:left}th{background:#eef5f8}</style></head><body><h1>${esc(data.settings.farm)}</h1><h2>${title}</h2><p>Generated: ${new Date().toLocaleString()}</p><table><thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table><script>window.print()<\/script>
-<style id="KMP_AUTO_WHATSAPP_ALERTS_V1">
-.kmp-wa-fab{position:fixed;right:22px;bottom:22px;z-index:9998;border:0;border-radius:999px;padding:13px 17px;background:#0d8069;color:#fff;font-weight:800;box-shadow:0 8px 24px rgba(13,128,105,.28);cursor:pointer}
-.kmp-wa-badge{display:inline-flex;min-width:20px;height:20px;align-items:center;justify-content:center;border-radius:10px;background:#d93b35;color:#fff;font-size:11px;margin-left:6px}
-.kmp-wa-backdrop{position:fixed;inset:0;background:rgba(10,35,30,.38);z-index:9999;display:none;align-items:flex-end;justify-content:flex-end;padding:22px}
-.kmp-wa-backdrop.show{display:flex}
-.kmp-wa-panel{width:min(620px,96vw);max-height:86vh;overflow:auto;background:#fff;border:1px solid #d6e7e1;border-radius:18px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.2);color:#244f46}
-.kmp-wa-panel h3{margin:0 0 5px;color:#0d6654}.kmp-wa-panel p{margin:6px 0 12px;line-height:1.5}.kmp-wa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kmp-wa-grid .full{grid-column:1/-1}.kmp-wa-panel label{display:block;font-size:12px;font-weight:800;margin-bottom:4px}.kmp-wa-panel input,.kmp-wa-panel select{width:100%;box-sizing:border-box;padding:9px 10px;border:1px solid #cfe0da;border-radius:9px;background:#fff}.kmp-wa-toggle{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #d6e7e1;border-radius:10px}.kmp-wa-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.kmp-wa-actions button{border:0;border-radius:9px;padding:9px 12px;font-weight:800;cursor:pointer}.kmp-wa-primary{background:#0d8069;color:#fff}.kmp-wa-secondary{background:#edf6f3;color:#0d6654}.kmp-wa-alert{border:1px solid #d6e7e1;border-left:4px solid #0d8069;border-radius:10px;padding:9px 11px;margin:7px 0;background:#f8fcfb}.kmp-wa-alert.warn{border-left-color:#d9a63e}.kmp-wa-alert.urgent{border-left-color:#d93b35}.kmp-wa-small{font-size:11px;color:#607c75}.kmp-wa-status{margin-top:10px;padding:9px 10px;border-radius:9px;background:#f4faf8;white-space:pre-wrap;font-size:12px}
-@media(max-width:640px){.kmp-wa-grid{grid-template-columns:1fr}.kmp-wa-grid .full{grid-column:auto}.kmp-wa-fab{right:12px;bottom:12px}}
-</style>
-<button id="kmpWaFab" class="kmp-wa-fab" type="button">🔔 Auto Alerts <span id="kmpWaBadge" class="kmp-wa-badge">0</span></button>
-<div id="kmpWaBackdrop" class="kmp-wa-backdrop" aria-hidden="true">
- <div class="kmp-wa-panel" role="dialog" aria-modal="true" aria-labelledby="kmpWaTitle">
-  <h3 id="kmpWaTitle">WhatsApp Auto Alert Center</h3>
-  <p>Automatic cow-wise alerts for vaccine due dates, deworming, low feed stock and expected delivery. Alerts are checked while this portal is open.</p>
-  <div class="kmp-wa-grid">
-   <div class="full kmp-wa-toggle"><input id="kmpWaEnabled" type="checkbox"><label for="kmpWaEnabled" style="margin:0">Enable automatic WhatsApp alerts</label></div>
-   <div><label>Alert language</label><select id="kmpWaLang"><option value="en">English</option><option value="ta">தமிழ்</option><option value="tl">Tanglish</option></select></div>
-   <div><label>Check interval</label><select id="kmpWaInterval"><option value="15">Every 15 minutes</option><option value="30">Every 30 minutes</option><option value="60" selected>Every 1 hour</option><option value="360">Every 6 hours</option></select></div>
-   <div><label>Vaccine / deworming alert before (days)</label><input id="kmpWaDueDays" type="number" min="0" max="90" value="7"></div>
-   <div><label>Delivery alert before (days)</label><input id="kmpWaDeliveryDays" type="number" min="0" max="90" value="30"></div>
-   <div class="full"><label>WhatsApp automation webhook URL</label><input id="kmpWaWebhook" type="url" placeholder="https://your-automation-webhook.example/..." autocomplete="off"></div>
-   <div class="full"><label>WhatsApp group / destination label</label><input id="kmpWaGroup" type="text" placeholder="KMP Dairy Farm Group" autocomplete="off"></div>
-  </div>
-  <div class="kmp-wa-small" style="margin-top:9px">For true automatic group delivery, connect the webhook to your WhatsApp automation provider (for example your own server, n8n/Make, or a WhatsApp provider). A browser cannot silently send messages to a WhatsApp group by itself.</div>
-  <div id="kmpWaStatus" class="kmp-wa-status">Checking alert data…</div>
-  <div id="kmpWaAlerts"></div>
-  <div class="kmp-wa-actions"><button id="kmpWaSave" class="kmp-wa-primary" type="button">Save & Enable</button><button id="kmpWaTest" class="kmp-wa-secondary" type="button">Send Test Alert</button><button id="kmpWaRefresh" class="kmp-wa-secondary" type="button">Check Now</button><button id="kmpWaClose" class="kmp-wa-secondary" type="button">Close</button></div>
- </div>
-</div>
-<script id="KMP_AUTO_WHATSAPP_ALERTS_SCRIPT">
-(function(){
- 'use strict';
- const KEY='kmp_whatsapp_alert_config_v1', SENT='kmp_whatsapp_alert_sent_v1';
- const $i=id=>document.getElementById(id);
- const cfgDefault={enabled:false,lang:'en',interval:60,dueDays:7,deliveryDays:30,webhook:'',group:'KMP Dairy Farm Group'};
- function loadCfg(){try{return Object.assign({},cfgDefault,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){return Object.assign({},cfgDefault)}}
- function saveCfg(c){localStorage.setItem(KEY,JSON.stringify(c))}
- function escLocal(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
- function addDays(dateStr,n){const d=new Date(dateStr+'T00:00:00');d.setDate(d.getDate()+Number(n||0));return d.toISOString().slice(0,10)}
- function daysBetween(a,b){const x=new Date(a+'T00:00:00'),y=new Date(b+'T00:00:00');return Math.round((y-x)/86400000)}
- function cowLabel(id){if(typeof cowName==='function')return cowName(id)||id;const c=(window.data&&data.cows||[]).find(x=>x.id===id);return c?(c.name||c.id)+' '+(c.tag?'('+c.tag+')':''):id||'Unknown cow'}
- function dateText(d){if(!d)return '—';const p=d.split('-');return p.length===3?`${p[2]}-${p[1]}-${p[0]}`:d}
- function collectAlerts(){
-   const c=loadCfg(), now=today(), out=[];
-   const limit=addDays(now,c.dueDays);
-   (window.data&&data.health||[]).forEach(x=>{
-     if(!x.nextDue||x.nextDue<now||x.nextDue>limit)return;
-     const type=String(x.type||'').toLowerCase(), details=String(x.details||x.vaccine||'').toLowerCase();
-     const isV=/vaccin|fmd|hs|bruc|bq|lumpy/.test(type+' '+details);
-     const isD=/deworm|deworming|worm|வயிற்றுப்புழு/.test(type+' '+details);
-     if(isV||isD){const days=daysBetween(now,x.nextDue);out.push({id:'health:'+x.id,type:isV?'VACCINE':'DEWORMING',cowId:x.cowId,due:x.nextDue,days,details:x.details||x.vaccine||''})}
-   });
-   const delLimit=addDays(now,c.deliveryDays);
-   (window.data&&data.breeding||[]).forEach(x=>{if(!x.calving||x.calving<now||x.calving>delLimit)return;out.push({id:'calving:'+x.id,type:'DELIVERY',cowId:x.cowId,due:x.calving,days:daysBetween(now,x.calving),details:x.event||'Expected calving'})});
-   (window.data&&data.inventory||[]).forEach(x=>{if(Number(x.stock||0)<=Number(x.minStock||0))out.push({id:'stock:'+x.id,type:'LOW_FEED',cowId:'',due:'',days:0,item:x.name,stock:Number(x.stock||0),min:Number(x.minStock||0),unit:x.unit||''})});
-   return out;
- }
- function phrase(a,lang){
-   const cow=cowLabel(a.cowId),date=dateText(a.due),days=a.days;
-   if(lang==='ta'){
-     if(a.type==='VACCINE')return `💉 தடுப்பூசி எச்சரிக்கை\n• மாடு: ${cow}\n• தடுப்பூசி தேதி: ${date}\n• இன்னும் ${Math.max(0,days)} நாட்கள் மட்டுமே உள்ளது.`;
-     if(a.type==='DEWORMING')return `💊 குடற்புழு நீக்கம் எச்சரிக்கை\n• மாடு: ${cow}\n• தேதி: ${date}\n• இன்னும் ${Math.max(0,days)} நாட்கள் மட்டுமே உள்ளது.`;
-     if(a.type==='DELIVERY')return `🐄 கன்று ஈனும் தேதி நெருங்குகிறது\n• மாடு: ${cow}\n• எதிர்பார்க்கப்படும் தேதி: ${date}\n• இன்னும் ${Math.max(0,days)} நாட்கள்.`;
-     return `🌾 தீவன இருப்பு குறைவு\n• பொருள்: ${a.item}\n• மீதம்: ${a.stock} ${a.unit}\n• குறைந்தபட்சம்: ${a.min} ${a.unit}\n• தயவுசெய்து ஆர்டர் செய்யவும்.`;
-   }
-   if(lang==='tl'){
-     if(a.type==='VACCINE')return `💉 Vaccine alert\n• Maadu: ${cow}\n• Vaccine date: ${date}\n• Innum ${Math.max(0,days)} naal mattum irukku.`;
-     if(a.type==='DEWORMING')return `💊 Deworming alert\n• Maadu: ${cow}\n• Date: ${date}\n• Innum ${Math.max(0,days)} naal mattum irukku.`;
-     if(a.type==='DELIVERY')return `🐄 Delivery date near\n• Maadu: ${cow}\n• Expected delivery: ${date}\n• Innum ${Math.max(0,days)} naal.`;
-     return `🌾 Feed stock low\n• Item: ${a.item}\n• Remaining: ${a.stock} ${a.unit}\n• Minimum: ${a.min} ${a.unit}\n• Please order.`;
-   }
-   if(a.type==='VACCINE')return `💉 VACCINE ALERT\n• Cow: ${cow}\n• Vaccine date: ${date}\n• Due in ${Math.max(0,days)} day(s).`;
-   if(a.type==='DEWORMING')return `💊 DEWORMING ALERT\n• Cow: ${cow}\n• Deworming date: ${date}\n• Due in ${Math.max(0,days)} day(s).`;
-   if(a.type==='DELIVERY')return `🐄 DELIVERY ALERT\n• Cow: ${cow}\n• Expected delivery: ${date}\n• Due in ${Math.max(0,days)} day(s).`;
-   return `🌾 LOW FEED STOCK ALERT\n• Item: ${a.item}\n• Remaining: ${a.stock} ${a.unit}\n• Minimum: ${a.min} ${a.unit}\n• Please order.`;
- }
- function buildMessage(alerts,c){
-   const lang=c.lang||'en', header=lang==='ta'?'🚨 KMP Dairy Farm — தானியங்கி எச்சரிக்கை':lang==='tl'?'🚨 KMP Dairy Farm — Auto Alert':'🚨 KMP Dairy Farm — Automatic Alert';
-   return header+'\n\n'+alerts.map(a=>phrase(a,lang)).join('\n\n────────────\n\n')+'\n\n'+(c.group?`Group: ${c.group}`:'');
- }
- function sentMap(){try{return JSON.parse(localStorage.getItem(SENT)||'{}')}catch(e){return {}}}
- function markSent(ids){const m=sentMap(),now=new Date().toISOString();ids.forEach(id=>m[id]=now);localStorage.setItem(SENT,JSON.stringify(m))}
- async function sendWebhook(message,alerts,c,testOnly){
-   if(!c.webhook)return {ok:false,error:'Webhook URL is not configured.'};
-   const payload={source:'KMP-Dairy-FarmOS',type:testOnly?'test':'farm_alert',group:c.group||'',language:c.lang,createdAt:new Date().toISOString(),message,alerts:alerts.map(a=>Object.assign({},a,{cowName:cowLabel(a.cowId)}))};
-   try{const r=await fetch(c.webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),mode:'cors'});if(!r.ok)throw new Error('HTTP '+r.status);return {ok:true}}catch(e){return {ok:false,error:e.message||String(e)}}
- }
- function render(alerts){
-   const c=loadCfg();$i('kmpWaBadge').textContent=alerts.length;
-   $i('kmpWaAlerts').innerHTML=alerts.length?alerts.map(a=>`<div class="kmp-wa-alert ${a.days<=2||a.type==='LOW_FEED'?'urgent':'warn'}"><b>${escLocal(a.type==='LOW_FEED'?'🌾 '+a.item:a.type+' — '+cowLabel(a.cowId))}</b><br><span>${escLocal(a.type==='LOW_FEED'?`Remaining ${a.stock} ${a.unit}; minimum ${a.min} ${a.unit}`:`Due ${dateText(a.due)}${a.days>=0?' — '+a.days+' day(s) remaining':''}`)}</span></div>`).join(''):'<div class="kmp-wa-alert">✓ No configured alerts are currently due within the selected windows.</div>';
-   $i('kmpWaStatus').textContent=`${alerts.length} alert(s) found. Last checked: ${new Date().toLocaleString('en-IN')}.`;
- }
- async function checkAndSend(force){
-   const c=loadCfg(),alerts=collectAlerts();render(alerts);if(!c.enabled||!c.webhook||!alerts.length)return;
-   const sent=sentMap(),fresh=alerts.filter(a=>force||!sent[a.id]);if(!fresh.length)return;
-   const result=await sendWebhook(buildMessage(fresh,c),fresh,c,false);
-   if(result.ok){markSent(fresh.map(a=>a.id));$i('kmpWaStatus').textContent=`Sent ${fresh.length} alert(s) to the configured WhatsApp automation webhook at ${new Date().toLocaleString('en-IN')}.`}
-   else $i('kmpWaStatus').textContent=`Alert found, but WhatsApp webhook failed: ${result.error}`;
- }
- function loadForm(){const c=loadCfg();$i('kmpWaEnabled').checked=!!c.enabled;$i('kmpWaLang').value=c.lang;$i('kmpWaInterval').value=String(c.interval);$i('kmpWaDueDays').value=c.dueDays;$i('kmpWaDeliveryDays').value=c.deliveryDays;$i('kmpWaWebhook').value=c.webhook;$i('kmpWaGroup').value=c.group;render(collectAlerts())}
- function readForm(){return {enabled:$i('kmpWaEnabled').checked,lang:$i('kmpWaLang').value,interval:Number($i('kmpWaInterval').value||60),dueDays:Number($i('kmpWaDueDays').value||7),deliveryDays:Number($i('kmpWaDeliveryDays').value||30),webhook:$i('kmpWaWebhook').value.trim(),group:$i('kmpWaGroup').value.trim()||'KMP Dairy Farm Group'}}
- $i('kmpWaFab').onclick=()=>{$i('kmpWaBackdrop').classList.add('show');$i('kmpWaBackdrop').setAttribute('aria-hidden','false');loadForm()};
- $i('kmpWaClose').onclick=()=>{$i('kmpWaBackdrop').classList.remove('show');$i('kmpWaBackdrop').setAttribute('aria-hidden','true')};
- $i('kmpWaRefresh').onclick=()=>checkAndSend(true);
- $i('kmpWaSave').onclick=()=>{const c=readForm();saveCfg(c);render(collectAlerts());checkAndSend(false);toast('WhatsApp auto-alert settings saved')};
- $i('kmpWaTest').onclick=async()=>{const c=readForm();saveCfg(c);const msg=buildMessage([{type:'VACCINE',cowId:(data.cows[0]||{}).id||'',due:today(),days:0}],c)+'\n\nTEST MESSAGE — no farm action required.';const r=await sendWebhook(msg,[],c,true);$i('kmpWaStatus').textContent=r.ok?'Test alert sent successfully.':('Test failed: '+r.error)};
- $i('kmpWaBackdrop').addEventListener('click',e=>{if(e.target===$i('kmpWaBackdrop'))$i('kmpWaClose').click()});
- let timer=null;function schedule(){if(timer)clearInterval(timer);const c=loadCfg();timer=setInterval(()=>checkAndSend(false),Math.max(1,c.interval)*60000)}
- loadForm();schedule();checkAndSend(false);
- window.kmpWhatsAppAlerts={check:()=>checkAndSend(true),collect:collectAlerts,open:()=>{$i('kmpWaFab').click()}};
-})();
-</script>
-
-</body></html>`);w.document.close()
+function reportDateState(){
+ const from=$('reportFromDate')?.value||'';
+ const to=$('reportToDate')?.value||'';
+ const cowId=$('reportCowFilter')?.value||'';
+ return {from,to,cowId,label:from&&to?(from===to?from:(from+' to '+to)):'All available data'};
+}
+function reportDateMatch(date,range){
+ if(!range.from&&!range.to)return true;
+ if(!date)return false;
+ return (!range.from||date>=range.from)&&(!range.to||date<=range.to);
+}
+function reportRowsForDate(rows,dateIndex,range,cowIndex){
+ return rows.filter(r=>reportDateMatch(String(r[dateIndex]||''),range)&&(!range.cowId||!cowIndex||String(r[cowIndex])===String(range.cowId)));
+}
+function reportCowFilterRows(rows,cowIndex,range){
+ return rows.filter(r=>!range.cowId||String(r[cowIndex])===String(range.cowId));
+}
+function reportPeriodText(range){return (range.from&&range.to)?(range.from===range.to?'Date: '+range.from:'Period: '+range.from+' to '+range.to):'Period: All available data';}
+function reportHeaderRows(title,range){return [[data.settings.farm||'KMP Dairy Farms'],[title],[reportPeriodText(range)],['Generated: '+new Date().toLocaleString()],[]]}
+function printReport(title,headers,rows,range){
+ const w=window.open('','_blank'); if(!w){toast('Please allow pop-ups to generate the report');return}
+ const html=`<!doctype html><html><head><title>${esc(title)}</title><style>body{font-family:Arial;padding:30px}h1{color:#123}table{width:100%;border-collapse:collapse}th,td{padding:8px;border:1px solid #ddd;text-align:left}th{background:#eef5f8}.meta{color:#555;margin:4px 0}</style></head><body><h1>${esc(data.settings.farm)}</h1><h2>${esc(title)}</h2><p class="meta">${esc(reportPeriodText(range))}</p><p class="meta">Generated: ${esc(new Date().toLocaleString())}</p><table><thead><tr>${headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${headers.length}">No records found for the selected filters.</td></tr>`}</tbody></table><script>window.print()<\/script></body></html>`;w.document.write(html);w.document.close()
 }
 function safeFilename(title){return (data.settings.farm+'_'+title).replace(/[^a-z0-9]+/gi,'_').replace(/^_+|_+$/g,'')+'_'+today()}
-function exportReportXLSX(title,headers,rows){
+function exportReportXLSX(title,headers,rows,range){
  if(typeof XLSX==='undefined'){toast('Excel library failed to load — check your internet connection');return}
- const ws=XLSX.utils.aoa_to_sheet([[data.settings.farm],[title],['Generated: '+new Date().toLocaleString()],[],headers,...rows]);
+ const ws=XLSX.utils.aoa_to_sheet([...reportHeaderRows(title,range),headers,...rows]);
  ws['!cols']=headers.map(()=>({wch:18}));
- const wb=XLSX.utils.book_new();
- XLSX.utils.book_append_sheet(wb,ws,title.slice(0,31));
- XLSX.writeFile(wb,safeFilename(title)+'.xlsx');
- toast('Excel report downloaded')
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,title.slice(0,31));XLSX.writeFile(wb,safeFilename(title)+'.xlsx');toast('Excel report downloaded')
 }
-function exportReportPDF(title,headers,rows){
+function exportReportPDF(title,headers,rows,range){
  if(typeof window.jspdf==='undefined'){toast('PDF library failed to load — check your internet connection');return}
- const {jsPDF}=window.jspdf;
- const doc=new jsPDF({orientation:headers.length>5?'landscape':'portrait'});
- doc.setFontSize(16);doc.text(String(data.settings.farm||'Farm'),14,17);
- doc.setFontSize(12);doc.text(title,14,25);
- doc.setFontSize(9);doc.setTextColor(120);doc.text('Generated: '+new Date().toLocaleString(),14,31);
- doc.autoTable({head:[headers],body:rows.map(r=>r.map(v=>String(v??'—'))),startY:36,styles:{fontSize:8,cellPadding:3},headStyles:{fillColor:[18,51,74]}});
- doc.save(safeFilename(title)+'.pdf');
- toast('PDF report downloaded')
+ const {jsPDF}=window.jspdf;const doc=new jsPDF({orientation:headers.length>5?'landscape':'portrait'});
+ doc.setFontSize(16);doc.text(String(data.settings.farm||'Farm'),14,17);doc.setFontSize(12);doc.text(title,14,25);doc.setFontSize(9);doc.setTextColor(120);doc.text(reportPeriodText(range),14,31);doc.text('Generated: '+new Date().toLocaleString(),14,36);
+ doc.autoTable({head:[headers],body:rows.length?rows.map(r=>r.map(v=>String(v??'—'))):[['No records found for the selected filters.']],startY:42,styles:{fontSize:8,cellPadding:3},headStyles:{fillColor:[18,51,74]}});doc.save(safeFilename(title)+'.pdf');toast('PDF report downloaded')
 }
-function runReport(title,headers,rows,mode){
- if(mode==='xlsx')exportReportXLSX(title,headers,rows);
- else if(mode==='pdf')exportReportPDF(title,headers,rows);
- else printReport(title,headers,rows);
+function runReport(title,headers,rows,mode,range=reportDateState()){
+ const filteredRows=rows;
+ if(mode==='xlsx')exportReportXLSX(title,headers,filteredRows,range);else if(mode==='pdf')exportReportPDF(title,headers,filteredRows,range);else printReport(title,headers,filteredRows,range)
 }
-function reportCows(mode){runReport('Cow Register',['ID','Name','Breed','DOB','Status','Weight'],data.cows.map(c=>[c.id,c.name,c.breed,c.dob,c.status,c.weight+' kg']),mode)}
-function reportMilk(mode){runReport('Milk Production',['Date','Cow','Morning','Afternoon','Evening','Total'],data.milk.map(x=>[x.date,cowName(x.cowId),x.morning,x.afternoon,x.evening,Number(x.total).toFixed(1)+' L']),mode)}
-function reportFinance(mode){runReport('Finance Summary',['Date','Type','Category','Description','Amount'],data.finance.map(x=>[x.date,x.type,x.category,x.description,money(x.amount)]),mode)}
-function reportHealth(mode){runReport('Health Report',['Date','Cow','Type','Details','Next Due','Cost'],data.health.map(x=>[x.date,cowName(x.cowId),x.type,x.details,x.nextDue,money(x.cost)]),mode)}
-function reportBreeding(mode){runReport('Breeding & Calving',['Date','Cow','Event','Expected Calving','Result','Notes'],data.breeding.map(x=>[x.date,cowName(x.cowId),x.event,x.calving,x.result,x.notes]),mode)}
-function reportInventory(mode){runReport('Feed & Inventory',['Item','Category','Stock','Unit','Min Stock','Cost'],data.inventory.map(x=>[x.name,x.category,x.stock,x.unit,x.minStock,money(x.cost)]),mode)}
+function selectedReportCowName(){const id=$('reportCowFilter')?.value||'';return id?cowName(id):'All Cows'}
+function reportCows(mode){const range=reportDateState();const rows=reportCowFilterRows(data.cows.map(c=>[c.id,c.name,c.breed,c.dob,c.status,c.weight+' kg']),1,range);runReport('Cow Register',['ID','Name','Breed','DOB','Status','Weight'],rows,mode,range)}
+function reportMilk(mode){const range=reportDateState();const rows=data.milk.filter(x=>reportDateMatch(x.date,range)&&(!range.cowId||String(x.cowId)===String(range.cowId))).map(x=>[x.date,cowName(x.cowId),x.morning,x.afternoon,x.evening,Number(x.total).toFixed(1)+' L']);runReport('Milk Production',['Date','Cow','Morning','Afternoon','Evening','Total'],rows,mode,range)}
+function reportFinance(mode){const range=reportDateState();const rows=data.finance.filter(x=>reportDateMatch(x.date,range)).map(x=>[x.date,x.type,x.category,x.description,money(x.amount)]);runReport('Finance Summary',['Date','Type','Category','Description','Amount'],rows,mode,range)}
+function reportHealth(mode){const range=reportDateState();const rows=data.health.filter(x=>reportDateMatch(x.date,range)&&(!range.cowId||String(x.cowId)===String(range.cowId))).map(x=>[x.date,cowName(x.cowId),x.type,x.details,x.nextDue,money(x.cost)]);runReport('Health Report',['Date','Cow','Type','Details','Next Due','Cost'],rows,mode,range)}
+function reportBreeding(mode){const range=reportDateState();const rows=data.breeding.filter(x=>reportDateMatch(x.date,range)&&(!range.cowId||String(x.cowId)===String(range.cowId))).map(x=>[x.date,cowName(x.cowId),x.event,x.calving,x.result,x.notes]);runReport('Breeding & Calving',['Date','Cow','Event','Expected Calving','Result','Notes'],rows,mode,range)}
+function reportInventory(mode){const range=reportDateState();const rows=data.inventory.map(x=>[x.name,x.category,x.stock,x.unit,x.minStock,money(x.cost)]);runReport('Feed & Inventory',['Item','Category','Stock','Unit','Min Stock','Cost'],rows,mode,range)}
+function reportMilkSummary(mode){
+ const range=reportDateState();const map={};
+ data.milk.filter(x=>reportDateMatch(x.date,range)&&(!range.cowId||String(x.cowId)===String(range.cowId))).forEach(x=>{const d=x.date;map[d]=(map[d]||0)+Number(x.total||0)});
+ const rows=Object.keys(map).sort().map(d=>[d,map[d].toFixed(1)+' L']);
+ const total=Object.values(map).reduce((a,b)=>a+b,0);if(rows.length)rows.push(['TOTAL',total.toFixed(1)+' L']);
+ runReport('Daily Milk Summary',['Date','Farm Total'],rows,mode,range)
+}
+function reportMilkByCow(mode){
+ const range=reportDateState();const map={};
+ data.milk.filter(x=>reportDateMatch(x.date,range)&&(!range.cowId||String(x.cowId)===String(range.cowId))).forEach(x=>{const id=x.cowId;map[id]=(map[id]||0)+Number(x.total||0)});
+ const rows=Object.entries(map).map(([id,total])=>[id,cowName(id),total.toFixed(1)+' L']).sort((a,b)=>parseFloat(b[2])-parseFloat(a[2]));
+ runReport('Milk by Cow',['Cow ID','Cow','Total Milk'],rows,mode,range)
+}
+function reportFinanceSummary(mode){
+ const range=reportDateState();let income=0,expense=0;
+ data.finance.filter(x=>reportDateMatch(x.date,range)).forEach(x=>{const amount=Number(x.amount||0);if(String(x.type).toLowerCase()==='income')income+=amount;else expense+=amount});
+ const rows=[['Income',money(income)],['Expenses',money(expense)],['Net Balance',money(income-expense)]];
+ runReport('Finance P&L',['Metric','Amount'],rows,mode,range)
+}
+function reportHealthDue(mode){
+ const range=reportDateState();const rows=data.health.filter(x=>{const due=x.nextDue||'';return reportDateMatch(due,range)&&(!range.cowId||String(x.cowId)===String(range.cowId))}).map(x=>[x.nextDue,cowName(x.cowId),x.type,x.details,money(x.cost)]).sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
+ runReport('Health Due Report',['Due Date','Cow','Type','Details','Cost'],rows,mode,range)
+}
+function reportCalvingDue(mode){
+ const range=reportDateState();const rows=data.breeding.filter(x=>{const due=x.calving||'';return due&&reportDateMatch(due,range)&&(!range.cowId||String(x.cowId)===String(range.cowId))}).map(x=>[x.calving,cowName(x.cowId),x.event,x.result,x.notes]).sort((a,b)=>String(a[0]).localeCompare(String(b[0])));
+ runReport('Calving Due Report',['Expected Calving','Cow','Event','Result','Notes'],rows,mode,range)
+}
+function refreshReportCowFilter(){
+ const cow=$('reportCowFilter');if(!cow)return;const current=cow.value;cow.innerHTML='<option value="">All Cows</option>';
+ [...data.cows].sort((a,b)=>String(a.name||a.id).localeCompare(String(b.name||b.id))).forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=(c.name||c.id)+' ('+c.id+')';cow.appendChild(o)});if([...cow.options].some(o=>o.value===current))cow.value=current;
+}
+function initReportFilters(){
+ const from=$('reportFromDate'),to=$('reportToDate'),cow=$('reportCowFilter');if(!from||!to||!cow)return;
+ const t=today();from.value=t;to.value=t;cow.innerHTML='<option value="">All Cows</option>';
+ [...data.cows].sort((a,b)=>String(a.name||a.id).localeCompare(String(b.name||b.id))).forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=(c.name||c.id)+' ('+c.id+')';cow.appendChild(o)});
+ updateReportRangeLabel();
+}
+function updateReportRangeLabel(){const r=reportDateState();const el=$('reportRangeLabel');if(el)el.textContent=r.from&&r.to?(r.from===r.to?'Single day: '+r.from:'Selected: '+r.from+' → '+r.to):'All available data'}
+function localDateInputValue(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return y+'-'+m+'-'+day}
+function setReportQuickRange(v){
+ const from=$('reportFromDate'),to=$('reportToDate'),sel=$('reportQuickRange');if(!from||!to)return;const t=new Date();const end=localDateInputValue(t);
+ if(v==='all'){from.value='';to.value='';}
+ else if(v==='today'){from.value=end;to.value=end;}
+ else if(v==='month'){from.value=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-01';to.value=end;}
+ else if(v==='year'){from.value=t.getFullYear()+'-01-01';to.value=end;}
+ else if(/^\d+$/.test(v)){const n=Number(v);const d=new Date(t);d.setDate(d.getDate()-(n-1));from.value=localDateInputValue(d);to.value=end;}
+ if(sel)sel.value=v;updateReportRangeLabel();
+}
+function applyReportFilters(){
+ const from=$('reportFromDate')?.value||'',to=$('reportToDate')?.value||'';if(from&&to&&from>to){toast('From Date cannot be later than To Date');return false}updateReportRangeLabel();toast('Report filters applied');return true
+}
+
+
+let waSettingsDirty=false;
+function markWhatsAppDirty(){waSettingsDirty=true}
+function normalizeWaNumber(v){return String(v||'').replace(/\D/g,'')}
+function getWhatsAppNumbers(){
+  return [1,2,3,4,5].map(i=>normalizeWaNumber($('waNum'+i)?.value)).filter(Boolean);
+}
+function renderWhatsAppSettings(force=false){
+  if(!$('waEnabled'))return;
+  if(waSettingsDirty && !force)return;
+  const wa=data.settings?.whatsapp||{};
+  const nums=Array.isArray(wa.phoneNumbers)?wa.phoneNumbers:[];
+  $('waEnabled').checked=wa.enabled!==false;
+  for(let i=1;i<=5;i++){
+    const el=$('waNum'+i);
+    if(el && document.activeElement!==el) el.value=nums[i-1]||'';
+  }
+  if(document.activeElement!==$('waLeadDays')) $('waLeadDays').value=Number.isFinite(Number(wa.leadDays))?Number(wa.leadDays):7;
+  $('waLowStock').checked=wa.lowStock!==false;
+  $('waCalving').checked=wa.calving!==false;
+  $('waMilkMissing').checked=wa.milkMissing!==false;
+  $('waLowMilk').checked=wa.lowMilk!==false;
+}
+async function saveWhatsAppSettings(){
+  const phoneNumbers=getWhatsAppNumbers();
+  data.settings={...data.settings,whatsapp:{
+    ...(data.settings.whatsapp||{}),
+    enabled:$('waEnabled').checked,
+    phoneNumbers,
+    leadDays:Number($('waLeadDays').value||7),
+    lowStock:$('waLowStock').checked,
+    calving:$('waCalving').checked,
+    milkMissing:$('waMilkMissing').checked,
+    lowMilk:$('waLowMilk').checked,
+    updatedAt:new Date().toISOString()
+  }};
+  const ok=await persist();
+  if(ok){
+    waSettingsDirty=false;
+    renderWhatsAppSettings(true);
+    const st=$('waStatus'); if(st){st.textContent='Settings save request submitted';st.style.display='block'}
+    toast('WhatsApp settings save request submitted');
+  }
+}
+async function testWhatsApp(){
+  const numbers=getWhatsAppNumbers();
+  const st=$('waStatus');
+  if(!numbers.length){if(st){st.textContent='Enter at least one WhatsApp number';st.style.display='block'};return toast('Enter at least one WhatsApp number')}
+  if(!$('waEnabled').checked){if(st){st.textContent='Enable WhatsApp Alerts first';st.style.display='block'};return toast('Enable WhatsApp Alerts first')}
+  try{
+    if(st){st.textContent='Saving settings…';st.style.display='block'}
+    await saveWhatsAppSettings();
+    if(st)st.textContent='Sending WhatsApp test…';
+    await postForm({action:'wa_test',phoneNumbers:numbers,message:'KMP Dairy FarmOS WhatsApp test message. Connection is working.'});
+    if(st)st.textContent='Test request submitted to Apps Script — delivery is not confirmed yet';
+    toast('WhatsApp test request submitted');
+  }catch(e){
+    console.error(e);
+    if(st){st.textContent='WhatsApp test failed: '+(e?.message||e);st.style.display='block'}
+    toast('WhatsApp test failed');
+  }
+}
+function buildWhatsAppAlerts(){
+  const wa=data.settings?.whatsapp||{};
+  const alerts=[];
+  const lead=Math.max(0,Number(wa.leadDays||7));
+  const todayStr=today();
+  const dueStr=new Date(Date.now()+lead*864e5).toISOString().slice(0,10);
+  if(wa.lowStock!==false){
+    (data.inventory||[]).filter(x=>Number(x.stock||0)<=Number(x.minStock||0)).forEach(x=>{
+      alerts.push({key:'low_stock',message:`KMP Dairy Alert: Low stock — ${x.name}: ${x.stock} ${x.unit||''} (minimum ${x.minStock}).`});
+    });
+  }
+  if(wa.calving!==false){
+    (data.breeding||[]).filter(x=>x.calving&&x.calving>=todayStr&&x.calving<=dueStr).forEach(x=>{
+      alerts.push({key:'calving',message:`KMP Dairy Alert: ${cowName(x.cowId)} expected calving on ${x.calving}.`});
+    });
+  }
+  if(wa.milkMissing!==false){
+    const active=(data.cows||[]).filter(c=>c.status==='Lactating');
+    const recorded=new Set((data.milk||[]).filter(x=>x.date===todayStr).map(x=>x.cowId));
+    active.filter(c=>!recorded.has(c.id)).forEach(c=>{
+      alerts.push({key:'milk_missing',message:`KMP Dairy Alert: Today's milk entry is missing for ${c.name||c.id}.`});
+    });
+  }
+  if(wa.lowMilk!==false){
+    const todays=(data.milk||[]).filter(x=>x.date===todayStr);
+    todays.filter(x=>Number(x.total||0)>0&&Number(x.total||0)<5).forEach(x=>{
+      alerts.push({key:'low_milk',message:`KMP Dairy Alert: Low milk for ${cowName(x.cowId)} today — ${Number(x.total||0).toFixed(1)} L.`});
+    });
+  }
+  return alerts;
+}
+async function sendWhatsAppAlerts(){
+  const numbers=getWhatsAppNumbers();
+  if(!$('waEnabled').checked)return toast('Enable WhatsApp Alerts first');
+  if(!numbers.length)return toast('Enter at least one WhatsApp number');
+  await saveWhatsAppSettings();
+  const alerts=buildWhatsAppAlerts();
+  if(!alerts.length)return toast('No active alerts right now');
+  try{
+    await postForm({action:'wa_alerts',phoneNumbers:numbers,alerts});
+    const st=$('waStatus');if(st){st.textContent=alerts.length+' alert request(s) submitted to Apps Script — delivery is not confirmed yet';st.style.display='block'}
+    toast(alerts.length+' WhatsApp alert request(s) submitted');
+  }catch(e){
+    console.error(e);toast('WhatsApp alert request failed');
+  }
+}
 
 async function saveSettings(){
- data.settings={farm:$('setFarm').value||'KMP Dairy Farms',owner:$('setOwner').value,location:$('setLocation').value,currency:$('setCurrency').value};
- await persist();toast('Settings saved');renderDashboard()
+ data.settings={...data.settings,farm:$('setFarm').value||'KMP Dairy Farms',owner:$('setOwner').value,location:$('setLocation').value,currency:$('setCurrency').value};
+ const ok=await persist();if(ok){toast('Settings saved');renderDashboard()}
 }
 async function seedDemo(){
  if(data.cows.length)return;
@@ -879,12 +1345,16 @@ function bootApp(){
   if(bootStarted)return; // avoid double-booting if unlocked more than once
   bootStarted=true;
   $('lastBackup').textContent=localStorage.getItem('lastBackup')||'Never';
-  (async()=>{try{await openDB()}catch(e){alert('Could not load farm data: '+e.message)}})();
+  (async()=>{try{await openDB();initReportFilters()}catch(e){alert('Could not load farm data: '+e.message)}})();
   setInterval(()=>{if(!$('modal').classList.contains('show')&&!document.body.classList.contains('locked'))loadAll()},SYNC_INTERVAL);
 }
 checkSession();
 </script>
 <style>
+.report-filter-panel{margin:0 0 22px;padding:18px;border:1px solid rgba(13,102,84,.14);border-radius:16px;background:linear-gradient(145deg,#f7fbf9,#eef6f3);box-shadow:0 8px 20px rgba(18,51,74,.06)}
+.report-filter-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.report-filter-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:14px}.report-filter-grid .field{display:flex;flex-direction:column;gap:6px}.report-filter-grid label{font-size:12px;font-weight:700;color:#365a52}.report-filter-grid input,.report-filter-grid select{width:100%;box-sizing:border-box}.report-filter-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.report-note{margin-top:12px;font-size:12px;color:#5d716c}.report-card .report-actions{display:flex;flex-wrap:wrap;gap:6px}
+@media(max-width:900px){.report-filter-grid{grid-template-columns:repeat(2,minmax(150px,1fr))}}
+@media(max-width:560px){.report-filter-grid{grid-template-columns:1fr}}
 /* Enhanced analytics and report presentation */
 .chart-page{max-width:1440px}.analytics-hero{position:relative;overflow:hidden;padding:28px;border-radius:22px;background:linear-gradient(125deg,#0b392f 0%,#0d6654 52%,#d8a33d 150%);color:#fff;box-shadow:0 18px 45px rgba(10,69,57,.22);margin-bottom:20px}.analytics-hero:after{content:'';position:absolute;width:330px;height:330px;right:-100px;top:-180px;border:48px solid rgba(255,255,255,.09);border-radius:50%}.analytics-hero h2{margin:0 0 8px;font-size:28px;letter-spacing:-.5px}.analytics-hero p{position:relative;margin:0;color:#d9f3ea;max-width:650px}.analytics-hero .logo-mark{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;background:#f7c85a;color:#0d493d;font-size:26px;float:right;position:relative;z-index:1}.analytics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.analytics-panel{min-height:300px;padding:20px;border-radius:20px;background:linear-gradient(145deg,#fff,#f3f8f5);border:1px solid rgba(13,102,84,.09);box-shadow:0 14px 32px rgba(18,51,74,.09)}.analytics-panel.full{grid-column:1/-1}.analytics-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:16px}.analytics-head h3{font-size:16px;margin:0;color:#173b35}.analytics-head span{font-size:12px;color:#6e817d}.chart-3d{height:220px;display:flex;align-items:flex-end;gap:clamp(8px,1.5vw,18px);padding:12px 8px 25px;border-bottom:1px solid #dbe9e4;background:repeating-linear-gradient(to top,transparent 0,transparent 53px,rgba(13,102,84,.06) 54px)}.cube-col{height:100%;flex:1;min-width:18px;display:flex;align-items:flex-end;justify-content:center;position:relative}.cube{width:min(45px,75%);min-height:8px;border-radius:5px 5px 2px 2px;background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 67%,#fff));box-shadow:8px 8px 0 color-mix(in srgb,var(--c) 42%,#092f27),0 10px 14px rgba(10,58,47,.2);position:relative;transition:height .35s ease}.cube:before{content:'';position:absolute;left:3px;right:-8px;top:-6px;height:8px;background:color-mix(in srgb,var(--c) 58%,#fff);transform:skewX(-42deg);border-radius:3px 3px 0 0}.cube-label{position:absolute;bottom:-22px;font-size:10px;color:#6e817d;white-space:nowrap}.cube-value{position:absolute;top:-21px;font-size:11px;font-weight:700;color:#155e50}.donut-layout{height:220px;display:flex;align-items:center;justify-content:center;gap:28px}.donut{width:155px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#0e826a 0deg var(--a),#dcaa45 var(--a) 250deg,#e6eeeb 250deg 360deg);box-shadow:inset 0 0 0 18px #fff,0 12px 20px rgba(18,51,74,.12);position:relative}.donut:after{content:'';position:absolute;inset:15px;border-radius:50%;background:#fff;box-shadow:inset 0 4px 10px rgba(18,51,74,.08)}.donut b{z-index:1;color:#0c6252;font-size:22px}.legend{display:grid;gap:11px}.legend div{font-size:13px;color:#526963}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px}.analytics-empty{height:210px;display:grid;place-items:center;color:#82938e;text-align:center}.report-card{position:relative;overflow:hidden;border:1px solid rgba(13,102,84,.12);border-radius:18px;background:linear-gradient(145deg,#fff,#f5fbf7);box-shadow:0 12px 24px rgba(18,51,74,.08)}.report-card:before{content:'✦';position:absolute;right:15px;top:9px;color:#d8a33d;font-size:24px}.report-card .label{color:#0d6654}.report-card .value{color:#163b34}.report-actions .btn.primary{background:linear-gradient(135deg,#0d725e,#0a5143);border:0}.report-brand{display:flex;align-items:center;gap:10px}.report-brand-mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(145deg,#0f765f,#073f34);color:#f5cb68;display:grid;place-items:center;font-size:21px;box-shadow:0 5px 10px rgba(11,74,61,.22)}
 @media(max-width:760px){.analytics-grid{grid-template-columns:1fr}.analytics-panel.full{grid-column:auto}.analytics-hero h2{font-size:23px}.donut-layout{gap:14px}.donut{width:125px}}
@@ -982,29 +1452,42 @@ checkSession();
 /* Cow yield comparison */
 .yield-table-wrap{overflow:auto;border:1px solid #e0ece7;border-radius:14px}.yield-table{width:100%;border-collapse:separate;border-spacing:0;min-width:620px;font-size:13px}.yield-table th{padding:11px 13px;background:#eef7f3;color:#46675e;font-size:11px;letter-spacing:.35px;text-transform:uppercase;text-align:right;border-bottom:1px solid #dcebe5}.yield-table th:first-child,.yield-table td:first-child{text-align:left}.yield-table td{padding:12px 13px;text-align:right;border-bottom:1px solid #edf3f0;color:#294c44}.yield-table tr:last-child td{border-bottom:0}.yield-cow{font-weight:700;color:#0d6654}.yield-tag{color:#81958e;font-size:11px;margin-left:5px}.yield-value{display:inline-block;min-width:65px;padding:5px 8px;border-radius:8px;font-weight:700}.yield-high{background:#dff4e9;color:#08704f;box-shadow:inset 0 0 0 1px #aee0c3}.yield-low{background:#fff1dc;color:#a75f08;box-shadow:inset 0 0 0 1px #f0cf9a}.yield-key{display:flex;gap:14px;align-items:center;font-size:11px;color:#6a8179}.yield-key span:before{content:'';display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}.yield-key .key-high:before{background:#67bf8f}.yield-key .key-low:before{background:#e8ad4b}.yield-note{margin-top:10px;color:#70867f;font-size:11px}
 /* Interactive cow-yield explorer */
-.yield-controls{display:flex;flex-wrap:wrap;gap:10px;padding:12px;margin-bottom:13px;background:#f0f8f4;border-radius:14px}.yield-control{display:grid;gap:4px;font-size:10px;color:#5e766e;font-weight:700;letter-spacing:.2px}.yield-control select,.yield-control input{min-height:34px;border:1px solid #cde2d9;border-radius:8px;background:#fff;color:#18473d;padding:0 9px;font:12px inherit}.custom-range{display:none;gap:8px;align-items:end}.custom-range.show{display:flex}.cow-day-scroll{overflow-x:auto;border:1px solid #dfebe6;border-radius:14px;background:repeating-linear-gradient(to top,#fff 0,#fff 43px,#f1f7f4 44px)}.cow-day-chart{height:238px;min-width:680px;padding:10px 12px 30px;display:flex;align-items:flex-end;gap:3px}.cow-day-group{height:100%;min-width:17px;flex:1;display:flex;align-items:flex-end;justify-content:center;gap:2px;position:relative}.cow-day-bar{width:14px;min-height:3px;position:relative;border-radius:3px 3px 1px 1px;box-shadow:2px 3px 0 rgba(12,74,61,.22)}.cow-day-value{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);font-size:10px;line-height:1;font-weight:900;color:#173f36;background:#fff;border:1px solid #b9d5cc;border-radius:5px;padding:3px 4px;white-space:nowrap;pointer-events:none;z-index:4;box-shadow:0 1px 3px rgba(20,70,58,.14)}.cow-day-bar.compare .cow-day-value{color:#76500d;border-color:#e2c980;background:#fffdf5}.cow-day-bar.own{background:linear-gradient(#10a484,#0b7160)}.cow-day-bar.compare{background:linear-gradient(#e3bc59,#bd8120)}.cow-day-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%) rotate(-45deg);font-size:9px;color:#778c85;white-space:nowrap}.cow-yield-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:13px}.cow-yield-stat{padding:12px;border-radius:12px;background:#f6faf8;border:1px solid #e2eee9}.cow-yield-stat b{display:block;color:#105f4e;font-size:14px}.cow-yield-stat span{font-size:11px;color:#6e837c}.cow-yield-stat.gold b{color:#9b6511}.comparison-legend{display:flex;gap:14px;align-items:center;font-size:11px;color:#637a72}.comparison-legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}.range-message{font-size:11px;color:#896114;padding:8px 0 0}@media(max-width:700px){.cow-yield-summary{grid-template-columns:1fr}.yield-controls{display:grid;grid-template-columns:1fr 1fr}.custom-range{grid-column:1/-1}.comparison-legend{display:none}}
+.yield-controls{display:flex;flex-wrap:wrap;gap:10px;padding:12px;margin-bottom:13px;background:#f0f8f4;border-radius:14px}.yield-control{display:grid;gap:4px;font-size:10px;color:#5e766e;font-weight:700;letter-spacing:.2px}.yield-control select,.yield-control input{min-height:34px;border:1px solid #cde2d9;border-radius:8px;background:#fff;color:#18473d;padding:0 9px;font:12px inherit}.custom-range{display:none;gap:8px;align-items:end}.custom-range.show{display:flex}.cow-day-scroll{overflow-x:auto;border:1px solid #dfebe6;border-radius:14px;background:repeating-linear-gradient(to top,#fff 0,#fff 43px,#f1f7f4 44px)}.cow-day-chart{height:238px;min-width:680px;padding:10px 12px 30px;display:flex;align-items:flex-end;gap:3px}.cow-day-group{height:100%;min-width:17px;flex:1;display:flex;align-items:flex-end;justify-content:center;gap:2px;position:relative}.cow-day-bar{position:relative;width:6px;min-height:2px;border-radius:3px 3px 1px 1px;box-shadow:2px 3px 0 rgba(12,74,61,.22)}.cow-day-value{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);font-size:8px;font-weight:800;color:#315b52;white-space:nowrap;pointer-events:none}.cow-day-bar.compare .cow-day-value{color:#8b641c}.cow-day-bar.own{background:linear-gradient(#10a484,#0b7160)}.cow-day-bar.compare{background:linear-gradient(#e3bc59,#bd8120)}.cow-day-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%) rotate(-45deg);font-size:9px;color:#778c85;white-space:nowrap}.cow-yield-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:13px}.cow-yield-stat{padding:12px;border-radius:12px;background:#f6faf8;border:1px solid #e2eee9}.cow-yield-stat b{display:block;color:#105f4e;font-size:14px}.cow-yield-stat span{font-size:11px;color:#6e837c}.cow-yield-stat.gold b{color:#9b6511}.comparison-legend{display:flex;gap:14px;align-items:center;font-size:11px;color:#637a72}.comparison-legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}.range-message{font-size:11px;color:#896114;padding:8px 0 0}@media(max-width:700px){.cow-yield-summary{grid-template-columns:1fr}.yield-controls{display:grid;grid-template-columns:1fr 1fr}.custom-range{grid-column:1/-1}.comparison-legend{display:none}}
 /* Farm Assistant: a live, record-aware help panel */
-.assistant-launch{position:fixed;right:24px;bottom:24px;z-index:50;border:0;border-radius:18px;padding:13px 17px;background:linear-gradient(135deg,#0b725e,#093d34);color:#fff;font:700 13px inherit;box-shadow:0 12px 28px rgba(5,64,53,.3);cursor:pointer}.assistant-launch:hover{transform:translateY(-2px)}.assistant-panel{position:fixed;right:24px;bottom:82px;width:min(400px,calc(100vw - 30px));height:min(590px,calc(100vh - 116px));z-index:51;background:#fff;border:1px solid #dce9e4;border-radius:22px;box-shadow:0 24px 64px rgba(11,54,46,.25);overflow:hidden;display:none;flex-direction:column}.assistant-panel.show{display:flex}.assistant-top{padding:17px 18px;background:linear-gradient(135deg,#0a5143,#0e8069);color:#fff;display:flex;align-items:center;gap:11px}.assistant-top .assistant-avatar{width:38px;height:38px;border-radius:12px;background:#f2c45a;color:#0a5143;display:grid;place-items:center;font-size:20px}.assistant-top b{display:block;font-size:15px}.assistant-top small{color:#c8eee3;font-size:11px}.assistant-close{margin-left:auto;border:0;background:transparent;color:#fff;font-size:22px;cursor:pointer}.assistant-notice{font-size:11px;line-height:1.4;color:#627a73;background:#eff8f4;padding:9px 14px}.assistant-messages{flex:1;overflow:auto;padding:16px;background:linear-gradient(#fbfdfc,#f4f9f7);display:flex;flex-direction:column;gap:11px}.assistant-msg{max-width:86%;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.48;white-space:pre-line}.assistant-msg.bot{align-self:flex-start;background:#fff;color:#264c43;border:1px solid #e0ece7;border-bottom-left-radius:4px}.assistant-msg.user{align-self:flex-end;background:#0d725e;color:#fff;border-bottom-right-radius:4px}.assistant-suggestions{padding:0 12px 9px;background:#f4f9f7;display:flex;gap:6px;overflow:auto}.assistant-suggestions button{white-space:nowrap;border:1px solid #c9e0d8;background:#fff;border-radius:999px;padding:6px 9px;color:#0d6654;font:11px inherit;cursor:pointer}.assistant-compose{padding:11px;display:flex;gap:7px;border-top:1px solid #e2ece8;background:#fff}.assistant-compose input{min-width:0;flex:1;border:1px solid #cfe0da;border-radius:11px;padding:10px;font:13px inherit;outline:none}.assistant-compose input:focus{border-color:#0d8069;box-shadow:0 0 0 3px rgba(13,128,105,.1)}.assistant-compose button{border:0;border-radius:11px;padding:0 11px;background:#e6f2ed;color:#0d6654;cursor:pointer;font:700 14px inherit}.assistant-compose .send{background:#0d725e;color:#fff}.assistant-compose .listening{background:#dba640;color:#fff;animation:assistantPulse 1s infinite}@keyframes assistantPulse{50%{box-shadow:0 0 0 5px rgba(219,166,64,.18)}}
+.assistant-launch{position:fixed;right:24px;bottom:24px;z-index:500;border:0;border-radius:18px;padding:13px 17px;background:linear-gradient(135deg,#0b725e,#093d34);color:#fff;font:700 13px inherit;box-shadow:0 12px 28px rgba(5,64,53,.3);cursor:pointer}.assistant-launch:hover{transform:translateY(-2px)}.assistant-panel{position:fixed;right:24px;bottom:82px;width:min(400px,calc(100vw - 30px));height:min(590px,calc(100vh - 116px));z-index:501;background:#fff;border:1px solid #dce9e4;border-radius:22px;box-shadow:0 24px 64px rgba(11,54,46,.25);overflow:hidden;display:none;flex-direction:column}.assistant-panel.show{display:flex}.assistant-top{padding:17px 18px;background:linear-gradient(135deg,#0a5143,#0e8069);color:#fff;display:flex;align-items:center;gap:11px}.assistant-top .assistant-avatar{width:38px;height:38px;border-radius:12px;background:#f2c45a;color:#0a5143;display:grid;place-items:center;font-size:20px}.assistant-top b{display:block;font-size:15px}.assistant-top small{color:#c8eee3;font-size:11px}.assistant-close{margin-left:auto;border:0;background:transparent;color:#fff;font-size:22px;cursor:pointer}.assistant-notice{font-size:11px;line-height:1.4;color:#627a73;background:#eff8f4;padding:9px 14px}.assistant-messages{flex:1;overflow:auto;padding:16px;background:linear-gradient(#fbfdfc,#f4f9f7);display:flex;flex-direction:column;gap:11px}.assistant-msg{max-width:86%;padding:10px 12px;border-radius:14px;font-size:13px;line-height:1.48;white-space:pre-line}.assistant-msg.bot{align-self:flex-start;background:#fff;color:#264c43;border:1px solid #e0ece7;border-bottom-left-radius:4px}.assistant-msg.user{align-self:flex-end;background:#0d725e;color:#fff;border-bottom-right-radius:4px}.assistant-suggestions{padding:0 12px 9px;background:#f4f9f7;display:flex;gap:6px;overflow:auto}.assistant-suggestions button{white-space:nowrap;border:1px solid #c9e0d8;background:#fff;border-radius:999px;padding:6px 9px;color:#0d6654;font:11px inherit;cursor:pointer}.assistant-compose{padding:11px;display:flex;gap:7px;border-top:1px solid #e2ece8;background:#fff}.assistant-compose input{min-width:0;flex:1;border:1px solid #cfe0da;border-radius:11px;padding:10px;font:13px inherit;outline:none}.assistant-compose input:focus{border-color:#0d8069;box-shadow:0 0 0 3px rgba(13,128,105,.1)}.assistant-compose button{border:0;border-radius:11px;padding:0 11px;background:#e6f2ed;color:#0d6654;cursor:pointer;font:700 14px inherit}.assistant-compose .send{background:#0d725e;color:#fff}.assistant-compose .listening{background:#dba640;color:#fff;animation:assistantPulse 1s infinite}@keyframes assistantPulse{50%{box-shadow:0 0 0 5px rgba(219,166,64,.18)}}
+body.locked .assistant-launch,body.locked .assistant-panel{display:none!important}
 @media(max-width:600px){.assistant-launch{right:15px;bottom:15px}.assistant-panel{right:15px;bottom:72px;height:min(600px,calc(100vh - 92px))}}
 </style>
 <script>
 /* Local Farm Assistant. It reads current portal records and never sends farm data elsewhere. */
-(function(){
+function initFarmAssistant(){
+ if(document.getElementById('assistantLaunch'))return true;
+ if(!document.body)return false;
+ try{
  const ui=document.createElement('div');ui.innerHTML=`<button class="assistant-launch" id="assistantLaunch">✦ Farm Assistant</button><aside class="assistant-panel" id="assistantPanel" aria-label="Farm Assistant"><div class="assistant-top"><div class="assistant-avatar">🐄</div><div><b>Farm Assistant</b><small>Live portal data · text & voice</small></div><button class="assistant-close" id="assistantClose" aria-label="Close">×</button></div><div class="assistant-notice">Ask about the data already in your portal. Voice recognition is processed by your browser.</div><div class="assistant-messages" id="assistantMessages"></div><div class="assistant-suggestions"><button>Farm overview</button><button>Milk today</button><button>Health alerts</button><button>Profit summary</button><button>Low yield cows</button><button>Low stock</button></div><form class="assistant-compose" id="assistantForm"><input id="assistantInput" autocomplete="off" placeholder="Ask about your farm data…" aria-label="Ask Farm Assistant"><button type="button" id="assistantVoice" title="Speak your question">🎙</button><button class="send" title="Send">➜</button></form></aside>`;document.body.appendChild(ui);
- const panel=$('assistantPanel'),messages=$('assistantMessages'),input=$('assistantInput'),voice=$('assistantVoice');
+ const panel=document.getElementById('assistantPanel'),messages=document.getElementById('assistantMessages'),input=document.getElementById('assistantInput'),voice=document.getElementById('assistantVoice');
+ const launch=document.getElementById('assistantLaunch'),closeBtn=document.getElementById('assistantClose'),formEl=document.getElementById('assistantForm');
+ if(!panel||!messages||!input||!voice||!launch||!closeBtn||!formEl)throw new Error('Assistant UI elements were not created correctly.');
  function add(text,type){const el=document.createElement('div');el.className='assistant-msg '+type;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
  function moneyLocal(n){return typeof money==='function'?money(n):'₹'+Number(n||0).toLocaleString('en-IN')}
  function snapshot(){const active=data.cows.filter(c=>!['Sold','Deceased'].includes(c.status)),day=today(),milkToday=data.milk.filter(x=>x.date===day).reduce((s,x)=>s+Number(x.total||0),0),income=data.finance.filter(x=>x.type==='Income').reduce((s,x)=>s+Number(x.amount||0),0),expense=data.finance.filter(x=>x.type==='Expense').reduce((s,x)=>s+Number(x.amount||0),0),dueDate=new Date(Date.now()+7*864e5).toISOString().slice(0,10),due=data.health.filter(x=>x.nextDue&&x.nextDue<=dueDate),low=data.inventory.filter(x=>Number(x.stock||0)<=Number(x.minStock||0));return {active,day,milkToday,income,expense,due,low}}
  function findCowInQuestion(q){
    const t=(q||'').toLowerCase().trim();
-   const exact=data.cows.find(c=>[c.id,c.tag,c.name].filter(Boolean).some(v=>String(v).toLowerCase()===t));
+   const normalized=' '+t.replace(/[^a-z0-9\u0B80-\u0BFF]+/g,' ').replace(/\s+/g,' ').trim()+' ';
+   const cows=Array.isArray(data.cows)?data.cows:[];
+   const exact=cows.find(c=>[c.id,c.tag,c.name].filter(Boolean).some(v=>String(v).toLowerCase().trim()===t));
    if(exact)return exact;
-   const matches=data.cows.filter(c=>[c.id,c.tag,c.name].filter(Boolean).some(v=>t.includes(String(v).toLowerCase())));
-   return matches.sort((a,b)=>{
-     const al=[a.id,a.tag,a.name].filter(Boolean).some(v=>t===String(v).toLowerCase())?0:1;
-     const bl=[b.id,b.tag,b.name].filter(Boolean).some(v=>t===String(v).toLowerCase())?0:1;
-     return al-bl;
-   })[0]||null;
+   const candidates=[];
+   cows.forEach(c=>{
+     [c.name,c.id,c.tag].filter(Boolean).forEach(v=>{
+       const value=String(v).toLowerCase().trim();
+       if(value.length<3)return;
+       const needle=' '+value.replace(/[^a-z0-9\u0B80-\u0BFF]+/g,' ').replace(/\s+/g,' ').trim()+' ';
+       if(normalized.includes(needle))candidates.push({cow:c,score:value.length});
+     });
+   });
+   candidates.sort((a,b)=>b.score-a.score);
+   return candidates[0]?.cow||null;
  }
  function milkRowsForCow(cowId,startDate,endDate){
    return data.milk.filter(x=>x.cowId===cowId&&x.date>=startDate&&x.date<=endDate);
@@ -1013,347 +1496,203 @@ checkSession();
    return rows.reduce((a,x)=>({morning:a.morning+Number(x.morning||0),afternoon:a.afternoon+Number(x.afternoon||0),evening:a.evening+Number(x.evening||0),total:a.total+Number(x.total||0)}),{morning:0,afternoon:0,evening:0,total:0});
  }
  function dateShift(base,days){const d=new Date(base+'T00:00:00');d.setDate(d.getDate()+days);return isoDate(d)}
- function parseAssistantDate(value){
-   const v=String(value||'').trim();
-   let m=v.match(/^(\d{4})[-\/]?(\d{2})[-\/]?(\d{2})$/);
-   if(m)return `${m[1]}-${m[2]}-${m[3]}`;
-   m=v.match(/^(\d{1,2})[-\/]?(\d{1,2})[-\/]?(\d{4})$/);
-   if(m)return `${m[3]}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`;
-   const d=new Date(v);
-   return isNaN(d.getTime())?null:isoDate(d);
- }
  function milkPeriodFromQuestion(q){
-   const t=String(q||'').toLowerCase().replace(/[?!.，。！？]/g,' ');
-   const endToday=t.includes('yesterday')||/(நேற்று|netru|nethu)/i.test(t)?dateShift(today(),-1):today();
-   // Explicit custom date range: YYYY-MM-DD / DD-MM-YYYY / DD/MM/YYYY, joined by to/from/through/until.
-   const dateToken=/(\d{4}[-\/]\d{1,2}[-\/]\d{1,2}|\d{1,2}[-\/]\d{1,2}[-\/]\d{4})/g;
-   const rawDates=t.match(dateToken)||[];
-   if(rawDates.length>=2){
-     const a=parseAssistantDate(rawDates[0]),b=parseAssistantDate(rawDates[1]);
-     if(a&&b)return a<=b?{start:a,end:b,label:`custom date range`}:{start:b,end:a,label:`custom date range`};
-   }
-   if(/(yesterday|நேற்று|netru|nethu)/i.test(t))return {start:endToday,end:endToday,label:'yesterday'};
-   if(/(90\s*(day|days)|3\s*(month|months)|3\s*maasam|3\s*maadham|மூன்று\s*மாத)/i.test(t))return {start:dateShift(endToday,-89),end:endToday,label:'last 90 days'};
-   if(/(60\s*(day|days)|2\s*(month|months)|2\s*maasam|2\s*maadham|ரண்டு\s*மாத|இரண்டு\s*மாத)/i.test(t))return {start:dateShift(endToday,-59),end:endToday,label:'last 60 days'};
-   if(/(30\s*(day|days)|1\s*(month|months)|one\s*month|monthly|month|1\s*maasam|oru\s*maasam|oru\s*maadham|ஒரு\s*மாத)/i.test(t))return {start:dateShift(endToday,-29),end:endToday,label:'last 30 days'};
-   if(/(15\s*(day|days)|15\s*naal|பதினைந்து\s*நாள்)/i.test(t))return {start:dateShift(endToday,-14),end:endToday,label:'last 15 days'};
-   if(/(7\s*(day|days)|week|weekly|one\s*week|1\s*week|oru\s*week|oru\s*varam|oru\s*varathula|varathula|வாரம்|வாரத்தில்|வாரத்துல|ஒரு\s*வாரம்)/i.test(t))return {start:dateShift(endToday,-6),end:endToday,label:'last 7 days'};
-   return {start:endToday,end:endToday,label:endToday===today()?'today':'yesterday'};
- }
- function cowMilkAnswer(cow,q){
-   const p=milkPeriodFromQuestion(q),rows=milkRowsForCow(cow.id,p.start,p.end),agg=aggregateMilk(rows);
-   const name=cow.name||cow.id,tag=cow.tag?` (${cow.tag})`:'';
-   if(!rows.length)return `${name}${tag}\n• No milk record found for ${p.label} (${p.start} to ${p.end}).\n• I cannot calculate a yield or average without a recorded milk entry for this period.`;
-   const byDate={};rows.forEach(x=>{byDate[x.date]=(byDate[x.date]||0)+Number(x.total||0)});
-   const dates=[];for(let d=new Date(p.start+'T00:00:00');isoDate(d)<=p.end;d.setDate(d.getDate()+1))dates.push(isoDate(d));
-   const recordedDays=Object.keys(byDate).length,avg=agg.total/Math.max(1,dates.length);
-   const peak=Math.max(...dates.map(d=>byDate[d]||0)),peakDate=dates[dates.findIndex(d=>(byDate[d]||0)===peak)];
-   if(p.start===p.end)return `${name}${tag}\n• Date: ${p.end}\n• Morning: ${agg.morning.toFixed(1)} L\n• Afternoon: ${agg.afternoon.toFixed(1)} L\n• Evening: ${agg.evening.toFixed(1)} L\n• Total: ${agg.total.toFixed(1)} L\n\nExact recorded production for this cow on ${p.end}.`;
-   const customNote=p.label==='custom date range'?'\n• Query type: custom date range (exact dates used)':'';
-   return `${name}${tag}\n• Period: ${p.start} to ${p.end}${customNote}\n• Total milk: ${agg.total.toFixed(1)} L\n• Average: ${avg.toFixed(1)} L/day\n• Recorded days: ${recordedDays}/${dates.length}\n• Peak day: ${peak.toFixed(1)} L on ${peakDate}\n• Morning total: ${agg.morning.toFixed(1)} L\n• Afternoon total: ${agg.afternoon.toFixed(1)} L\n• Evening total: ${agg.evening.toFixed(1)} L`;
- }
- function todayCowMilkRanking(lowFirst){
-   const todayRows=data.milk.filter(x=>x.date===today());
-   const byCow={};todayRows.forEach(x=>{const id=x.cowId;if(!id)return;if(!byCow[id])byCow[id]={total:0,morning:0,afternoon:0,evening:0};byCow[id].total+=Number(x.total||0);byCow[id].morning+=Number(x.morning||0);byCow[id].afternoon+=Number(x.afternoon||0);byCow[id].evening+=Number(x.evening||0)});
-   const ranked=Object.entries(byCow).map(([id,v])=>({id,...v,name:cowName(id)})).sort((a,b)=>lowFirst?a.total-b.total:b.total-a.total);
-   return ranked;
- }
- function periodCowMilkRanking(lowFirst,start,end){
-   const rows=data.milk.filter(x=>x.date>=start&&x.date<=end&&x.cowId);
-   const byCow={};
-   rows.forEach(x=>{const id=x.cowId;if(!byCow[id])byCow[id]={total:0,days:new Set()};byCow[id].total+=Number(x.total||0);byCow[id].days.add(x.date)});
-   return Object.entries(byCow).map(([id,v])=>({id,name:cowName(id),total:v.total,days:v.days.size})).sort((a,b)=>lowFirst?a.total-b.total:b.total-a.total);
- }
- function cowWiseMilkRanking(start,end){
-   const rows=data.milk.filter(x=>x.date>=start&&x.date<=end&&x.cowId);
-   const byCow={};
-   rows.forEach(x=>{
-     const id=x.cowId;if(!byCow[id])byCow[id]={total:0,morning:0,afternoon:0,evening:0,days:new Set()};
-     byCow[id].total+=Number(x.total||0);
-     byCow[id].morning+=Number(x.morning||0);
-     byCow[id].afternoon+=Number(x.afternoon||0);
-     byCow[id].evening+=Number(x.evening||0);
-     byCow[id].days.add(x.date);
-   });
-   return Object.entries(byCow).map(([id,v])=>({id,name:cowName(id),total:v.total,morning:v.morning,afternoon:v.afternoon,evening:v.evening,days:v.days.size})).sort((a,b)=>b.total-a.total);
- }
- function answerRaw(q){
-   let t=(q||'').toLowerCase().trim();
-   const tamilOrTanglish={
-     cow:/(மாடு|பசு|maadu|madu|pasu|cow|cows|animal|animals)/,
-     milk:/(பால்|paal|pal|milk|litre|liter|litres|liters|yield|production)/,
-     highest:/(அதிக|உயர|சிறந்த|adhiga|athiga|uyar|sirandha|highest|high|best|top|most|max|maximum)/,
-     lowest:/(குறை|குறைந்த|kurai|kuraindha|lowest|low|minimum|underperform|underperforming|poor)/,
-     overview:/(சுருக்க|நிலவர|எப்படி உள்ளது|surukk|nilavaram|eppadi|overview|summary|status)/,
-     health:/(சுகாதார|தடுப்பூசி|மருத்துவ|sugathar|sugaathar|thadup|maruthuv|health|vaccine|medical|treatment)/,
-     finance:/(வருமான|செலவு|லாப|கணக்கு|varuman|selavu|laab|labam|kanakku|finance|profit|income|expense|money|revenue)/,
-     inventory:/(தீவன|இருப்பு|ஸ்டாக்|theevan|thivan|iruppu|stock|feed|inventory|supply)/,
-     breeding:/(இனப்பெருக்க|கன்று|கர்ப்ப|inapperukk|kanru|karp|breed|calv|pregnan)/};
-   Object.entries(tamilOrTanglish).forEach(([word,pattern])=>{if(pattern.test(t))t+=' '+word});
-   const s=snapshot(),fmt=n=>Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:1});
-   const cow=findCowInQuestion(q);
-
-   if(/(hello|^hi\b|help|what can)/.test(t))return 'I give answers only from the records stored in this portal. Ask for a specific cow, today’s milk, 7-day production, highest/lowest recorded cow, health due dates, finance, breeding or inventory.';
-
-   // Specific cow queries must be answered before generic farm-level milk rules.
-   if(cow&&tamilOrTanglish.milk.test(t))return cowMilkAnswer(cow,q);
-
-   // Explicit highest/lowest cow questions. "Low yield" is reported as lowest recorded yield,
-   // not as a guessed biological threshold.
-   if(tamilOrTanglish.cow.test(t)&&tamilOrTanglish.lowest.test(t)&&tamilOrTanglish.milk.test(t)){
-     const ranked=todayCowMilkRanking(true);
-     if(!ranked.length)return `No milk records are available for ${s.day}, so I cannot identify a low-yield cow.`;
-     const top=ranked.slice(0,5),noRecord=s.active.filter(c=>c.status==='Lactating'&&!ranked.some(r=>r.id===c.id));
-     return `Lowest recorded milk producers today (${s.day})\n${top.map((r,i)=>`• ${i+1}. ${r.name} — ${r.total.toFixed(1)} L (AM ${r.morning.toFixed(1)} · Afternoon ${r.afternoon.toFixed(1)} · PM ${r.evening.toFixed(1)})`).join('\n')}\n\n${noRecord.length?`• ${noRecord.length} lactating cow(s) have no milk record today: ${noRecord.slice(0,8).map(c=>c.name||c.id).join(', ')}.`:'All active lactating cows have a milk record today.'}\n\nNote: “low yield” here means the lowest recorded production today; no arbitrary litre threshold is assumed.`;
-   }
-   if(tamilOrTanglish.cow.test(t)&&tamilOrTanglish.highest.test(t)&&tamilOrTanglish.milk.test(t)){
-     const ranked=todayCowMilkRanking(false);
-     if(!ranked.length)return `No milk records are available for ${s.day}, so I cannot identify today's highest-producing cow.`;
-     const top=ranked[0],runner=ranked[1];
-     return `Highest recorded milk producer today (${s.day})\n• ${top.name}\n• Total: ${top.total.toFixed(1)} L\n• Morning: ${top.morning.toFixed(1)} L\n• Afternoon: ${top.afternoon.toFixed(1)} L\n• Evening: ${top.evening.toFixed(1)} L${runner?`\n• Next: ${runner.name} — ${runner.total.toFixed(1)} L`:''}`;
-   }
-
-   if(/(overview|summary|status|need attention|attention|analyse|analyze)/.test(t)&&!tamilOrTanglish.milk.test(t))return `Farm overview for ${s.day}\n• Active animals: ${s.active.length}\n• Lactating: ${s.active.filter(c=>c.status==='Lactating').length}\n• Pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Milk recorded today: ${fmt(s.milkToday)} L\n• Net recorded finance: ${moneyLocal(s.income-s.expense)}\n• Health items due within 7 days: ${s.due.length}\n• Inventory items at/below minimum: ${s.low.length}`;
-
-   if(tamilOrTanglish.milk.test(t)){
-     const last7=[],dates=[];for(let i=6;i>=0;i--){const ds=dateShift(today(),-i);dates.push(ds);last7.push(data.milk.filter(x=>x.date===ds).reduce((a,x)=>a+Number(x.total||0),0))}
-     const total7=last7.reduce((a,x)=>a+x,0),avg=total7/7,peak=Math.max(...last7),peakDate=dates[last7.indexOf(peak)],recordedDays=last7.filter(v=>v>0).length;
-     return `Milk production — farm total\n• Today (${s.day}): ${s.milkToday.toFixed(1)} L\n• Last 7 days total: ${total7.toFixed(1)} L\n• 7-day average: ${avg.toFixed(1)} L/day\n• Peak day: ${peak.toFixed(1)} L on ${peakDate}\n• Days with recorded production: ${recordedDays}/7\n• Cows with a milk record today: ${new Set(data.milk.filter(x=>x.date===s.day&&x.cowId).map(x=>x.cowId)).size}\n\nThese are recorded values only; the assistant does not assume feed or health causes unless the records support them.`;
-   }
-   if(/(finance|profit|income|expense|money|revenue|sale)/.test(t))return `Finance summary\n• Recorded income: ${moneyLocal(s.income)}\n• Recorded expenses: ${moneyLocal(s.expense)}\n• Net recorded balance: ${moneyLocal(s.income-s.expense)}\n• Transactions: ${data.finance.length}`;
-   if(/(health|vaccine|vaccination|alert|due|medical|treatment)/.test(t))return s.due.length?`Health attention needed\n${s.due.map(x=>`• ${cowName(x.cowId)} — ${x.type}, due ${x.nextDue}`).join('\n')}\n\nTotal due within 7 days: ${s.due.length}.`:`Health status\n• No vaccination or health follow-up is due within the next 7 days.\n• Total health/care records: ${data.health.length}.`;
-   if(/(breed|breeding|calv|pregnan)/.test(t)){const positives=data.breeding.filter(x=>/positive|success/i.test(x.result||'')).length;return `Breeding & calving\n• Total events: ${data.breeding.length}\n• Positive/successful results: ${positives}\n• Currently pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Records with expected calving date: ${data.breeding.filter(x=>x.calving).length}`;}
-   if(/(inventory|feed|stock|supply)/.test(t))return s.low.length?`Inventory below/minimum stock\n${s.low.map(x=>`• ${x.name}: ${x.stock} ${x.unit} remaining; minimum ${x.minStock}`).join('\n')}\n\nItems needing replenishment: ${s.low.length}.`:`Inventory status\n• Recorded items: ${data.inventory.length}\n• All recorded items are above their minimum stock levels.`;
-   if(/(cow|herd|animal|lactat)/.test(t))return `Herd summary\n• Active animals: ${s.active.length}\n• Lactating: ${s.active.filter(c=>c.status==='Lactating').length}\n• Pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Dry: ${s.active.filter(c=>c.status==='Dry').length}\n• Calves: ${s.active.filter(c=>c.status==='Calf').length}`;
-   return 'I can answer from the recorded portal data. Try “Lakshmi milk today”, “KM001 last 7 days”, “lowest milk cows today”, “highest milk cow today”, “milk production”, or “health due”.';
- }
- function assistantLanguage(q){
-   const x=(q||'').trim();
-   if(/[\u0B80-\u0BFF]/.test(x))return 'ta';
-   if(/\b(naan|neenga|unga|enaku|enakku|epdi|eppadi|enna|evlo|ethana|irukku|irukka|venum|vendum|paal|maadu|pasu|kanakku|theevanam|maruthuvam|kanru|indru|netru|naalai|innaiku|indha|andha|yen|eppodhu|solunga|sollunga|paakanum|kudunga|kidaikuma)\b/i.test(x))return 'tl';
-   return 'en';
- }
- const assistantTamilMap=[
-   ['I give answers only from the records stored in this portal.','இந்த போர்ட்டலில் பதிவு செய்யப்பட்ட தரவின் அடிப்படையில் நான் பதிலளிக்கிறேன்.'],
-   ['Ask for a specific cow, today’s milk, 7-day production, highest/lowest recorded cow, health due dates, finance, breeding or inventory.','குறிப்பிட்ட மாடு, இன்றைய பால், 7 நாள் பால் உற்பத்தி, அதிகம்/குறைந்த பதிவு, சுகாதார due தேதி, நிதி, இனப்பெருக்கம் அல்லது இருப்பு பற்றி கேட்கலாம்.'],
-   ['Farm overview','பண்ணை நிலவரம்'],['Active animals','செயலில் உள்ள மாடுகள்'],['Lactating','பால் தரும் மாடுகள்'],['Pregnant','கர்ப்பமான மாடுகள்'],['Dry','காய்ந்த மாடுகள்'],['Calves','கன்றுகள்'],
-   ['Milk recorded today','இன்று பதிவு செய்யப்பட்ட பால்'],['Health items due within 7 days','அடுத்த 7 நாட்களில் வரவுள்ள சுகாதார பணிகள்'],['Inventory items at/below minimum','குறைந்தபட்ச அளவில்/அதற்குக் கீழே உள்ள இருப்புகள்'],['Net recorded finance','பதிவு செய்யப்பட்ட நிகர நிதி'],
-   ['Milk production','பால் உற்பத்தி'],['Total','மொத்தம்'],['Average','சராசரி'],['Recorded days','பதிவு செய்யப்பட்ட நாட்கள்'],['Peak','அதிகபட்சம்'],['Morning','காலை'],['Afternoon','மதியம்'],['Evening','மாலை'],
-   ['Health attention needed','சுகாதார கவனம் தேவை'],['Health status','சுகாதார நிலை'],['Breeding & calving','இனப்பெருக்கம் & கன்று ஈனுதல்'],['Inventory status','இருப்பு நிலை'],['Finance','நிதி'],['Herd summary','மந்தை சுருக்கம்'],
-   ['No milk records are available','பால் பதிவு எதுவும் இல்லை'],['No milk record found for','பால் பதிவு கிடைக்கவில்லை:'],['No vaccination or health follow-up is due within the next 7 days.','அடுத்த 7 நாட்களில் தடுப்பூசி அல்லது சுகாதார follow-up எதுவும் due இல்லை.'],['All recorded items are above their minimum stock levels.','பதிவு செய்யப்பட்ட அனைத்து இருப்புகளும் குறைந்தபட்ச அளவை விட அதிகமாக உள்ளன.'],
-   ['Income','வருமானம்'],['Expenses','செலவுகள்'],['Net','நிகர தொகை'],['Transactions','பரிவர்த்தனைகள்'],['Total events','மொத்த நிகழ்வுகள்'],['Currently pregnant','தற்போது கர்ப்பமானவை'],['Items needing replenishment','மீண்டும் நிரப்ப வேண்டிய பொருட்கள்'],['Records','பதிவுகள்'],
-   ['today','இன்று'],['last 7 days','கடந்த 7 நாட்கள்'],['No milk record','பால் பதிவு இல்லை'],['I can answer from the recorded portal data.','போர்ட்டலில் பதிவு செய்யப்பட்ட தரவிலிருந்து நான் பதிலளிக்க முடியும்.']
- ];
- const assistantTanglishMap=[
-   ['I give answers only from the records stored in this portal.','Indha portal-la recorded data base panni naan answer panren.'],
-   ['Ask for a specific cow, today’s milk, 7-day production, highest/lowest recorded cow, health due dates, finance, breeding or inventory.','Specific maadu, innaiku paal, 7-day production, highest/lowest recorded maadu, health due date, finance, breeding illa inventory pathi kelunga.'],
-   ['Farm overview','Farm nilavaram'],['Active animals','Active maadugal'],['Lactating','Paal tharum maadugal'],['Pregnant','Pregnant maadugal'],['Dry','Dry maadugal'],['Calves','Kanrugal'],['Milk recorded today','Innaiku recorded paal'],['Health items due within 7 days','Adutha 7 naal-la due aagura health items'],['Inventory items at/below minimum','Minimum level-ku keela irukkura inventory'],['Net recorded finance','Recorded net finance'],['Milk production','Paal production'],['Total','Total'],['Average','Average'],['Recorded days','Recorded days'],['Peak','Peak'],['Morning','Morning'],['Afternoon','Afternoon'],['Evening','Evening'],['Health attention needed','Health attention thevai'],['Health status','Health status'],['Breeding & calving','Breeding & calving'],['Inventory status','Inventory status'],['Finance','Finance'],['Herd summary','Herd summary'],['No milk records are available','Milk record illa'],['No milk record found for','Milk record kidaikala:'],['No vaccination or health follow-up is due within the next 7 days.','Adutha 7 naal-la vaccination illa health follow-up due illa.'],['All recorded items are above their minimum stock levels.','Recorded inventory ellam minimum stock level-ku mela irukku.'],['Income','Income'],['Expenses','Expenses'],['Net','Net'],['Transactions','Transactions'],['Total events','Total events'],['Currently pregnant','Currently pregnant'],['Items needing replenishment','Refill panna vendiya items'],['Records','Records'],['today','innaiku'],['last 7 days','last 7 days']
- ];
- function localizeAssistant(text,lang){
-   if(lang==='en')return text;
-   const list=lang==='ta'?assistantTamilMap:assistantTanglishMap;
-   let out=String(text||'');
-   list.forEach(([a,b])=>{out=out.split(a).join(b)});
-   return out;
- }
- function getSelectedAssistantLanguage(){
-   const el=document.getElementById('assistantLang');
-   const v=el&&el.value;
-   if(v==='ta-IN')return 'ta';
-   if(v==='tl-IN')return 'tl';
-   if(v==='en-IN')return 'en';
-   return null; // Auto
- }
- function assistantResponseLanguage(q){
-   return getSelectedAssistantLanguage() || assistantLanguage(q);
- }
- function localizedCowMilkAnswer(cow,q,lang){
-   const p=milkPeriodFromQuestion(q),rows=milkRowsForCow(cow.id,p.start,p.end),agg=aggregateMilk(rows);
-   const name=cow.name||cow.id,tag=cow.tag?` (${cow.tag})`:'';
-   if(!rows.length){
-     if(lang==='ta')return `${name}${tag}\n• ${p.label} (${p.start} முதல் ${p.end} வரை) பால் பதிவு கிடைக்கவில்லை.\n• பதிவு இல்லாததால் பால் உற்பத்தி/சராசரியை கணக்கிட முடியவில்லை.`;
-     if(lang==='tl')return `${name}${tag}\n• ${p.label} (${p.start} to ${p.end})-ku milk record kidaikala.\n• Record illa, athanala milk production/average calculate panna mudiyala.`;
-     return `${name}${tag}\n• No milk record found for ${p.label} (${p.start} to ${p.end}).\n• I cannot calculate yield or average without a recorded milk entry.`;
-   }
-   const byDate={};rows.forEach(x=>{byDate[x.date]=(byDate[x.date]||0)+Number(x.total||0)});
-   const dates=[];for(let d=new Date(p.start+'T00:00:00');isoDate(d)<=p.end;d.setDate(d.getDate()+1))dates.push(isoDate(d));
-   const recordedDays=Object.keys(byDate).length,avg=agg.total/Math.max(1,dates.length);
-   const peak=Math.max(...dates.map(d=>byDate[d]||0)),peakDate=dates[dates.findIndex(d=>(byDate[d]||0)===peak)];
-   if(p.start===p.end){
-     if(lang==='ta')return `${name}${tag}\n• தேதி: ${p.end}\n• காலை: ${agg.morning.toFixed(1)} லிட்டர்\n• மதியம்: ${agg.afternoon.toFixed(1)} லிட்டர்\n• மாலை: ${agg.evening.toFixed(1)} லிட்டர்\n• மொத்தம்: ${agg.total.toFixed(1)} லிட்டர்`;
-     if(lang==='tl')return `${name}${tag}\n• Date: ${p.end}\n• Morning: ${agg.morning.toFixed(1)} L\n• Afternoon: ${agg.afternoon.toFixed(1)} L\n• Evening: ${agg.evening.toFixed(1)} L\n• Total: ${agg.total.toFixed(1)} L`;
-     return `${name}${tag}\n• Date: ${p.end}\n• Morning: ${agg.morning.toFixed(1)} L\n• Afternoon: ${agg.afternoon.toFixed(1)} L\n• Evening: ${agg.evening.toFixed(1)} L\n• Total: ${agg.total.toFixed(1)} L`;
-   }
-   if(lang==='ta')return `${name}${tag}\n• காலம்: ${p.label}\n• மொத்தம்: ${agg.total.toFixed(1)} லிட்டர்\n• சராசரி: ${avg.toFixed(1)} லிட்டர்/நாள்\n• பதிவு செய்யப்பட்ட நாட்கள்: ${recordedDays}/${dates.length}\n• அதிகபட்ச நாள்: ${peak.toFixed(1)} லிட்டர் — ${peakDate}`;
-   if(lang==='tl')return `${name}${tag}\n• Period: ${p.label}\n• Total: ${agg.total.toFixed(1)} L\n• Average: ${avg.toFixed(1)} L/day\n• Recorded days: ${recordedDays}/${dates.length}\n• Highest day: ${peak.toFixed(1)} L — ${peakDate}`;
-   return `${name}${tag}\n• Period: ${p.label}\n• Total: ${agg.total.toFixed(1)} L\n• Average: ${avg.toFixed(1)} L/day\n• Recorded days: ${recordedDays}/${dates.length}\n• Peak day: ${peak.toFixed(1)} L — ${peakDate}`;
- }
- function answerLegacy(q,forcedLang){
-   const lang=forcedLang||assistantResponseLanguage(q);
-   const lower=(q||'').toLowerCase().trim();
-   const norm=lower.replace(/[?!.，。！？]/g,' ');
-   const milkRx=/(milk|yield|production|பால்|paal|pal|லிட்டர்|litre|liter)/i;
-   const lowRx=/(lowest|low|least|minimum|poorest|underperform|under performing|குறைந்த|குறைவு|குறைவான|குறைந்தது|குறைவாக|kurai|kuraindha|kuraivu|kuraivana|kuraiva|kammi|kammiya)/i;
-   const highRx=/(highest|high|top|best|maximum|most|அதிக|அதிகம்|அதிகமான|மிகவும்|adhiga|adhigama|uyarntha|uyar|nalla)/i;
-
-   try{
-     // Always answer the selected language. Auto mode follows the user's input language.
-     if(/^(keywords|keyword|commands|command|help keywords|keywords list|கீவேர்ட்ஸ்|கீவேர்ட்|கட்டளைகள்|கட்டளை)$/i.test(norm.trim())){
-       if(lang==='ta')return `Farm Assistant — Keywords / கேள்விகள்\n\nபால்:\n• இன்றைய மொத்த பால்\n• குறைந்த பால் தரும் மாடுகள்\n• அதிக பால் தரும் மாடு\n• கடந்த 7 நாட்கள் பால் உற்பத்தி\n• கடந்த 1 வாரத்தில் அதிக பால் தரும் மாடு\n• கடந்த 1 வாரத்தில் குறைந்த பால் தரும் மாடு\n• [மாடு பெயர்] இன்று எவ்வளவு பால்?\n• [மாடு பெயர்] கடந்த 7 நாட்கள் பால்\n\nபண்ணை / மாடுகள்:\n• பண்ணை நிலவரம்\n• மொத்த மாடுகள்\n• பால் தரும் மாடுகள்\n• கர்ப்பமான மாடுகள்\n• கன்றுகள்\n\nசுகாதாரம்:\n• health due / சுகாதார due\n• அடுத்த 7 நாட்களில் health வேலை\n• தடுப்பூசி நிலவரம்\n\nஇனப்பெருக்கம்:\n• breeding நிலவரம்\n• calving / கன்று ஈனுதல் நிலவரம்\n\nதீவனம் / இருப்பு:\n• feed stock\n• low stock\n• inventory status\n\nநிதி:\n• income\n• expense\n• profit / net balance\n• finance summary\n\nPortal:\n• portal எப்படி வேலை செய்கிறது?\n• milk chart என்ன காட்டுகிறது?\n• reports எப்படி பார்க்கலாம்?\n• என்ன records உள்ளன?`;
-       if(lang==='tl')return `Farm Assistant — Keywords / commands\n\nMilk:\n• innaiku total milk evlo?\n• kammiya paal kudukkura maadugal yethu?\n• adhiga paal kudukkura maadu yethu?\n• last 7 days milk production\n• last 1 week-la highest milk kudukkura maadu yethu?\n• last 1 week-la lowest milk kudukkura maadu yethu?\n• [maadu name] innaiku milk evlo?\n• [maadu name] last 7 days milk\n\nFarm / Cows:\n• farm nilavaram\n• total maadugal\n• paal tharum maadugal\n• pregnant maadugal\n• kanrugal\n\nHealth:\n• health due enna?\n• next 7 days health work\n• vaccination status\n\nBreeding:\n• breeding nilavaram\n• calving nilavaram\n\nFeed / Inventory:\n• feed stock\n• low stock yethu?\n• inventory status\n\nFinance:\n• income\n• expense\n• profit / net balance\n• finance summary\n\nPortal:\n• indha portal eppadi work aaguthu?\n• milk chart enna kaamikuthu?\n• reports eppadi paakarthu?\n• enna records irukku?`;
-       return `Farm Assistant keywords / commands\n\nMilk:\n• today's total milk\n• lowest milk cows\n• highest milk cow\n• last 7 days milk production\n• highest milk-producing cow in the last 1 week\n• lowest milk-producing cow in the last 1 week\n• [cow name] milk today\n• [cow name] milk last 7 days\n\nFarm / cows:\n• farm overview\n• total cows\n• lactating cows\n• pregnant cows\n• calves\n\nHealth:\n• health due\n• health work due in next 7 days\n• vaccination status\n\nBreeding:\n• breeding status\n• calving status\n\nFeed / inventory:\n• feed stock\n• low stock\n• inventory status\n\nFinance:\n• income\n• expenses\n• profit / net balance\n• finance summary\n\nPortal:\n• how does this portal work?\n• what does the milk chart show?\n• how to view reports?\n• what records are available?`;
-     }
-     const hasPeriod=/\b(last|past|previous)\s*(1\s*)?(day|days|week|weeks|month|months)\b|\b7[- ]?day|\bweekly\b|கடந்த\s*(7|ஒரு)\s*(நாள்|நாட்கள்|வாரம்)|முந்தைய\s*வாரம்/i.test(norm);
-     const asksLowestMilk=lowRx.test(norm)&&milkRx.test(norm);
-     const asksHighestMilk=highRx.test(norm)&&milkRx.test(norm);
-     if((asksLowestMilk||asksHighestMilk)&&hasPeriod){
-       const end=today(),start=dateShift(end,-6),ranked=periodCowMilkRanking(asksLowestMilk,start,end);
-       if(!ranked.length)return lang==='ta'?`கடந்த 7 நாட்களில் மாடு வாரியான பால் பதிவு இல்லை.`:lang==='tl'?`Last 7 days-la cow-wise milk record illa.`:`There are no cow-wise milk records for the last 7 days.`;
-       const top=ranked.slice(0,5);
-       if(lang==='ta')return `${asksLowestMilk?'கடந்த 7 நாட்களில் குறைந்த':'கடந்த 7 நாட்களில் அதிக'} மொத்த பால் உற்பத்தி மாடுகள்\n${top.map((r,i)=>`• ${i+1}. ${r.name} — ${r.total.toFixed(1)} லிட்டர் (${r.days} நாட்கள் பதிவு)`).join('\n')}`;
-       if(lang==='tl')return `Last 7 days-la ${asksLowestMilk?'lowest':'highest'} overall milk production maadugal\n${top.map((r,i)=>`• ${i+1}. ${r.name} — ${r.total.toFixed(1)} L (${r.days} days record)`).join('\n')}`;
-       return `${asksLowestMilk?'Lowest':'Highest'} overall milk-producing cows in the last 7 days\n${top.map((r,i)=>`• ${i+1}. ${r.name} — ${r.total.toFixed(1)} L (${r.days} recorded days)`).join('\n')}`;
-     }
-     if((asksLowestMilk||asksHighestMilk)&&!hasPeriod){
-       const ranked=todayCowMilkRanking(asksLowestMilk),s=snapshot();
-       if(!ranked.length){
-         if(lang==='ta')return `இன்று (${s.day}) பால் பதிவு இல்லை. அதனால் ${asksLowestMilk?'குறைந்த':'அதிக'} பால் தரும் மாட்டை கண்டறிய முடியவில்லை.`;
-         if(lang==='tl')return `Innaiku (${s.day}) milk record illa. Athanala ${asksLowestMilk?'lowest':'highest'} milk kudukkura maatta identify panna mudiyala.`;
-         return `There are no milk records for today (${s.day}), so I cannot identify the ${asksLowestMilk?'lowest':'highest'} milk producer.`;
-       }
-       if(asksLowestMilk){
-         const top=ranked.slice(0,5),noRecord=s.active.filter(c=>c.status==='Lactating'&&!ranked.some(r=>r.id===c.id));
-         if(lang==='ta')return `இன்றைய குறைந்த பால் உற்பத்தி மாடுகள் (${s.day})\n${top.map((r,i)=>`• ${i+1}. ${r.name} — ${r.total.toFixed(1)} லிட்டர் (காலை ${r.morning.toFixed(1)} · மதியம் ${r.afternoon.toFixed(1)} · மாலை ${r.evening.toFixed(1)})`).join('\n')}\n\n${noRecord.length?`• ${noRecord.length} பால் தரும் மாடுகளுக்கு இன்று பதிவு இல்லை: ${noRecord.slice(0,8).map(c=>c.name||c.id).join(', ')}.`:'அனைத்து பால் தரும் மாடுகளுக்கும் இன்று பதிவு உள்ளது.'}`;
-         if(lang==='tl')return `Innaiku lowest milk production (${s.day})\n${top.map((r,i)=>`• ${i+1}. ${r.name} — ${r.total.toFixed(1)} L (Morning ${r.morning.toFixed(1)} · Afternoon ${r.afternoon.toFixed(1)} · Evening ${r.evening.toFixed(1)})`).join('\n')}\n\n${noRecord.length?`• ${noRecord.length} lactating maadukku innaiku milk record illa: ${noRecord.slice(0,8).map(c=>c.name||c.id).join(', ')}.`:'Ella lactating maadukkum innaiku milk record irukku.'}`;
-         return `Lowest recorded milk producers today (${s.day})\n${top.map((r,i)=>`• ${i+1}. ${r.name} — ${r.total.toFixed(1)} L (AM ${r.morning.toFixed(1)} · Afternoon ${r.afternoon.toFixed(1)} · PM ${r.evening.toFixed(1)})`).join('\n')}\n\n${noRecord.length?`• ${noRecord.length} lactating cow(s) have no milk record today: ${noRecord.slice(0,8).map(c=>c.name||c.id).join(', ')}.`:'All active lactating cows have a milk record today.'}`;
-       }
-       const top=ranked[0],runner=ranked[1];
-       if(lang==='ta')return `இன்றைய அதிக பால் உற்பத்தி மாடு (${s.day})\n• ${top.name}\n• மொத்தம்: ${top.total.toFixed(1)} லிட்டர்\n• காலை: ${top.morning.toFixed(1)} லிட்டர்\n• மதியம்: ${top.afternoon.toFixed(1)} லிட்டர்\n• மாலை: ${top.evening.toFixed(1)} லிட்டர்${runner?`\n• அடுத்தது: ${runner.name} — ${runner.total.toFixed(1)} லிட்டர்`:''}`;
-       if(lang==='tl')return `Innaiku highest milk production (${s.day})\n• ${top.name}\n• Total: ${top.total.toFixed(1)} L\n• Morning: ${top.morning.toFixed(1)} L\n• Afternoon: ${top.afternoon.toFixed(1)} L\n• Evening: ${top.evening.toFixed(1)} L${runner?`\n• Next: ${runner.name} — ${runner.total.toFixed(1)} L`:''}`;
-       return `Highest recorded milk producer today (${s.day})\n• ${top.name}\n• Total: ${top.total.toFixed(1)} L\n• Morning: ${top.morning.toFixed(1)} L\n• Afternoon: ${top.afternoon.toFixed(1)} L\n• Evening: ${top.evening.toFixed(1)} L${runner?`\n• Next: ${runner.name} — ${runner.total.toFixed(1)} L`:''}`;
-     }
-
-     const cow=findCowInQuestion(q);
-     if(cow&&milkRx.test(norm))return localizedCowMilkAnswer(cow,q,lang);
-
-     // For the remaining portal intents, use the existing data engine and localize its response.
-     const raw=answerRaw(q);
-     if(/^(I can answer from the recorded portal data\.|You can ask naturally about|I give answers only from the records)/.test(raw)){
-       if(/(how|எப்படி|பயன்படுத்த|use|feature|வசதி|button|click|work|eppadi|epdi)/i.test(lower)){
-         return lang==='ta'?'இந்த portal-ல் Dashboard, Cows, Milk Production, Health & Vaccination, Breeding & Calving, Finance, Feed & Inventory, Reports, Backup மற்றும் Settings பகுதிகள் உள்ளன. எந்த feature பற்றியும் எப்படி பயன்படுத்துவது, என்ன பதிவு செய்ய வேண்டும், அல்லது chart என்ன காட்டுகிறது என்று கேட்கலாம்.':lang==='tl'?'Indha portal-la Dashboard, Cows, Milk Production, Health & Vaccination, Breeding & Calving, Finance, Feed & Inventory, Reports, Backup, Settings sections irukku. Endha feature pathiyum eppadi use panrathu, enna record pannanum, illa chart enna kaamikudhu-nu kelunga.':'This portal includes Dashboard, Cows, Milk Production, Health & Vaccination, Breeding & Calving, Finance, Feed & Inventory, Reports, Backup, and Settings. Ask how to use a feature, what to record, or what a chart means.';
-       }
-       return lang==='ta'?'இந்த portal-ல் உள்ள மாடுகள், பால் உற்பத்தி, சுகாதாரம், இனப்பெருக்கம், தீவனம்/இருப்பு, நிதி, reports, charts, records மற்றும் தேதிகள் பற்றி கேட்கலாம்.':lang==='tl'?'Indha portal-la maadugal, paal production, health, breeding, theevanam/inventory, finance, reports, charts, records, dates pathi natural-a kelunga.':'You can ask naturally about cows, milk production, health, breeding, feed/inventory, finance, reports, charts, records, dates, summaries, and portal features.';
-     }
-     return localizeAssistant(raw,lang);
-   }catch(err){
-     console.error('Farm Assistant error:',err);
-     if(lang==='ta')return 'மன்னிக்கவும். இந்த கேள்விக்கான பதிலை உருவாக்கும்போது பிழை ஏற்பட்டது. கேள்வியை சுருக்கமாக மீண்டும் கேளுங்கள்.';
-     if(lang==='tl')return 'Sorry. Indha question-ku answer generate pannumbodhu error vandhudhu. Konjam short-a marubadi kelunga.';
-     return 'Sorry, I could not generate the answer. Please try the question again.';
-   }
- }
- function answer(q,forcedLang){
-  const q0=String(q||'').trim(), lang=forcedLang||assistantResponseLanguage(q0);
-  const t=q0.toLowerCase().replace(/[?!.，。！？]/g,' ').replace(/\s+/g,' ').trim();
-  const say=(e,ta,tl)=>lang==='ta'?ta:lang==='tl'?tl:e;
-  const milk=/(milk|yield|production|litre|liter|litres|liters|பால்|பால|paal|pal|லிட்டர்)/i.test(t);
-  const low=/(lowest|low|least|minimum|குறைந்த|குறைவு|குறைவான|குறைவாக|kammi|kammiya|kuraindha|kuraivu)/i.test(t);
-  const high=/(highest|high|top|best|maximum|most|max|அதிக|அதிகம்|அதிகமான|adhiga|adhigama|uyarntha|uyar)/i.test(t);
-  const period=/(last|past|previous|week|weekly|7\s*day|15\s*day|month|monthly|30\s*day|60\s*day|90\s*day|custom|from|between|to|until|through|கடந்த|முந்தைய|வாரம்|வாரத்தில்|வாரத்துல|ஒரு வாரம்|ஒரு வாரத்தில்|ஒரு வாரத்துல|மாதம்|மாதத்தில்|netru|nethu|yesterday|oru\s*varam|oru\s*varathula|varathula|oru\s*week|one\s*week|15\s*naal|oru\s*maasam|2\s*maasam|2\s*maadham)/i.test(t);
-  try{
-   const s=snapshot();
-   if(/^(keywords?|commands?|help|keyword list|commands list|கீவேர்ட்ஸ்|கீவேர்ட்|கட்டளைகள்|கட்டளை|உதவி)$/i.test(t))return say(
-`KEYWORDS / COMMANDS\n\nMILK\n• today's total milk\n• milk today\n• milk production\n• highest milk cow today\n• lowest milk cows today\n• highest overall production in last 1 week\n• lowest overall production in last 1 week\n• last 7 days milk production\n• yesterday milk production\n• [cow name] milk today\n• [cow name] milk last 7 days\n\nHERD\n• farm overview\n• total cows\n• lactating cows\n• pregnant cows\n• dry cows\n• calves\n• [cow name/id] details\n\nHEALTH\n• health due\n• health alerts\n• health due next 7 days\n• vaccination status\n• medical records\n\nBREEDING\n• breeding status\n• breeding records\n• calving status\n\nFEED / INVENTORY\n• feed stock\n• inventory status\n• low stock\n• items below minimum stock\n\nFINANCE\n• income\n• expenses\n• profit\n• net balance\n• finance summary\n\nPORTAL\n• reports\n• available records\n• portal overview\n• how does this portal work\n• milk chart\n• cow-wise milk chart\n• backup\n\nYou can also ask naturally.`,
-`KEYWORDS / கட்டளைகள்\n\nபால்\n• இன்று மொத்த பால்\n• இன்று பால்\n• பால் உற்பத்தி\n• இன்று அதிக பால் தரும் மாடு\n• இன்று குறைந்த பால் தரும் மாடுகள்\n• கடந்த 1 வாரத்தில் அதிக மொத்த பால் உற்பத்தி\n• கடந்த 1 வாரத்தில் குறைந்த மொத்த பால் உற்பத்தி\n• கடந்த 7 நாட்கள் பால் உற்பத்தி\n• நேற்று பால் உற்பத்தி\n• [மாடு பெயர்] இன்று பால்\n• [மாடு பெயர்] கடந்த 7 நாட்கள் பால்\n\nமந்தை\n• பண்ணை நிலவரம்\n• மொத்த மாடுகள்\n• பால் தரும் மாடுகள்\n• கர்ப்பமான மாடுகள்\n• காய்ந்த மாடுகள்\n• கன்றுகள்\n• [மாடு பெயர்/ID] விவரம்\n\nசுகாதாரம்\n• health due\n• health alerts\n• அடுத்த 7 நாட்கள் health due\n• தடுப்பூசி நிலவரம்\n• மருத்துவ பதிவுகள்\n\nஇனப்பெருக்கம்\n• breeding நிலவரம்\n• breeding records\n• கன்று ஈனுதல் நிலவரம்\n\nதீவனம் / இருப்பு\n• feed stock\n• inventory status\n• low stock\n• குறைந்த இருப்பு\n\nநிதி\n• income / வருமானம்\n• expense / செலவு\n• profit / லாபம்\n• net balance\n• finance summary\n\nPORTAL\n• reports\n• என்ன records உள்ளன?\n• portal எப்படி வேலை செய்கிறது?\n• milk chart\n• cow-wise milk chart\n• backup\n\nஇயல்பாகவும் கேட்கலாம்.`,
-`KEYWORDS / COMMANDS\n\nMILK\n• innaiku total milk evlo?\n• innaiku milk\n• milk production\n• innaiku highest milk kudukkura maadu yethu?\n• innaiku lowest milk kudukkura maadugal yethu?\n• last 1 week-la highest overall production yethu?\n• last 1 week-la lowest overall production yethu?\n• last 7 days milk production\n• netru milk production\n• [maadu name] innaiku milk\n• [maadu name] last 7 days milk\n\nHERD\n• farm nilavaram\n• total maadugal\n• paal tharum maadugal\n• pregnant maadugal\n• dry maadugal\n• kanrugal\n• [maadu name/id] details\n\nHEALTH\n• health due\n• health alerts\n• next 7 days health due\n• vaccination status\n• medical records\n\nBREEDING\n• breeding nilavaram\n• breeding records\n• calving status\n\nFEED / INVENTORY\n• feed stock\n• inventory status\n• low stock yethu?\n• minimum stock-ku keela irukkura items\n\nFINANCE\n• income\n• expense\n• profit\n• net balance\n• finance summary\n\nPORTAL\n• reports\n• enna records irukku?\n• indha portal eppadi work aaguthu?\n• milk chart\n• cow-wise milk chart\n• backup\n\nNatural-a kooda kelunga.`);
-   if(milk && !high && !low && !period && /\b(today|today's|இன்று|இன்றைய|innaiku|indru)\b/i.test(t)){
-    const n=data.milk.filter(x=>x.date===s.day).length;
-    return say(`Today's total milk (${s.day})\n• Total: ${s.milkToday.toFixed(1)} L\n• Recorded entries: ${n}`,`இன்றைய மொத்த பால் (${s.day})\n• மொத்தம்: ${s.milkToday.toFixed(1)} லிட்டர்\n• பதிவு செய்யப்பட்ட பதிவுகள்: ${n}`,`Innaiku total milk (${s.day})\n• Total: ${s.milkToday.toFixed(1)} L\n• Recorded entries: ${n}`);
-   }
-   const cow=findCowInQuestion(q0);
-   // Supports: [cow name or cow ID] milk for/from/between [date] to [date].
-   // The same exact custom date range is used for the cow's total, average, and session totals.
-   if(cow&&milk)return localizedCowMilkAnswer(cow,q0,lang);
-
-   // Cow-wise milk requests: list every cow's recorded milk total for the requested period.
-   // This is intentionally before the generic farm milk branch so phrases such as
-   // "cow wise milk last 15 days" do not fall back to farm-total production.
-   const cowWise=/(cow\s*-?wise|each\s*cow|per\s*cow|all\s*cows|cow\s*by\s*cow|மாடு\s*வாரியாக|ஒவ்வொரு\s*மாடு|மாடுகள்\s*வாரியாக|maadu\s*-?wise|madu\s*-?wise|ovvoru\s*maadu|ella\s*maadugal|ellaa\s*maadu)/i.test(t);
-   if(milk&&cowWise){
-     const mp=milkPeriodFromQuestion(q0);
-     const ranked=cowWiseMilkRanking(mp.start,mp.end);
-     const label=mp.label==='custom date range'?say('Custom date range','தனிப்பயன் தேதி வரம்பு','Custom date range'):mp.label;
-     if(!ranked.length)return say(
-       `No cow-wise milk records found for ${mp.label} (${mp.start} to ${mp.end}).`,
-       `${mp.label} (${mp.start} முதல் ${mp.end} வரை) மாடு வாரியான பால் பதிவு எதுவும் இல்லை.`,
-       `${mp.label} (${mp.start} to ${mp.end})-ku cow-wise milk record illa.`
-     );
-     const unit=lang==='ta'?'லிட்டர்':'L';
-     const header=say(`Cow-wise milk production — ${label}\nPeriod: ${mp.start} to ${mp.end}`,`மாடு வாரியான பால் உற்பத்தி — ${label}\nகாலம்: ${mp.start} முதல் ${mp.end} வரை`,`Cow-wise paal production — ${label}\nPeriod: ${mp.start} to ${mp.end}`);
-     const lines=ranked.map((r,i)=>{
-       const avg=r.total/Math.max(1,(new Date(mp.end+'T00:00:00')-new Date(mp.start+'T00:00:00'))/86400000+1);
-       return `• ${i+1}. ${r.name} (${r.id}) — ${r.total.toFixed(1)} ${unit} | ${say('Avg','சராசரி','Avg')}: ${avg.toFixed(1)} ${unit} | ${say('Recorded days','பதிவு நாட்கள்','Recorded days')}: ${r.days}`;
-     }).join('\n');
-     const note=say(`Total cows with records: ${ranked.length}`,`பதிவு உள்ள மாடுகள்: ${ranked.length}`,`Record irukkura maadugal: ${ranked.length}`);
-     return `${header}\n${lines}\n\n${note}`;
-   }
-
-   if(milk&&(high||low)){
-    const mp=milkPeriodFromQuestion(q0);
-    if(period || mp.start!==mp.end){
-     const ranked=periodCowMilkRanking(low,mp.start,mp.end);
-     if(!ranked.length)return say(`No cow-wise milk records found for ${mp.label}.`,`இந்த ${mp.label} காலத்திற்கு மாடு வாரியான பால் பதிவு இல்லை.`,`Indha ${mp.label}-ku cow-wise milk record illa.`);
-     const title=low?say('Lowest','குறைந்த','Lowest'):say('Highest','அதிக','Highest');
-     const periodLabel=mp.label==='custom date range'?say('custom date range','தனிப்பயன் தேதி வரம்பு','custom date range'):say(mp.label,mp.label,mp.label);
-     return `${title} overall milk production — ${periodLabel} (${mp.start} to ${mp.end})\n`+ranked.slice(0,10).map((r,i)=>`• ${i+1}. ${r.name} (${r.id}) — ${r.total.toFixed(1)} ${lang==='ta'?'லிட்டர்':'L'} (${r.days} ${lang==='ta'?'நாட்கள் பதிவு':lang==='tl'?'days record':'recorded days'})`).join('\n');
-    }
-    const ranked=todayCowMilkRanking(low);
-    if(!ranked.length)return say(`Today (${s.day}) milk records are not available.`,`இன்று (${s.day}) பால் பதிவு இல்லை.`,`Innaiku (${s.day}) milk record illa.`);
-    if(low)return say(`Lowest milk producers today\n${ranked.slice(0,10).map((r,i)=>`• ${i+1}. ${r.name} (${r.id}) — ${r.total.toFixed(1)} L`).join('\n')}`,`இன்றைய குறைந்த பால் உற்பத்தி மாடுகள்\n${ranked.slice(0,10).map((r,i)=>`• ${i+1}. ${r.name} (${r.id}) — ${r.total.toFixed(1)} லிட்டர்`).join('\n')}`,`Innaiku lowest milk production maadugal\n${ranked.slice(0,10).map((r,i)=>`• ${i+1}. ${r.name} (${r.id}) — ${r.total.toFixed(1)} L`).join('\n')}`);
-    const r=ranked[0];return say(`Highest milk producer today\n• ${r.name} (${r.id})\n• Total: ${r.total.toFixed(1)} L\n• Morning: ${r.morning.toFixed(1)} L\n• Afternoon: ${r.afternoon.toFixed(1)} L\n• Evening: ${r.evening.toFixed(1)} L`,`இன்றைய அதிக பால் உற்பத்தி மாடு\n• ${r.name} (${r.id})\n• மொத்தம்: ${r.total.toFixed(1)} லிட்டர்\n• காலை: ${r.morning.toFixed(1)} லிட்டர்\n• மதியம்: ${r.afternoon.toFixed(1)} லிட்டர்\n• மாலை: ${r.evening.toFixed(1)} லிட்டர்`,`Innaiku highest milk production maadu\n• ${r.name} (${r.id})\n• Total: ${r.total.toFixed(1)} L\n• Morning: ${r.morning.toFixed(1)} L\n• Afternoon: ${r.afternoon.toFixed(1)} L\n• Evening: ${r.evening.toFixed(1)} L`);
-   }
-   if(milk){
-    const mp=milkPeriodFromQuestion(q0);
-    const vals=[],dates=[];for(let d=new Date(mp.start+'T00:00:00');isoDate(d)<=mp.end;d.setDate(d.getDate()+1)){const ds=isoDate(d);dates.push(ds);vals.push(data.milk.filter(x=>x.date===ds).reduce((a,x)=>a+Number(x.total||0),0));}
-    const total=vals.reduce((a,b)=>a+b,0),avg=total/Math.max(1,dates.length),peak=Math.max(...vals,0),pd=dates.length?dates[vals.indexOf(peak)]:mp.end,recordedDays=vals.filter(v=>v>0).length;
-    const label=mp.label==='custom date range'?say('Custom date range','தனிப்பயன் தேதி வரம்பு','Custom date range'):say(mp.label,mp.label,mp.label);
-    return say(`Milk production — ${label}\n• Period: ${mp.start} to ${mp.end}\n• Total: ${total.toFixed(1)} L\n• Average: ${avg.toFixed(1)} L/day\n• Peak day: ${peak.toFixed(1)} L on ${pd}\n• Days with recorded production: ${recordedDays}/${dates.length}`,`பால் உற்பத்தி — ${label}\n• காலம்: ${mp.start} முதல் ${mp.end} வரை\n• மொத்தம்: ${total.toFixed(1)} லிட்டர்\n• சராசரி: ${avg.toFixed(1)} லிட்டர்/நாள்\n• அதிகபட்ச நாள்: ${peak.toFixed(1)} லிட்டர் — ${pd}\n• பதிவு செய்யப்பட்ட உற்பத்தி நாட்கள்: ${recordedDays}/${dates.length}`,`Paal production — ${label}\n• Period: ${mp.start} to ${mp.end}\n• Total: ${total.toFixed(1)} L\n• Average: ${avg.toFixed(1)} L/day\n• Peak day: ${peak.toFixed(1)} L on ${pd}\n• Recorded production days: ${recordedDays}/${dates.length}`);
-   }
-   const legacy=answerLegacy(q0,lang);
-   return localizeAssistant(legacy,lang);
-  }catch(err){
-   console.error('Farm Assistant error:',err);
-   return say('I could not complete that query. Type “keywords” to see all supported commands.','இந்த கேள்வியை முடிக்க முடியவில்லை. “keywords” என்று உள்ளிட்டு அனைத்து commands-ஐ பார்க்கவும்.','Indha query complete panna mudiyala. “keywords” type panni commands paakunga.');
+  const t=String(q||'').toLowerCase().trim();
+  const todayDate=today();
+  const make=(start,end,label,kind='rolling')=>({start,end,label,kind});
+  if(/\b(yesterday|நேற்று)\b/.test(t)){
+    const d=dateShift(todayDate,-1);return make(d,d,'yesterday','single');
   }
+  if(/\b(today|today's|todays|இன்று|indru)\b/.test(t))return make(todayDate,todayDate,'today','single');
+  // Explicit rolling ranges. "last week" is treated as the last 7 calendar days including today.
+  if(/\b(7\s*day|7\s*days|1\s*week|one\s*week|last\s*week|weekly|past\s*week|கடந்த\s*7\s*நாள்|கடந்த\s*ஒரு\s*வாரம்)\b/.test(t)){
+    return make(dateShift(todayDate,-6),todayDate,'last 7 days','rolling');
+  }
+  if(/\b(this\s*week|current\s*week)\b/.test(t)){
+    const d=new Date(todayDate+'T00:00:00');
+    const day=d.getDay();d.setDate(d.getDate()-(day===0?6:day-1));
+    return make(isoDate(d),todayDate,'this week','calendar');
+  }
+  if(/\b(15\s*day|15\s*days|half\s*month)\b/.test(t))return make(dateShift(todayDate,-14),todayDate,'last 15 days');
+  if(/\b(30\s*day|30\s*days|1\s*month|one\s*month|monthly|month)\b/.test(t))return make(dateShift(todayDate,-29),todayDate,'last 30 days');
+  if(/\b(60\s*day|60\s*days|2\s*month|two\s*month)\b/.test(t))return make(dateShift(todayDate,-59),todayDate,'last 60 days');
+  if(/\b(90\s*day|90\s*days|3\s*month|three\s*month|quarter)\b/.test(t))return make(dateShift(todayDate,-89),todayDate,'last 90 days');
+  const m=t.match(/\b(?:last|past|previous)\s+(\d+)\s*days?\b/);
+  if(m){const n=Math.max(1,Math.min(548,Number(m[1])));return make(dateShift(todayDate,-(n-1)),todayDate,`last ${n} days`);}
+  return make(todayDate,todayDate,'today','single');
+}
+function periodDates(period){
+  const out=[];for(let d=new Date(period.start+'T00:00:00');isoDate(d)<=period.end;d.setDate(d.getDate()+1))out.push(isoDate(d));return out;
+}
+function milkDailyTotals(period){
+  const dates=periodDates(period),byDate={};
+  dates.forEach(d=>byDate[d]=0);
+  data.milk.filter(x=>x.date>=period.start&&x.date<=period.end).forEach(x=>{byDate[x.date]=(byDate[x.date]||0)+Number(x.total||0)});
+  return {dates,byDate};
+}
+function cowMilkAnswer(cow,q){
+  const p=milkPeriodFromQuestion(q),rows=milkRowsForCow(cow.id,p.start,p.end),agg=aggregateMilk(rows);
+  const name=cow.name||cow.id,tag=cow.tag?` (${cow.tag})`:'';
+  if(!rows.length)return `${name}${tag}\n• No milk record found for ${p.label} (${p.start} to ${p.end}).\n• No yield or average is calculated because there is no recorded milk for this period.`;
+  const byDate={};rows.forEach(x=>{byDate[x.date]=(byDate[x.date]||0)+Number(x.total||0)});
+  const dates=periodDates(p),recordedDays=Object.keys(byDate).length,avg=agg.total/Math.max(1,dates.length);
+  const peak=Math.max(...dates.map(d=>byDate[d]||0)),peakDate=dates.find(d=>(byDate[d]||0)===peak);
+  if(p.start===p.end)return `${name}${tag}\n• Date: ${p.end}\n• Morning: ${agg.morning.toFixed(1)} L\n• Afternoon: ${agg.afternoon.toFixed(1)} L\n• Evening: ${agg.evening.toFixed(1)} L\n• Total: ${agg.total.toFixed(1)} L\n\nExact recorded production for this cow on ${p.end}.`;
+  return `${name}${tag}\n• Period: ${p.start} to ${p.end}\n• Total: ${agg.total.toFixed(1)} L\n• Average across the full period: ${avg.toFixed(1)} L/day\n• Recorded days: ${recordedDays}/${dates.length}\n• Peak recorded day: ${peak.toFixed(1)} L on ${peakDate}\n• Morning total: ${agg.morning.toFixed(1)} L\n• Afternoon total: ${agg.afternoon.toFixed(1)} L\n• Evening total: ${agg.evening.toFixed(1)} L`;
+}
+function cowMilkRanking(period,lowFirst){
+  const rows=data.milk.filter(x=>x.cowId&&x.date>=period.start&&x.date<=period.end);
+  const byCow={};rows.forEach(x=>{const id=x.cowId;if(!byCow[id])byCow[id]={total:0,morning:0,afternoon:0,evening:0,days:new Set()};byCow[id].total+=Number(x.total||0);byCow[id].morning+=Number(x.morning||0);byCow[id].afternoon+=Number(x.afternoon||0);byCow[id].evening+=Number(x.evening||0);byCow[id].days.add(x.date)});
+  const ranked=Object.entries(byCow).map(([id,v])=>({id,name:cowName(id),total:v.total,morning:v.morning,afternoon:v.afternoon,evening:v.evening,recordedDays:v.days.size,average:v.total/Math.max(1,v.days.size)}));
+  ranked.sort((a,b)=>lowFirst?(a.total-b.total||a.name.localeCompare(b.name)):(b.total-a.total||a.name.localeCompare(b.name)));
+  return ranked;
+}
+function farmProductionAnswer(period,lowFirst){
+  const {dates,byDate}=milkDailyTotals(period);
+  const recorded=dates.filter(d=>byDate[d]>0);
+  if(!recorded.length)return `No milk records are available for ${period.label} (${period.start} to ${period.end}).\n• I cannot calculate the ${lowFirst?'lowest':'highest'} production day from this period.`;
+  const sorted=recorded.slice().sort((a,b)=>lowFirst?(byDate[a]-byDate[b]||a.localeCompare(b)):(byDate[b]-byDate[a]||a.localeCompare(b)));
+  const first=sorted[0],second=sorted[1];
+  const total=recorded.reduce((s,d)=>s+byDate[d],0),avgRecorded=total/recorded.length,avgCalendar=total/dates.length;
+  return `${lowFirst?'Lowest':'Highest'} farm milk production day — ${period.label}\n• Date: ${first}\n• Farm total: ${byDate[first].toFixed(1)} L\n• Recorded production days: ${recorded.length}/${dates.length}\n• Total milk in period: ${total.toFixed(1)} L\n• Average on recorded days: ${avgRecorded.toFixed(1)} L/day\n• Average across all calendar days: ${avgCalendar.toFixed(1)} L/day${second?`\n• Next: ${second} — ${byDate[second].toFixed(1)} L`:''}\n\nOnly recorded milk is included. Days with no milk entry are not treated as 0 L when ranking the selected production day.`;
+}
+function normalizeAssistantText(q){
+  return String(q||'').toLowerCase().trim()
+    .replace(/[?!.;,]+/g,' ')
+    .replace(/\b(one|1)\s*(week|wk)\b/g,'7 days')
+    .replace(/\b(last|past)\s+(one|1)\s+week\b/g,'last 7 days')
+    .replace(/\b(last|past)\s+week\b/g,'last 7 days')
+    .replace(/\b(1|one)\s+week\b/g,'7 days')
+    .replace(/\b(overall|overall\s+milk|overall\s+production)\b/g,'overall production')
+    .replace(/\bprodution\b/g,'production')
+    .replace(/\blitre(s)?\b/g,'liter');
+}
+function assistantIntent(t){
+  return {
+    cow:/(மாடு|பசு|maadu|madu|pasu|cow|cows|animal|animals|producer|producers|performer|performers|producing\s*cow|producing\s*cows|yield\s*per\s*cow|cow\s*production)/i.test(t),
+    milk:/(பால்|paal|pal|milk|liter|liters|yield|production|prodution|producing\s*cow|producing\s*cows)/i.test(t),
+    wise:/(வாரியாக|ஒவ்வொரு|per\s*cow|each\s*cow|every\s*cow|all\s*cows|cow[\s-]*wise|cow\s*by\s*cow|breakdown)/i.test(t),
+    highest:/(அதிக|உயர|சிறந்த|adhiga|athiga|uyar|sirandha|highest|high|best|top|most|max|maximum)/i.test(t),
+    lowest:/(குறை|குறைந்த|kurai|kuraindha|lowest|low|minimum|underperform|underperforming|poor)/i.test(t),
+    overview:/(சுருக்க|நிலவர|எப்படி உள்ளது|surukk|nilavaram|eppadi|overview|summary|status|dashboard)/i.test(t),
+    health:/(சுகாதார|தடுப்பூசி|மருத்துவ|sugathar|sugaathar|thadup|maruthuv|health|vaccine|medical|treatment|due)/i.test(t),
+    finance:/(வருமான|செலவு|லாப|கணக்கு|varuman|selavu|laab|labam|kanakku|finance|profit|income|expense|money|revenue|sale)/i.test(t),
+    inventory:/(தீவன|இருப்பு|ஸ்டாக்|theevan|thivan|iruppu|stock|feed|inventory|supply)/i.test(t),
+    breeding:/(இனப்பெருக்க|கன்று|கர்ப்ப|inapperukk|kanru|karp|breed|calv|pregnan)/i.test(t)
+  };
+}
+function answer(q){
+  const original=String(q||'').trim(),t=normalizeAssistantText(original),i=assistantIntent(t);
+  const s=snapshot(),fmt=n=>Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:1}),cow=findCowInQuestion(original);
+  if(!original)return '';
+  if(/^(hello|hi|hey|help|what can you do)\b/i.test(t))return 'I answer only from the recorded portal data. Examples: “Lakshmi milk today”, “KM001 last 7 days”, “lowest milk cows today”, “lowest producing cow last 7 days”, “lowest overall production in last 7 days”, “highest overall production last 7 days”, “milk production”, “health due”, or “finance summary”.';
+  // Specific cow queries always take priority.
+  if(cow&&i.milk)return cowMilkAnswer(cow,original);
+  const p=milkPeriodFromQuestion(t);
+  // Explicit cow ranking: "lowest milk cows", "lowest producing cow", etc.
+  if(i.cow&&i.lowest&&i.milk){
+    const ranked=cowMilkRanking(p,true);
+    if(!ranked.length)return `No milk records are available for ${p.label} (${p.start} to ${p.end}).\n• I cannot identify the lowest-producing cow without recorded milk in this period.\n• Try “lowest producing cow last 7 days” when you want a 7-day comparison.`;
+    const top=ranked.slice(0,5),activeLact=s.active.filter(c=>c.status==='Lactating'),noRecord=activeLact.filter(c=>!ranked.some(r=>r.id===c.id));
+    return `Lowest recorded cow production — ${p.label} (${p.start} to ${p.end})\n${top.map((r,n)=>`• ${n+1}. ${r.name} — ${r.total.toFixed(1)} L total; ${r.recordedDays} recorded day(s); ${r.average.toFixed(1)} L/recorded day`).join('\n')}\n\n${noRecord.length?`• ${noRecord.length} lactating cow(s) have no milk record in this period: ${noRecord.slice(0,12).map(c=>c.name||c.id).join(', ')}.`:'• All active lactating cows have at least one milk record in this period.'}\n\nDefinition: “lowest” means the smallest recorded total for the selected period. No biological low-yield threshold is assumed.`;
+  }
+  if(i.cow&&i.highest&&i.milk){
+    const ranked=cowMilkRanking(p,false);
+    if(!ranked.length)return `No milk records are available for ${p.label} (${p.start} to ${p.end}), so I cannot identify the highest-producing cow.`;
+    const top=ranked[0],runner=ranked[1];
+    return `Highest recorded cow production — ${p.label} (${p.start} to ${p.end})\n• ${top.name}\n• Total: ${top.total.toFixed(1)} L\n• Recorded days: ${top.recordedDays}\n• Average per recorded day: ${top.average.toFixed(1)} L${runner?`\n• Next: ${runner.name} — ${runner.total.toFixed(1)} L`:''}`;
+  }
+  // "overall production" means farm-level daily production, not a cow ranking.
+  if(i.milk&&i.lowest&&/(overall\s+production|farm|day|daily|overall)/i.test(t))return farmProductionAnswer(p,true);
+  if(i.milk&&i.highest&&/(overall\s+production|farm|day|daily|overall)/i.test(t))return farmProductionAnswer(p,false);
+  if(i.milk&&i.wise){
+    const ranked=cowMilkRanking(p,false);
+    if(!ranked.length)return `No milk records are available for ${p.label} (${p.start} to ${p.end}), so I cannot show a cow-wise breakdown.`;
+    const totalAll=ranked.reduce((a,r)=>a+r.total,0);
+    return `Cow-wise milk — ${p.label} (${p.start} to ${p.end})\n${ranked.map((r,n)=>`• ${n+1}. ${r.name} — ${r.total.toFixed(1)} L`).join('\n')}\n\nTotal across ${ranked.length} cow(s) with a record: ${totalAll.toFixed(1)} L.`;
+  }
+  if(i.overview&&!i.milk)return `Farm overview for ${s.day}\n• Active animals: ${s.active.length}\n• Lactating: ${s.active.filter(c=>c.status==='Lactating').length}\n• Pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Milk recorded today: ${s.milkToday.toFixed(1)} L\n• Net recorded finance: ${moneyLocal(s.income-s.expense)}\n• Health items due within 7 days: ${s.due.length}\n• Inventory items at/below minimum: ${s.low.length}`;
+  if(i.milk){
+    const totals=milkDailyTotals(p),dates=totals.dates,vals=dates.map(d=>totals.byDate[d]||0),recorded=vals.filter(v=>v>0),total=vals.reduce((a,b)=>a+b,0),avgCalendar=total/dates.length,peak=recorded.length?Math.max(...recorded):0,peakDate=recorded.length?dates[vals.indexOf(peak)]:null;
+    return `Milk production — farm total\n• Period: ${p.start} to ${p.end}\n• Total: ${total.toFixed(1)} L\n• Average across calendar days: ${avgCalendar.toFixed(1)} L/day\n• Peak recorded day: ${peak.toFixed(1)} L${peakDate?` on ${peakDate}`:''}\n• Days with recorded production: ${recorded.length}/${dates.length}\n• Cows with a milk record today: ${new Set(data.milk.filter(x=>x.date===s.day&&x.cowId).map(x=>x.cowId)).size}\n\nThese are recorded values only.`;
+  }
+  if(i.finance)return `Finance summary\n• Recorded income: ${moneyLocal(s.income)}\n• Recorded expenses: ${moneyLocal(s.expense)}\n• Net recorded balance: ${moneyLocal(s.income-s.expense)}\n• Transactions: ${data.finance.length}`;
+  if(i.health)return s.due.length?`Health attention needed\n${s.due.map(x=>`• ${cowName(x.cowId)} — ${x.type}, due ${x.nextDue}`).join('\n')}\n\nTotal due within 7 days: ${s.due.length}.`:`Health status\n• No vaccination or health follow-up is due within the next 7 days.\n• Total health/care records: ${data.health.length}.`;
+  if(i.breeding)return `Breeding & calving\n• Total events: ${data.breeding.length}\n• Positive/successful results: ${data.breeding.filter(x=>/positive|success/i.test(x.result||'')).length}\n• Currently pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Records with expected calving date: ${data.breeding.filter(x=>x.calving).length}`;
+  if(i.inventory)return s.low.length?`Inventory below/minimum stock\n${s.low.map(x=>`• ${x.name}: ${x.stock} ${x.unit} remaining; minimum ${x.minStock}`).join('\n')}\n\nItems needing replenishment: ${s.low.length}.`:`Inventory status\n• Recorded items: ${data.inventory.length}\n• All recorded items are above their minimum stock levels.`;
+  if(i.cow)return `Herd summary\n• Active animals: ${s.active.length}\n• Lactating: ${s.active.filter(c=>c.status==='Lactating').length}\n• Pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Dry: ${s.active.filter(c=>c.status==='Dry').length}\n• Calves: ${s.active.filter(c=>c.status==='Calf').length}`;
+  return 'I can answer from the recorded portal data. Be specific about the subject and period. Examples: “lowest milk cows today”, “lowest producing cow last 7 days”, “lowest overall production in last 7 days”, “Lakshmi milk yesterday”, “milk production this week”, “health due”, or “finance summary”.';
+}
+function speakAssistantResponse(text){
+  if(!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(String(text).replace(/[•\n]/g,' '));
+  const lang=$('assistantLang')?.value||'en-IN';u.lang=lang;u.rate=0.95;u.pitch=1;
+  const voices=speechSynthesis.getVoices? speechSynthesis.getVoices():[];
+  const match=voices.find(v=>String(v.lang||'').toLowerCase()===lang.toLowerCase())||voices.find(v=>String(v.lang||'').toLowerCase().startsWith(lang.slice(0,2).toLowerCase()));
+  if(match)u.voice=match;
+  speechSynthesis.speak(u);
+}
+function ask(text,spoken=false){
+  const q=(text||'').trim();if(!q)return;
+  add(q,'user');input.value='';
+  const response=answer(q);setTimeout(()=>{add(response,'bot');if(spoken)speakAssistantResponse(response)},120);
+}
+launch.onclick=()=>{panel.classList.toggle('show');if(panel.classList.contains('show'))input.focus()};
+closeBtn.onclick=()=>panel.classList.remove('show');
+formEl.onsubmit=e=>{e.preventDefault();ask(input.value,false)};
+document.querySelectorAll('.assistant-suggestions button').forEach(b=>b.onclick=()=>ask(b.textContent,false));
+const Recognizer=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(Recognizer){
+  const rec=new Recognizer();rec.continuous=false;rec.interimResults=false;rec.maxAlternatives=3;
+  rec.onstart=()=>{voice.classList.add('listening');voice.textContent='●';voice.title='Listening… speak your Farm Assistant question'};
+  rec.onend=()=>{voice.classList.remove('listening');voice.textContent='🎙';voice.title='Ask by voice'};
+  rec.onerror=e=>{voice.classList.remove('listening');voice.textContent='🎙';const msg=e&&e.error==='not-allowed'?'Microphone permission is blocked. Allow microphone access for this site and try again.':e&&e.error==='no-speech'?'No speech was detected. Please speak clearly and try again.':e&&e.error==='language-not-supported'?'The selected voice language is not supported by this browser. Choose EN or தமிழ்.':'I could not understand the voice input. Please try again or type the question.';add(msg,'bot');};
+  rec.onresult=e=>{
+    let said='';
+    for(let r=e.resultIndex||0;r<e.results.length;r++){if(e.results[r].isFinal)said+=(said?' ':'')+e.results[r][0].transcript;}
+    said=said.trim();if(!said)return;
+    input.value=said;ask(said,true);
+  };
+  voice.onclick=()=>{
+    const lang=$('assistantLang')?.value||'en-IN';rec.lang=lang;
+    try{rec.start()}catch(e){if(e.name!=='InvalidStateError')add('Voice input could not start. Please try again.','bot');}
+  };
+}else{
+  voice.onclick=()=>add('Voice input is not supported in this browser. You can still type your question.','bot');
+  voice.title='Voice input is not supported in this browser';
+}
+add('Hello — I’m your Farm Assistant. I read the live records already in this portal and can help you understand what needs attention.','bot');
+ return true;
+ }catch(e){
+   console.error('Farm Assistant initialization failed:',e);
+   document.getElementById('assistantLaunch')?.remove();
+   document.getElementById('assistantPanel')?.remove();
+   return false;
  }
-
- function ask(text,spoken){
-   const q=(text||'').trim();
-   if(!q)return;
-   add(q,'user');
-   input.value='';
-   const forced=getSelectedAssistantLanguage();
-   const response=answer(q,forced);
-   add(response,'bot');
-   if(spoken&&'speechSynthesis'in window){
-     speechSynthesis.cancel();
-     const u=new SpeechSynthesisUtterance(response.replace(/[•\n]/g,' '));
-     const outLang=forced||assistantLanguage(q);
-     u.lang=outLang==='ta'||outLang==='tl'?'ta-IN':'en-IN';
-     speechSynthesis.speak(u);
-   }
- }
- $('assistantLaunch').onclick=()=>{panel.classList.toggle('show');if(panel.classList.contains('show'))input.focus()};$('assistantClose').onclick=()=>panel.classList.remove('show');$('assistantForm').onsubmit=e=>{e.preventDefault();ask(input.value)};document.querySelectorAll('.assistant-suggestions button').forEach(b=>b.onclick=()=>ask(b.textContent));
- const Recognizer=window.SpeechRecognition||window.webkitSpeechRecognition;if(Recognizer){const rec=new Recognizer();rec.lang='en-IN';rec.interimResults=false;rec.onstart=()=>{voice.classList.add('listening');voice.textContent='●'};rec.onend=()=>{voice.classList.remove('listening');voice.textContent='🎙'};rec.onerror=()=>add('I could not hear that. Please try again or type your question.','bot');rec.onresult=e=>{const said=e.results[0][0].transcript;input.value=said;ask(said,true)};voice.onclick=()=>{const lv=$('assistantLang')?.value||'auto';rec.lang=lv==='ta-IN'?'ta-IN':lv==='tl-IN'?'ta-IN':'en-IN';try{rec.start()}catch(e){}}}else{voice.onclick=()=>add('Voice input is not supported in this browser. You can still type your question.','bot');voice.title='Voice input is not supported in this browser'}
- add('Hello — I’m your Farm Assistant. Ask in English, தமிழ், or Tanglish. I can answer questions about this portal and its recorded farm data.','bot');
-})();
+}
+window.ensureFarmAssistant=initFarmAssistant;
+if(document.body)initFarmAssistant();
+else document.addEventListener('DOMContentLoaded',initFarmAssistant,{once:true});
+window.addEventListener('load',()=>{if(!document.getElementById('assistantLaunch'))initFarmAssistant()},{once:true});
 </script>
 <style>
 .assistant-compose select{max-width:74px;border:1px solid #cfe0da;border-radius:10px;background:#fff;color:#0d6654;padding:0 5px;font:11px inherit}
 </style>
 <script>
 /* Language picker is added after the assistant so both text and voice can use it. */
-(function(){const voice=document.getElementById('assistantVoice');if(!voice)return;const select=document.createElement('select');select.id='assistantLang';select.title='Assistant response language';select.setAttribute('aria-label','Assistant response language');select.innerHTML='<option value="auto">Auto</option><option value="en-IN">EN</option><option value="ta-IN">தமிழ்</option><option value="tl-IN">Tanglish</option>';voice.before(select);const notice=document.querySelector('.assistant-notice');if(notice)notice.textContent='Type in English, தமிழ், or Tanglish. Select the response language when you want to force English, தமிழ், or Tanglish.';select.onchange=()=>{if(select.value==='ta-IN')input.placeholder='தமிழில் கேள்வியை எழுதுங்கள்…';else if(select.value==='tl-IN')input.placeholder='Tanglish-la question கேளுங்க…';else input.placeholder='Ask about your farm…'};})()
+function ensureAssistantLanguagePicker(){const voice=document.getElementById('assistantVoice');if(!voice||document.getElementById('assistantLang'))return;const select=document.createElement('select');select.id='assistantLang';select.title='Voice language';select.setAttribute('aria-label','Voice language');select.innerHTML='<option value="en-IN">EN</option><option value="ta-IN">தமிழ்</option>';voice.before(select);const notice=document.querySelector('.assistant-notice');if(notice)notice.textContent='Ask in English, தமிழ், or Tanglish. For voice input, choose EN or தமிழ் first.'}
+ensureAssistantLanguagePicker();
+document.addEventListener('DOMContentLoaded',ensureAssistantLanguagePicker,{once:true});
+window.addEventListener('load',ensureAssistantLanguagePicker,{once:true});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  themeInit();
+  updateBillingSortButton();
+  if($('billingSort'))$('billingSort').value=localStorage.getItem('kmpBillingSort')||'date-desc';
+  if($('billingSort'))$('billingSort').addEventListener('change',()=>localStorage.setItem('kmpBillingSort',$('billingSort').value));
+});
 </script>
 </body>
 </html>
