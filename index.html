@@ -268,20 +268,28 @@ body[data-theme="light"] .invoice-totals{background:#f7faf9}
 
  <div class="panel" style="margin-top:16px">
   <div class="panel-head"><div><h2>WhatsApp Alerts</h2><div class="muted">Numbers must include country code. Example: 91XXXXXXXXXX</div></div><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waEnabled" onchange="markWhatsAppDirty()"> Enabled</label></div>
+<div class="notice">Automatic alerts run in Apps Script even when this page is closed. Install the trigger once using installKmpAutomaticAlerts. Feed / due alerts are checked about every 5 minutes; milk reminders run at the first check after the time below (India time). Delivery is not guaranteed to the exact minute. Each qualifying alert is attempted once per recipient per day; review failed/unconfirmed attempts in WhatsAppAutomationLog.</div>
+<div class="formgrid"><label class="field"><span>Automatic alerts enabled (after trigger installation)</span><input id="waAutomatic" type="checkbox" onchange="markWhatsAppDirty()"></label><div class="field"><label for="waReminderTime">Milk reminder time (Asia/Kolkata)</label><input id="waReminderTime" type="time" value="09:00" oninput="markWhatsAppDirty()"></div><div class="field"><label>Calving advance notice</label><select id="waCalvingMode" onchange="markWhatsAppDirty()"><option value="month">One calendar month before</option><option value="days">Use calving days below</option></select></div><div class="field"><label>Health / vaccine advance notice</label><select id="waHealthMode" onchange="markWhatsAppDirty()"><option value="month">One calendar month before</option><option value="days">Use health days below</option></select></div></div>
   <div class="formgrid">
-   <div class="field"><label>WhatsApp Number 1</label><input id="waNum1" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="91XXXXXXXXXX"></div>
-   <div class="field"><label>WhatsApp Number 2</label><input id="waNum2" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"></div>
-   <div class="field"><label>WhatsApp Number 3</label><input id="waNum3" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"></div>
-   <div class="field"><label>WhatsApp Number 4</label><input id="waNum4" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"></div>
-   <div class="field"><label>WhatsApp Number 5</label><input id="waNum5" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"></div>
-   <div class="field"><label>Alert lead days</label><input type="number" min="0" max="60" id="waLeadDays" oninput="markWhatsAppDirty()" value="7"></div>
+   <div class="field"><label>WhatsApp Number 1</label><input id="waNum1" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="91XXXXXXXXXX"><div role="group" aria-label="Notifications for WhatsApp number 1" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px"><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient1_low_stock" checked onchange="markWhatsAppDirty()"> Feed / stock</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient1_calving" checked onchange="markWhatsAppDirty()"> Calving</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient1_health" checked onchange="markWhatsAppDirty()"> Health</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient1_milk_missing" checked onchange="markWhatsAppDirty()"> Missing milk</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient1_low_milk" checked onchange="markWhatsAppDirty()"> Low milk</label></div></div>
+   <div class="field"><label>WhatsApp Number 2</label><input id="waNum2" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"><div role="group" aria-label="Notifications for WhatsApp number 2" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px"><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient2_low_stock" checked onchange="markWhatsAppDirty()"> Feed / stock</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient2_calving" checked onchange="markWhatsAppDirty()"> Calving</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient2_health" checked onchange="markWhatsAppDirty()"> Health</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient2_milk_missing" checked onchange="markWhatsAppDirty()"> Missing milk</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient2_low_milk" checked onchange="markWhatsAppDirty()"> Low milk</label></div></div>
+   <div class="field"><label>WhatsApp Number 3</label><input id="waNum3" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"><div role="group" aria-label="Notifications for WhatsApp number 3" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px"><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient3_low_stock" checked onchange="markWhatsAppDirty()"> Feed / stock</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient3_calving" checked onchange="markWhatsAppDirty()"> Calving</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient3_health" checked onchange="markWhatsAppDirty()"> Health</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient3_milk_missing" checked onchange="markWhatsAppDirty()"> Missing milk</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient3_low_milk" checked onchange="markWhatsAppDirty()"> Low milk</label></div></div>
+   <div class="field"><label>WhatsApp Number 4</label><input id="waNum4" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"><div role="group" aria-label="Notifications for WhatsApp number 4" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px"><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient4_low_stock" checked onchange="markWhatsAppDirty()"> Feed / stock</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient4_calving" checked onchange="markWhatsAppDirty()"> Calving</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient4_health" checked onchange="markWhatsAppDirty()"> Health</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient4_milk_missing" checked onchange="markWhatsAppDirty()"> Missing milk</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient4_low_milk" checked onchange="markWhatsAppDirty()"> Low milk</label></div></div>
+   <div class="field"><label>WhatsApp Number 5</label><input id="waNum5" oninput="markWhatsAppDirty()" inputmode="numeric" placeholder="Optional"><div role="group" aria-label="Notifications for WhatsApp number 5" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px"><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient5_low_stock" checked onchange="markWhatsAppDirty()"> Feed / stock</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient5_calving" checked onchange="markWhatsAppDirty()"> Calving</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient5_health" checked onchange="markWhatsAppDirty()"> Health</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient5_milk_missing" checked onchange="markWhatsAppDirty()"> Missing milk</label><label style="display:inline-flex;gap:5px;align-items:center"><input type="checkbox" id="waRecipient5_low_milk" checked onchange="markWhatsAppDirty()"> Low milk</label></div></div>
+   <div class="field"><label for="waFeedDays">Feed / stock: days before running out</label><input type="number" min="0" max="365" step="1" id="waFeedDays" oninput="markWhatsAppDirty()" value="7"></div>
+   <div class="field"><label for="waCalvingDays">Calving: days before due date</label><input type="number" min="0" max="365" step="1" id="waCalvingDays" oninput="markWhatsAppDirty()" value="14"></div>
+   <div class="field"><label for="waHealthDays">Health: days before due date</label><input type="number" min="0" max="365" step="1" id="waHealthDays" oninput="markWhatsAppDirty()" value="3"></div>
+   <div class="field"><label for="waMissingDays">Missing milk: consecutive completed days</label><input type="number" min="1" max="365" step="1" id="waMissingDays" oninput="markWhatsAppDirty()" value="1"></div>
+   <div class="field"><label for="waLowMilkDays">Low milk: consecutive completed days</label><input type="number" min="1" max="365" step="1" id="waLowMilkDays" oninput="markWhatsAppDirty()" value="1"></div>
   </div>
   <div class="formgrid" style="margin-top:8px">
-   <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waLowStock" onchange="markWhatsAppDirty()"> Low stock</label>
+   <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waLowStock" onchange="markWhatsAppDirty()"> Feed / low stock</label>
+   <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waHealth" onchange="markWhatsAppDirty()"> Health due</label>
    <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waCalving" onchange="markWhatsAppDirty()"> Calving due</label>
    <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waMilkMissing" onchange="markWhatsAppDirty()"> Missing milk entry</label>
    <label class="field" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="waLowMilk" onchange="markWhatsAppDirty()"> Low milk</label>
   </div>
+  <div class="notice" style="margin-top:12px">Tick the notification types under each WhatsApp number. Untick all to send no alerts to that number. Global alert switches must also be enabled. Test WhatsApp sends a test to every entered number, regardless of these choices. Choose each alert period separately. Feed forecasts use current stock ÷ daily usage: add daily usage in Feed &amp; Inventory → Edit. Without usage, only the minimum-stock warning applies. Keep current stock up to date. Milk checks use completed calendar days (ending yesterday), with low milk below 5 L each day. Save these settings for the automatic trigger and Send Alerts Now. A saved feed reorder quantity overrides the daily-usage forecast. Month mode overrides the corresponding days field.</div>
   <div class="notice" style="margin-top:12px">Meta credentials stay in Apps Script Script Properties. Do not put WA_ACCESS_TOKEN or WA_PHONE_NUMBER_ID in this HTML.</div>
   <div id="waStatus" class="notice" style="display:none;margin-top:12px"></div>
   <div class="actions">
@@ -622,10 +630,10 @@ function renderDashboard(){
  const days=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=d.toISOString().slice(0,10);const v=data.milk.filter(x=>x.date===ds).reduce((a,x)=>a+Number(x.total||0),0);days.push({d:ds.slice(5),v})}
  const max=Math.max(1,...days.map(x=>x.v));$('milkChart').innerHTML=days.map(x=>`<div class="bar" style="height:${Math.max(5,x.v/max*85)}%"><span>${x.d}</span></div>`).join('');
  $('healthSummary').innerHTML=`<div class="metric"><span>Vaccination records</span><b>${data.health.filter(x=>x.type==='Vaccination').length}</b></div><div class="metric"><span>Health cases</span><b>${data.health.filter(x=>x.type!=='Vaccination').length}</b></div><div class="metric"><span>Breeding events</span><b>${data.breeding.length}</b></div><div class="metric"><span>Inventory items</span><b>${data.inventory.length}</b></div>`;
- const due=data.health.filter(x=>x.nextDue&&x.nextDue<=new Date(Date.now()+7*864e5).toISOString().slice(0,10));
- $('alerts').innerHTML=due.length?due.slice(0,8).map(x=>`<div class="notice">⚠ <b>${esc(cowName(x.cowId))}</b> — ${esc(x.type)} due ${esc(x.nextDue)}</div>`).join(''):'<div class="empty">✓ No priority alerts for the next 7 days.</div>';
+ const due=data.health.filter(x=>x.nextDue&&x.nextDue<=alertDate(waPeriods(data.settings?.whatsapp||{}).healthDays));
+ $('alerts').innerHTML=due.length?due.slice(0,8).map(x=>`<div class="notice">⚠ <b>${esc(cowName(x.cowId))}</b> — ${esc(x.type)} due ${esc(x.nextDue)}</div>`).join(''):`<div class="empty">✓ No priority alerts for the next ${waPeriods(data.settings?.whatsapp||{}).healthDays} days.</div>`;
 }
-function attentionCount(){const d=new Date(Date.now()+7*864e5).toISOString().slice(0,10);return data.health.filter(x=>x.nextDue&&x.nextDue<=d).length}
+function attentionCount(){const d=alertDate(waPeriods(data.settings?.whatsapp||{}).healthDays);return data.health.filter(x=>x.nextDue&&x.nextDue<=d).length}
 function cowName(id){const c=data.cows.find(x=>x.id===id);return c?`${c.name||c.id} (${c.tag||c.id})`:'Unknown'}
 
 function renderPageControls(key,total){
@@ -1091,9 +1099,9 @@ async function saveFinance(id){const o={id:id||uid('fin'),date:$('p_date').value
 
 function openInventory(id=''){
  const x=data.inventory.find(a=>a.id===id)||{name:'',category:'Feed',stock:0,unit:'kg',minStock:0,cost:0};
- modal(id?'Edit Inventory':'Add Inventory Item',`<div class="formgrid"><div class="field"><label>Item Name</label><input id="i_name" value="${esc(x.name)}"></div><div class="field"><label>Category</label><input id="i_cat" value="${esc(x.category)}"></div><div class="field"><label>Current Stock</label><input type="number" id="i_stock" value="${x.stock}"></div><div class="field"><label>Unit</label><input id="i_unit" value="${esc(x.unit)}"></div><div class="field"><label>Minimum Stock</label><input type="number" id="i_min" value="${x.minStock}"></div><div class="field"><label>Cost</label><input type="number" id="i_cost" value="${x.cost}"></div></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveInventory('${id}')">Save Item</button></div>`)
+ modal(id?'Edit Inventory':'Add Inventory Item',`<div class="formgrid"><div class="field"><label>Item Name</label><input id="i_name" value="${esc(x.name)}"></div><div class="field"><label>Category</label><input id="i_cat" value="${esc(x.category)}"></div><div class="field"><label>Current Stock</label><input type="number" id="i_stock" value="${x.stock}"></div><div class="field"><label>Unit</label><input id="i_unit" value="${esc(x.unit)}"></div><div class="field"><label>Feed reorder quantity (e.g. 40 bags for 7 days)</label><input id="i_reorder" type="number" min="0" step="any" value="${x.reorderQuantity==null?'':Number(x.reorderQuantity)}"><small>Alert when current stock is strictly below this quantity: 40 → alert at 39. Leave blank to use daily usage.</small></div><div class="field"><label>Daily usage (same unit as stock)</label><input type="number" min="0" step="any" id="i_usage" value="${Number(x.dailyUsage||0)}"><small class="muted">Used for advance stock alerts. 0 = minimum-stock warning only.</small></div><div class="field"><label>Minimum Stock</label><input type="number" id="i_min" value="${x.minStock}"></div><div class="field"><label>Cost</label><input type="number" id="i_cost" value="${x.cost}"></div></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveInventory('${id}')">Save Item</button></div>`)
 }
-async function saveInventory(id){const o={id:id||uid('inv'),name:$('i_name').value,category:$('i_cat').value,stock:Number($('i_stock').value||0),unit:$('i_unit').value,minStock:Number($('i_min').value||0),cost:Number($('i_cost').value||0)};if(!o.name)return toast('Item name is required');await save('inventory',o);closeModal();toast('Inventory saved')}
+async function saveInventory(id){const usage=Number($('i_usage').value);if(!Number.isFinite(usage)||usage<0)return toast('Daily usage must be zero or greater');const rawReorder=$('i_reorder').value.trim(),reorder=rawReorder===''?null:Number(rawReorder);if(reorder!==null&&(!Number.isFinite(reorder)||reorder<0))return toast('Reorder quantity must be zero or greater');const o={...(data.inventory.find(x=>x.id===id)||{}),reorderQuantity:reorder,dailyUsage:usage,id:id||uid('inv'),name:$('i_name').value,category:$('i_cat').value,stock:Number($('i_stock').value||0),unit:$('i_unit').value,minStock:Number($('i_min').value||0),cost:Number($('i_cost').value||0)};if(!o.name)return toast('Item name is required');await save('inventory',o);closeModal();toast('Inventory saved')}
 
 async function quickBackup(){
  const backup={app:'KMP Dairy Farms FarmOS',version:1,exportedAt:new Date().toISOString(),data:{...data}};
@@ -1213,6 +1221,14 @@ function applyReportFilters(){
 }
 
 
+const waRecipientTypes=['low_stock','calving','health','milk_missing','low_milk'];
+const waPeriodFields={feedDays:'waFeedDays',calvingDays:'waCalvingDays',healthDays:'waHealthDays',missingDays:'waMissingDays',lowMilkDays:'waLowMilkDays'};
+function waPeriods(wa={}){
+  const defaults={feedDays:7,calvingDays:wa.leadDays??14,healthDays:3,missingDays:1,lowMilkDays:1};
+  return Object.fromEntries(Object.keys(defaults).map(k=>{const n=Number(wa[k]??defaults[k]),min=k==='missingDays'||k==='lowMilkDays'?1:0;return [k,Number.isInteger(n)&&n>=min&&n<=365?n:(k==='calvingDays'?14:defaults[k])]}));
+}
+function alertDate(offset){const d=new Date();d.setDate(d.getDate()+offset);return localDateInputValue(d)}
+
 let waSettingsDirty=false;
 function markWhatsAppDirty(){waSettingsDirty=true}
 function normalizeWaNumber(v){return String(v||'').replace(/\D/g,'')}
@@ -1223,13 +1239,21 @@ function renderWhatsAppSettings(force=false){
   if(!$('waEnabled'))return;
   if(waSettingsDirty && !force)return;
   const wa=data.settings?.whatsapp||{};
+  $('waAutomatic').checked=wa.automaticEnabled===true;
+  $('waReminderTime').value=wa.reminderTime||'09:00';
+  $('waCalvingMode').value=wa.calvingMode||'month';
+  $('waHealthMode').value=wa.healthMode||'month';
   const nums=Array.isArray(wa.phoneNumbers)?wa.phoneNumbers:[];
   $('waEnabled').checked=wa.enabled!==false;
   for(let i=1;i<=5;i++){
     const el=$('waNum'+i);
     if(el && document.activeElement!==el) el.value=nums[i-1]||'';
+    const selected=wa.recipientAlerts?.[normalizeWaNumber(nums[i-1])];
+    waRecipientTypes.forEach(key=>{$('waRecipient'+i+'_'+key).checked=Array.isArray(selected)?selected.includes(key):true});
   }
-  if(document.activeElement!==$('waLeadDays')) $('waLeadDays').value=Number.isFinite(Number(wa.leadDays))?Number(wa.leadDays):7;
+  const periods=waPeriods(wa);
+  Object.entries(waPeriodFields).forEach(([key,id])=>{if(document.activeElement!==$(id))$(id).value=periods[key]});
+  $('waHealth').checked=wa.health!==false;
   $('waLowStock').checked=wa.lowStock!==false;
   $('waCalving').checked=wa.calving!==false;
   $('waMilkMissing').checked=wa.milkMissing!==false;
@@ -1238,12 +1262,21 @@ function renderWhatsAppSettings(force=false){
 function waStatus(message){const el=$('waStatus');if(el){el.textContent=message;el.style.display='block';el.setAttribute('role','status')}}
 let waRequestBusy=false;
 function readWhatsAppSettings(){
-  const phoneNumbers=[...new Set(getWhatsAppNumbers())];
+  const entered=getWhatsAppNumbers();
+  const phoneNumbers=[...new Set(entered)];
+  if(phoneNumbers.length!==entered.length)throw new Error('Enter each WhatsApp number only once so its alert choices are unambiguous.');
+  const reminderTime=$('waReminderTime').value;if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(reminderTime))throw new Error('Choose a valid milk reminder time.');
+  const recipientAlerts={};
+  for(let i=1;i<=5;i++){const number=normalizeWaNumber($('waNum'+i)?.value);if(number)recipientAlerts[number]=waRecipientTypes.filter(key=>$('waRecipient'+i+'_'+key).checked);}
   if(!phoneNumbers.length)throw new Error('Enter at least one WhatsApp number with its country code.');
   if(phoneNumbers.some(n=>! /^[1-9]\d{7,14}$/.test(n)))throw new Error('Use 8–15 digits including country code, for example 91 followed by the 10-digit Indian number.');
-  const leadDays=Number($('waLeadDays').value);
-  if(!Number.isInteger(leadDays)||leadDays<0||leadDays>60)throw new Error('Alert lead days must be a whole number from 0 to 60.');
-  return {...(data.settings.whatsapp||{}),enabled:$('waEnabled').checked,phoneNumbers,leadDays,
+  const periods={};
+  Object.entries(waPeriodFields).forEach(([key,id])=>{
+    const raw=$(id).value.trim(),n=Number(raw),min=key==='missingDays'||key==='lowMilkDays'?1:0;
+    if(raw===''||!Number.isInteger(n)||n<min||n>365)throw new Error($(id).labels[0].textContent+': enter a whole number from '+min+' to 365.');
+    periods[key]=n;
+  });
+  return {...(data.settings.whatsapp||{}),enabled:$('waEnabled').checked,phoneNumbers,recipientAlerts,...periods,automaticEnabled:$('waAutomatic').checked,reminderTime,calvingMode:$('waCalvingMode').value,healthMode:$('waHealthMode').value,health:$('waHealth').checked,
     lowStock:$('waLowStock').checked,calving:$('waCalving').checked,
     milkMissing:$('waMilkMissing').checked,lowMilk:$('waLowMilk').checked,updatedAt:new Date().toISOString()};
 }
@@ -1270,58 +1303,79 @@ async function saveWhatsAppSettings(){
     if(!farmRecordsLoaded)throw new Error('Load Google Sheets records before saving settings to avoid overwriting existing farm data.');
     waStatus('Saving WhatsApp settings…');
     const settings={...data.settings,whatsapp};
-    await whatsappBackend({action:'saveAll',data:{...data,settings}});
+    await whatsappBackend({action:'upsert',store:'settings',record:{...settings,id:'settings',updatedAt:new Date().toISOString()}});
     data.settings=settings;waSettingsDirty=false;renderWhatsAppSettings(true);
     waStatus('WhatsApp settings saved by Apps Script.');return true;
   }catch(e){waStatus('Settings not confirmed: '+e.message);return false}
   finally{waRequestBusy=false}
 }
+function recipientAlertBatches(wa,alerts){
+  return wa.phoneNumbers.map(number=>{
+    const selected=wa.recipientAlerts?.[number];
+    const filtered=alerts.filter(a=>Array.isArray(selected)?selected.includes(a.key):waRecipientTypes.includes(a.key));
+    return {action:'wa_alerts',phoneNumbers:[number],alerts:filtered};
+  }).filter(batch=>batch.alerts.length);
+}
 async function runWhatsAppRequest(isTest){
   if(waRequestBusy)return;
   waRequestBusy=true;
+  let acknowledged=0;
   try{
     const wa=readWhatsAppSettings();
     if(!wa.enabled)throw new Error('Enable WhatsApp Alerts first.');
     if(!isTest&&!farmRecordsLoaded)throw new Error('Load farm records before generating alerts.');
     const alerts=isTest?[]:buildWhatsAppAlerts(wa);
     if(!isTest&&!alerts.length){waStatus('No active alerts right now.');return;}
-    waStatus(isTest?'Waiting for WhatsApp test response…':'Waiting for WhatsApp alert response…');
-    const payload=isTest?{action:'wa_test',phoneNumbers:wa.phoneNumbers,message:'KMP Dairy FarmOS WhatsApp test message.'}:{action:'wa_alerts',phoneNumbers:wa.phoneNumbers,alerts};
-    const result=await whatsappBackend(payload);
-    waStatus('Apps Script acknowledged the '+(isTest?'test':'alert')+' request. WhatsApp delivery is not yet verified.'+(typeof result.message==='string'?' '+result.message:''));
-  }catch(e){waStatus('WhatsApp: '+e.message);console.error(e)}
+    const batches=isTest?[{action:'wa_test',phoneNumbers:wa.phoneNumbers,message:'KMP Dairy FarmOS WhatsApp test message.'}]:recipientAlertBatches(wa,alerts);
+    if(!batches.length){waStatus('Active alerts exist, but no entered number is selected to receive those notification types.');return;}
+    for(let i=0;i<batches.length;i++){
+      waStatus(isTest?'Waiting for WhatsApp test response…':'Sending selected alerts: recipient '+(i+1)+' of '+batches.length+'…');
+      await whatsappBackend(batches[i]);
+      acknowledged++;
+    }
+    waStatus(isTest?'Apps Script acknowledged the test request. WhatsApp delivery is not yet verified.':'Apps Script acknowledged selected alerts for '+acknowledged+' recipient(s). WhatsApp delivery is not yet verified.');
+  }catch(e){waStatus('WhatsApp: '+e.message+(acknowledged?' Earlier requests acknowledged: '+acknowledged+'.':'')+' Sending stopped. Check WhatsApp / Apps Script before retrying; retrying can duplicate messages already sent.');console.error(e)}
   finally{waRequestBusy=false}
 }
 async function testWhatsApp(){return runWhatsAppRequest(true)}
+function monthNoticeDate(due){
+  const [y,m,d]=due.split('-').map(Number),last=new Date(Date.UTC(y,m-1,0)).getUTCDate();
+  return new Date(Date.UTC(y,m-2,Math.min(d,last))).toISOString().slice(0,10);
+}
 function buildWhatsAppAlerts(wa=data.settings?.whatsapp||{}){
-  const alerts=[];
-  const lead=Math.max(0,Number(wa.leadDays??7));
-  const todayStr=today();
-  const dueDate=new Date();dueDate.setDate(dueDate.getDate()+lead);
-  const dueStr=localDateInputValue(dueDate);
+  const alerts=[],p=waPeriods(wa),todayStr=today();
   if(wa.lowStock!==false){
-    (data.inventory||[]).filter(x=>Number(x.stock||0)<=Number(x.minStock||0)).forEach(x=>{
-      alerts.push({key:'low_stock',message:`KMP Dairy Alert: Low stock — ${x.name}: ${x.stock} ${x.unit||''} (minimum ${x.minStock}).`});
+    (data.inventory||[]).forEach(x=>{
+      const stock=Number(x.stock||0),usage=Number(x.dailyUsage||0),remaining=usage>0?stock/usage:Infinity;
+      const reorder=x.reorderQuantity!=null&&x.reorderQuantity!==''?Number(x.reorderQuantity):null;
+      if(reorder!==null?stock<reorder:(stock<=Number(x.minStock||0)||remaining<=p.feedDays)){
+        alerts.push({key:'low_stock',eventId:'stock:'+x.id,message:`KMP Dairy Alert: Feed / stock — ${x.name}: ${stock} ${x.unit||''}. ${reorder!==null?'Reorder quantity: '+reorder+' '+(x.unit||'')+'.':usage>0?'Estimated stock remaining: '+Math.max(0,remaining).toFixed(1)+' days (notice: '+p.feedDays+' days).':'Daily usage not set; minimum-stock warning.'} Minimum stock: ${x.minStock||0}.`});
+      }
     });
   }
   if(wa.calving!==false){
-    (data.breeding||[]).filter(x=>x.calving&&x.calving>=todayStr&&x.calving<=dueStr).forEach(x=>{
-      alerts.push({key:'calving',message:`KMP Dairy Alert: ${cowName(x.cowId)} expected calving on ${x.calving}.`});
+    (data.breeding||[]).filter(x=>x.calving&&x.calving>=todayStr&&((wa.calvingMode||'month')==='month'?monthNoticeDate(x.calving)<=todayStr:x.calving<=alertDate(p.calvingDays))).forEach(x=>{
+      alerts.push({key:'calving',eventId:'calving:'+x.id+':'+x.calving,message:`KMP Dairy Alert: ${cowName(x.cowId)} expected calving on ${x.calving} (notice: ${(wa.calvingMode||'month')==='month'?'one calendar month':p.calvingDays+' days'}).`});
     });
   }
-  if(wa.milkMissing!==false){
-    const active=(data.cows||[]).filter(c=>c.status==='Lactating');
-    const recorded=new Set((data.milk||[]).filter(x=>x.date===todayStr).map(x=>x.cowId));
-    active.filter(c=>!recorded.has(c.id)).forEach(c=>{
-      alerts.push({key:'milk_missing',message:`KMP Dairy Alert: Today's milk entry is missing for ${c.name||c.id}.`});
+  if(wa.health!==false){
+    (data.health||[]).filter(x=>x.nextDue&&((wa.healthMode||'month')==='month'?monthNoticeDate(x.nextDue)<=todayStr:x.nextDue<=alertDate(p.healthDays))).forEach(x=>{
+      alerts.push({key:'health',eventId:'health:'+x.id+':'+x.nextDue,message:`KMP Dairy Alert: ${cowName(x.cowId)} — ${x.type} ${x.nextDue<todayStr?'overdue':'due'} ${x.nextDue} (notice: ${(wa.healthMode||'month')==='month'?'one calendar month':p.healthDays+' days'}).`});
     });
   }
-  if(wa.lowMilk!==false){
-    const todays=(data.milk||[]).filter(x=>x.date===todayStr);
-    todays.filter(x=>Number(x.total||0)>0&&Number(x.total||0)<5).forEach(x=>{
-      alerts.push({key:'low_milk',message:`KMP Dairy Alert: Low milk for ${cowName(x.cowId)} today — ${Number(x.total||0).toFixed(1)} L.`});
-    });
-  }
+  const active=(data.cows||[]).filter(c=>c.status==='Lactating');
+  const milk=data.milk||[];
+  active.forEach(c=>{
+    if(wa.milkMissing!==false){
+      const dates=Array.from({length:p.missingDays},(_,i)=>alertDate(-i-1));
+      if(dates.every(date=>!milk.some(x=>x.date===date&&x.cowId===c.id)))alerts.push({key:'milk_missing',eventId:'missing:'+c.id+':'+dates[0],message:`KMP Dairy Alert: Milk entries missing for ${c.name||c.id} for ${p.missingDays} completed day(s), ${dates[dates.length-1]} to ${dates[0]}.`});
+    }
+    if(wa.lowMilk!==false){
+      const dates=Array.from({length:p.lowMilkDays},(_,i)=>alertDate(-i-1));
+      const totals=dates.map(date=>{const rows=milk.filter(x=>x.date===date&&x.cowId===c.id);return rows.length?rows.reduce((s,x)=>s+Number(x.total||0),0):null});
+      if(totals.every(n=>n!==null&&Number.isFinite(n)&&n>=0&&n<5))alerts.push({key:'low_milk',eventId:'milk:'+c.id+':'+dates[0],message:`KMP Dairy Alert: Low milk for ${c.name||c.id} — below 5 L/day for ${p.lowMilkDays} completed day(s), ${dates[dates.length-1]} to ${dates[0]}.`});
+    }
+  });
   return alerts;
 }
 async function sendWhatsAppAlerts(){return runWhatsAppRequest(false)}
@@ -1446,7 +1500,7 @@ checkSession();
    renderCowYieldExplorer();
    const active=data.cows.filter(c=>!['Sold','Deceased'].includes(c.status));const lact=active.filter(c=>c.status==='Lactating').length,preg=active.filter(c=>c.status==='Pregnant').length,other=Math.max(0,active.length-lact-preg),total=Math.max(1,active.length),angle=Math.round(lact/total*360);document.getElementById('analyticsHerd').innerHTML=`<div class="donut" style="--a:${angle}deg"><b>${active.length}</b></div><div class="legend"><div><i style="background:#0e826a"></i>${lact} lactating</div><div><i style="background:#dcaa45"></i>${preg} pregnant</div><div><i style="background:#dce8e4"></i>${other} other active</div></div>`;
    const income=data.finance.filter(x=>x.type==='Income').reduce((a,x)=>a+Number(x.amount||0),0),expense=data.finance.filter(x=>x.type==='Expense').reduce((a,x)=>a+Number(x.amount||0),0);barChart('analyticsFinance',[{label:'Income',v:income,text:money(income)},{label:'Expenses',v:expense,text:money(expense)},{label:'Net',v:Math.abs(income-expense),text:money(income-expense)}]);
-   const vaccines=data.health.filter(x=>x.type==='Vaccination').length,cases=data.health.length-vaccines,due=data.health.filter(x=>x.nextDue&&x.nextDue<=new Date(Date.now()+7*864e5).toISOString().slice(0,10)).length;barChart('analyticsHealth',[{label:'Vaccines',v:vaccines,text:vaccines},{label:'Care cases',v:cases,text:cases},{label:'Due soon',v:due,text:due}]);
+   const vaccines=data.health.filter(x=>x.type==='Vaccination').length,cases=data.health.length-vaccines,due=data.health.filter(x=>x.nextDue&&x.nextDue<=alertDate(waPeriods(data.settings?.whatsapp||{}).healthDays)).length;barChart('analyticsHealth',[{label:'Vaccines',v:vaccines,text:vaccines},{label:'Care cases',v:cases,text:cases},{label:'Due soon',v:due,text:due}]);
    const positive=data.breeding.filter(x=>/positive|success/i.test(x.result||'')).length,scheduled=data.breeding.filter(x=>x.calving).length;barChart('analyticsBreeding',[{label:'Events',v:data.breeding.length,text:data.breeding.length},{label:'Positive',v:positive,text:positive},{label:'Calving plans',v:scheduled,text:scheduled}]);
    barChart('analyticsInventory',data.inventory.slice(0,12).map(x=>({label:(x.name||'Item').slice(0,11),v:Number(x.stock||0),text:`${x.stock||0} ${x.unit||''}`})));
  };
@@ -1478,7 +1532,7 @@ function initFarmAssistant(){
  if(!panel||!messages||!input||!voice||!launch||!closeBtn||!formEl)throw new Error('Assistant UI elements were not created correctly.');
  function add(text,type){const el=document.createElement('div');el.className='assistant-msg '+type;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el}
  function moneyLocal(n){return typeof money==='function'?money(n):'₹'+Number(n||0).toLocaleString('en-IN')}
- function snapshot(){const active=data.cows.filter(c=>!['Sold','Deceased'].includes(c.status)),day=today(),milkToday=data.milk.filter(x=>x.date===day).reduce((s,x)=>s+Number(x.total||0),0),income=data.finance.filter(x=>x.type==='Income').reduce((s,x)=>s+Number(x.amount||0),0),expense=data.finance.filter(x=>x.type==='Expense').reduce((s,x)=>s+Number(x.amount||0),0),dueDate=new Date(Date.now()+7*864e5).toISOString().slice(0,10),due=data.health.filter(x=>x.nextDue&&x.nextDue<=dueDate),low=data.inventory.filter(x=>Number(x.stock||0)<=Number(x.minStock||0));return {active,day,milkToday,income,expense,due,low}}
+ function snapshot(){const active=data.cows.filter(c=>!['Sold','Deceased'].includes(c.status)),day=today(),milkToday=data.milk.filter(x=>x.date===day).reduce((s,x)=>s+Number(x.total||0),0),income=data.finance.filter(x=>x.type==='Income').reduce((s,x)=>s+Number(x.amount||0),0),expense=data.finance.filter(x=>x.type==='Expense').reduce((s,x)=>s+Number(x.amount||0),0),dueDate=alertDate(waPeriods(data.settings?.whatsapp||{}).healthDays),due=data.health.filter(x=>x.nextDue&&x.nextDue<=dueDate),low=data.inventory.filter(x=>Number(x.stock||0)<=Number(x.minStock||0));return {active,day,milkToday,income,expense,due,low}}
  function findCowInQuestion(q){
    const t=(q||'').toLowerCase().trim();
    const normalized=' '+t.replace(/[^a-z0-9\u0B80-\u0BFF]+/g,' ').replace(/\s+/g,' ').trim()+' ';
@@ -1628,13 +1682,13 @@ function answer(q){
     const totalAll=ranked.reduce((a,r)=>a+r.total,0);
     return `Cow-wise milk — ${p.label} (${p.start} to ${p.end})\n${ranked.map((r,n)=>`• ${n+1}. ${r.name} — ${r.total.toFixed(1)} L`).join('\n')}\n\nTotal across ${ranked.length} cow(s) with a record: ${totalAll.toFixed(1)} L.`;
   }
-  if(i.overview&&!i.milk)return `Farm overview for ${s.day}\n• Active animals: ${s.active.length}\n• Lactating: ${s.active.filter(c=>c.status==='Lactating').length}\n• Pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Milk recorded today: ${s.milkToday.toFixed(1)} L\n• Net recorded finance: ${moneyLocal(s.income-s.expense)}\n• Health items due within 7 days: ${s.due.length}\n• Inventory items at/below minimum: ${s.low.length}`;
+  if(i.overview&&!i.milk)return `Farm overview for ${s.day}\n• Active animals: ${s.active.length}\n• Lactating: ${s.active.filter(c=>c.status==='Lactating').length}\n• Pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Milk recorded today: ${s.milkToday.toFixed(1)} L\n• Net recorded finance: ${moneyLocal(s.income-s.expense)}\n• Health items due within ${waPeriods(data.settings?.whatsapp||{}).healthDays} days: ${s.due.length}\n• Inventory items at/below minimum: ${s.low.length}`;
   if(i.milk){
     const totals=milkDailyTotals(p),dates=totals.dates,vals=dates.map(d=>totals.byDate[d]||0),recorded=vals.filter(v=>v>0),total=vals.reduce((a,b)=>a+b,0),avgCalendar=total/dates.length,peak=recorded.length?Math.max(...recorded):0,peakDate=recorded.length?dates[vals.indexOf(peak)]:null;
     return `Milk production — farm total\n• Period: ${p.start} to ${p.end}\n• Total: ${total.toFixed(1)} L\n• Average across calendar days: ${avgCalendar.toFixed(1)} L/day\n• Peak recorded day: ${peak.toFixed(1)} L${peakDate?` on ${peakDate}`:''}\n• Days with recorded production: ${recorded.length}/${dates.length}\n• Cows with a milk record today: ${new Set(data.milk.filter(x=>x.date===s.day&&x.cowId).map(x=>x.cowId)).size}\n\nThese are recorded values only.`;
   }
   if(i.finance)return `Finance summary\n• Recorded income: ${moneyLocal(s.income)}\n• Recorded expenses: ${moneyLocal(s.expense)}\n• Net recorded balance: ${moneyLocal(s.income-s.expense)}\n• Transactions: ${data.finance.length}`;
-  if(i.health&&!i.breeding)return s.due.length?`Health attention needed\n${s.due.map(x=>`• ${cowName(x.cowId)} — ${x.type}, due ${x.nextDue}`).join('\n')}\n\nTotal due within 7 days: ${s.due.length}.`:`Health status\n• No vaccination or health follow-up is due within the next 7 days.\n• Total health/care records: ${data.health.length}.`;
+  if(i.health&&!i.breeding)return s.due.length?`Health attention needed\n${s.due.map(x=>`• ${cowName(x.cowId)} — ${x.type}, due ${x.nextDue}`).join('\n')}\n\nTotal due within ${waPeriods(data.settings?.whatsapp||{}).healthDays} days: ${s.due.length}.`:`Health status\n• No vaccination or health follow-up is due within the next ${waPeriods(data.settings?.whatsapp||{}).healthDays} days.\n• Total health/care records: ${data.health.length}.`;
   if(i.breeding)return `Breeding & calving\n• Total events: ${data.breeding.length}\n• Positive/successful results: ${data.breeding.filter(x=>/positive|success/i.test(x.result||'')).length}\n• Currently pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Records with expected calving date: ${data.breeding.filter(x=>x.calving).length}`;
   if(i.inventory)return s.low.length?`Inventory below/minimum stock\n${s.low.map(x=>`• ${x.name}: ${x.stock} ${x.unit} remaining; minimum ${x.minStock}`).join('\n')}\n\nItems needing replenishment: ${s.low.length}.`:`Inventory status\n• Recorded items: ${data.inventory.length}\n• All recorded items are above their minimum stock levels.`;
   if(i.cow)return `Herd summary\n• Active animals: ${s.active.length}\n• Lactating: ${s.active.filter(c=>c.status==='Lactating').length}\n• Pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Dry: ${s.active.filter(c=>c.status==='Dry').length}\n• Calves: ${s.active.filter(c=>c.status==='Calf').length}`;
