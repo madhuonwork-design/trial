@@ -300,8 +300,9 @@ body[data-theme="light"] .invoice-totals{background:#f7faf9}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
 
-const API_URL = 'https://script.google.com/macros/s/AKfycbyueshnHA80s9D3xHQYyKyxa0Wx6XPz2uUY0WnD2UFd3U6puSGDx_XY00R0dsSyWuv1/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzUdwghCr8Ql_Sy0Mry8rzi9e6kPvY2zhc9hm0M2YC4UtFJBNOOIhgr7QhPTf5Y4Q/exec';
 const SYNC_INTERVAL = 15000;
+let farmRecordsLoaded=false;
 
 /* Large-data settings: the application accepts up to 2,000,000 records
    per data section. Tables render only one small page at a time so the
@@ -405,7 +406,7 @@ let syncBusy=false;
 
 const $=id=>document.getElementById(id);
 function uid(p='id'){return p+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7)}
-function today(){return new Date().toISOString().slice(0,10)}
+function today(){return localDateInputValue(new Date())}
 function money(n){return (data.settings.currency||'INR ₹').includes('INR')?'₹ '+Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:2}):Number(n||0).toLocaleString()}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2500)}
@@ -499,11 +500,13 @@ async function openDB(){
     showSyncStatus('Set your Apps Script URL in index.html',false);
     return;
   }
-  if(syncBusy)return;
+  if(syncBusy || waRequestBusy)return;
   syncBusy=true;
   try{
     const r=await jsonpGet('getAll');
-    const incoming=r.data||{};
+    if(!r.data || typeof r.data!=="object")throw new Error("Backend returned no farm data.");
+    const incoming=r.data;
+    farmRecordsLoaded=true;
     data={
       ...data,
       ...incoming,
@@ -1232,51 +1235,70 @@ function renderWhatsAppSettings(force=false){
   $('waMilkMissing').checked=wa.milkMissing!==false;
   $('waLowMilk').checked=wa.lowMilk!==false;
 }
-async function saveWhatsAppSettings(){
-  const phoneNumbers=getWhatsAppNumbers();
-  data.settings={...data.settings,whatsapp:{
-    ...(data.settings.whatsapp||{}),
-    enabled:$('waEnabled').checked,
-    phoneNumbers,
-    leadDays:Number($('waLeadDays').value||7),
-    lowStock:$('waLowStock').checked,
-    calving:$('waCalving').checked,
-    milkMissing:$('waMilkMissing').checked,
-    lowMilk:$('waLowMilk').checked,
-    updatedAt:new Date().toISOString()
-  }};
-  const ok=await persist();
-  if(ok){
-    waSettingsDirty=false;
-    renderWhatsAppSettings(true);
-    const st=$('waStatus'); if(st){st.textContent='Settings save request submitted';st.style.display='block'}
-    toast('WhatsApp settings save request submitted');
-  }
+function waStatus(message){const el=$('waStatus');if(el){el.textContent=message;el.style.display='block';el.setAttribute('role','status')}}
+let waRequestBusy=false;
+function readWhatsAppSettings(){
+  const phoneNumbers=[...new Set(getWhatsAppNumbers())];
+  if(!phoneNumbers.length)throw new Error('Enter at least one WhatsApp number with its country code.');
+  if(phoneNumbers.some(n=>! /^[1-9]\d{7,14}$/.test(n)))throw new Error('Use 8–15 digits including country code, for example 91 followed by the 10-digit Indian number.');
+  const leadDays=Number($('waLeadDays').value);
+  if(!Number.isInteger(leadDays)||leadDays<0||leadDays>60)throw new Error('Alert lead days must be a whole number from 0 to 60.');
+  return {...(data.settings.whatsapp||{}),enabled:$('waEnabled').checked,phoneNumbers,leadDays,
+    lowStock:$('waLowStock').checked,calving:$('waCalving').checked,
+    milkMissing:$('waMilkMissing').checked,lowMilk:$('waLowMilk').checked,updatedAt:new Date().toISOString()};
 }
-async function testWhatsApp(){
-  const numbers=getWhatsAppNumbers();
-  const st=$('waStatus');
-  if(!numbers.length){if(st){st.textContent='Enter at least one WhatsApp number';st.style.display='block'};return toast('Enter at least one WhatsApp number')}
-  if(!$('waEnabled').checked){if(st){st.textContent='Enable WhatsApp Alerts first';st.style.display='block'};return toast('Enable WhatsApp Alerts first')}
+async function whatsappBackend(payload){
+  if(!apiConfigured())throw new Error('Google Apps Script URL is not configured.');
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),45000);
   try{
-    if(st){st.textContent='Saving settings…';st.style.display='block'}
-    await saveWhatsAppSettings();
-    if(st)st.textContent='Sending WhatsApp test…';
-    await postForm({action:'wa_test',phoneNumbers:numbers,message:'KMP Dairy FarmOS WhatsApp test message. Connection is working.'});
-    if(st)st.textContent='Test request submitted to Apps Script — delivery is not confirmed yet';
-    toast('WhatsApp test request submitted');
+    const response=await fetch(API_URL,{method:'POST',body:new URLSearchParams({payload:JSON.stringify(payload)}),signal:controller.signal,redirect:'follow',credentials:'omit'});
+    if(!response.ok)throw new Error('Apps Script returned HTTP '+response.status+'. Check deployment access and Executions.');
+    let result;
+    try{result=JSON.parse(await response.text())}catch(_){throw new Error('Apps Script did not return JSON. Check the web app deployment and its doPost handler. Delivery is unconfirmed; check Executions before retrying.');}
+    if(result?.ok!==true||result.error){const error=result?.error;throw new Error(typeof error==='string'?error:error?.message||result?.message||'Apps Script did not confirm this operation. Check its wa_test / wa_alerts handlers.');}
+    return result;
   }catch(e){
-    console.error(e);
-    if(st){st.textContent='WhatsApp test failed: '+(e?.message||e);st.style.display='block'}
-    toast('WhatsApp test failed');
-  }
+    if(e.name==='AbortError'||e instanceof TypeError)throw new Error('No readable Apps Script response (timeout, network or browser cross-origin restriction). Delivery is unknown. Check Apps Script Executions / WhatsApp before retrying to avoid duplicates.');
+    throw e;
+  }finally{clearTimeout(timer)}
 }
-function buildWhatsAppAlerts(){
-  const wa=data.settings?.whatsapp||{};
+async function saveWhatsAppSettings(){
+  if(waRequestBusy)return false;
+  waRequestBusy=true;
+  try{
+    const whatsapp=readWhatsAppSettings();
+    if(!farmRecordsLoaded)throw new Error('Load Google Sheets records before saving settings to avoid overwriting existing farm data.');
+    waStatus('Saving WhatsApp settings…');
+    const settings={...data.settings,whatsapp};
+    await whatsappBackend({action:'saveAll',data:{...data,settings}});
+    data.settings=settings;waSettingsDirty=false;renderWhatsAppSettings(true);
+    waStatus('WhatsApp settings saved by Apps Script.');return true;
+  }catch(e){waStatus('Settings not confirmed: '+e.message);return false}
+  finally{waRequestBusy=false}
+}
+async function runWhatsAppRequest(isTest){
+  if(waRequestBusy)return;
+  waRequestBusy=true;
+  try{
+    const wa=readWhatsAppSettings();
+    if(!wa.enabled)throw new Error('Enable WhatsApp Alerts first.');
+    if(!isTest&&!farmRecordsLoaded)throw new Error('Load farm records before generating alerts.');
+    const alerts=isTest?[]:buildWhatsAppAlerts(wa);
+    if(!isTest&&!alerts.length){waStatus('No active alerts right now.');return;}
+    waStatus(isTest?'Waiting for WhatsApp test response…':'Waiting for WhatsApp alert response…');
+    const payload=isTest?{action:'wa_test',phoneNumbers:wa.phoneNumbers,message:'KMP Dairy FarmOS WhatsApp test message.'}:{action:'wa_alerts',phoneNumbers:wa.phoneNumbers,alerts};
+    const result=await whatsappBackend(payload);
+    waStatus('Apps Script acknowledged the '+(isTest?'test':'alert')+' request. WhatsApp delivery is not yet verified.'+(typeof result.message==='string'?' '+result.message:''));
+  }catch(e){waStatus('WhatsApp: '+e.message);console.error(e)}
+  finally{waRequestBusy=false}
+}
+async function testWhatsApp(){return runWhatsAppRequest(true)}
+function buildWhatsAppAlerts(wa=data.settings?.whatsapp||{}){
   const alerts=[];
-  const lead=Math.max(0,Number(wa.leadDays||7));
+  const lead=Math.max(0,Number(wa.leadDays??7));
   const todayStr=today();
-  const dueStr=new Date(Date.now()+lead*864e5).toISOString().slice(0,10);
+  const dueDate=new Date();dueDate.setDate(dueDate.getDate()+lead);
+  const dueStr=localDateInputValue(dueDate);
   if(wa.lowStock!==false){
     (data.inventory||[]).filter(x=>Number(x.stock||0)<=Number(x.minStock||0)).forEach(x=>{
       alerts.push({key:'low_stock',message:`KMP Dairy Alert: Low stock — ${x.name}: ${x.stock} ${x.unit||''} (minimum ${x.minStock}).`});
@@ -1302,21 +1324,7 @@ function buildWhatsAppAlerts(){
   }
   return alerts;
 }
-async function sendWhatsAppAlerts(){
-  const numbers=getWhatsAppNumbers();
-  if(!$('waEnabled').checked)return toast('Enable WhatsApp Alerts first');
-  if(!numbers.length)return toast('Enter at least one WhatsApp number');
-  await saveWhatsAppSettings();
-  const alerts=buildWhatsAppAlerts();
-  if(!alerts.length)return toast('No active alerts right now');
-  try{
-    await postForm({action:'wa_alerts',phoneNumbers:numbers,alerts});
-    const st=$('waStatus');if(st){st.textContent=alerts.length+' alert request(s) submitted to Apps Script — delivery is not confirmed yet';st.style.display='block'}
-    toast(alerts.length+' WhatsApp alert request(s) submitted');
-  }catch(e){
-    console.error(e);toast('WhatsApp alert request failed');
-  }
-}
+async function sendWhatsAppAlerts(){return runWhatsAppRequest(false)}
 
 async function saveSettings(){
  data.settings={...data.settings,farm:$('setFarm').value||'KMP Dairy Farms',owner:$('setOwner').value,location:$('setLocation').value,currency:$('setCurrency').value};
@@ -1464,7 +1472,7 @@ function initFarmAssistant(){
  if(document.getElementById('assistantLaunch'))return true;
  if(!document.body)return false;
  try{
- const ui=document.createElement('div');ui.innerHTML=`<button class="assistant-launch" id="assistantLaunch">✦ Farm Assistant</button><aside class="assistant-panel" id="assistantPanel" aria-label="Farm Assistant"><div class="assistant-top"><div class="assistant-avatar">🐄</div><div><b>Farm Assistant</b><small>Live portal data · text & voice</small></div><button class="assistant-close" id="assistantClose" aria-label="Close">×</button></div><div class="assistant-notice">Ask about the data already in your portal. Voice recognition is processed by your browser.</div><div class="assistant-messages" id="assistantMessages"></div><div class="assistant-suggestions"><button>Farm overview</button><button>Milk today</button><button>Health alerts</button><button>Profit summary</button><button>Low yield cows</button><button>Low stock</button></div><form class="assistant-compose" id="assistantForm"><input id="assistantInput" autocomplete="off" placeholder="Ask about your farm data…" aria-label="Ask Farm Assistant"><button type="button" id="assistantVoice" title="Speak your question">🎙</button><button class="send" title="Send">➜</button></form></aside>`;document.body.appendChild(ui);
+ const ui=document.createElement('div');ui.innerHTML=`<button class="assistant-launch" id="assistantLaunch">✦ Farm Assistant</button><aside class="assistant-panel" id="assistantPanel" aria-label="Farm Assistant"><div class="assistant-top"><div class="assistant-avatar">🐄</div><div><b>Farm Assistant</b><small>Live portal data · text & voice</small></div><button class="assistant-close" id="assistantClose" aria-label="Close">×</button></div><div class="assistant-notice">Ask about the data already in your portal. Voice recognition is processed by your browser.</div><div class="assistant-messages" id="assistantMessages" role="log" aria-live="polite"></div><div class="assistant-suggestions"><button>Farm overview</button><button>Milk today</button><button>Health alerts</button><button>Profit summary</button><button>Low yield cows</button><button>Low stock</button></div><form class="assistant-compose" id="assistantForm"><input id="assistantInput" autocomplete="off" placeholder="Ask about your farm data…" aria-label="Ask Farm Assistant"><button type="button" id="assistantVoice" aria-label="Start or stop voice question" aria-pressed="false" title="Speak your question">🎙</button><button class="send" title="Send">➜</button></form></aside>`;document.body.appendChild(ui);
  const panel=document.getElementById('assistantPanel'),messages=document.getElementById('assistantMessages'),input=document.getElementById('assistantInput'),voice=document.getElementById('assistantVoice');
  const launch=document.getElementById('assistantLaunch'),closeBtn=document.getElementById('assistantClose'),formEl=document.getElementById('assistantForm');
  if(!panel||!messages||!input||!voice||!launch||!closeBtn||!formEl)throw new Error('Assistant UI elements were not created correctly.');
@@ -1495,15 +1503,24 @@ function initFarmAssistant(){
  function aggregateMilk(rows){
    return rows.reduce((a,x)=>({morning:a.morning+Number(x.morning||0),afternoon:a.afternoon+Number(x.afternoon||0),evening:a.evening+Number(x.evening||0),total:a.total+Number(x.total||0)}),{morning:0,afternoon:0,evening:0,total:0});
  }
+ function isoDate(d){return localDateInputValue(d)}
  function dateShift(base,days){const d=new Date(base+'T00:00:00');d.setDate(d.getDate()+days);return isoDate(d)}
  function milkPeriodFromQuestion(q){
-  const t=String(q||'').toLowerCase().trim();
+  const t=String(q||'').toLowerCase().trim()
+    .replace(/நேற்று|netru/g,'yesterday').replace(/இன்று|indru/g,'today')
+    .replace(/இந்த வாரம்/g,'this week').replace(/கடந்த ஒரு வாரம்/g,'last 7 days')
+    .replace(/கடந்த\s*(\d+)\s*நாட?்?க?ள்?/g,'last $1 days');
   const todayDate=today();
   const make=(start,end,label,kind='rolling')=>({start,end,label,kind});
   if(/\b(yesterday|நேற்று)\b/.test(t)){
     const d=dateShift(todayDate,-1);return make(d,d,'yesterday','single');
   }
   if(/\b(today|today's|todays|இன்று|indru)\b/.test(t))return make(todayDate,todayDate,'today','single');
+  if(/\bthis\s+month\b/.test(t))return make(todayDate.slice(0,7)+'-01',todayDate,'this month','calendar');
+  const rolling=t.match(/\b(?:last|past|previous)\s+(\d+)\s*days?\b/);
+  if(rolling){const n=Math.max(1,Math.min(548,Number(rolling[1])));return make(dateShift(todayDate,1-n),todayDate,`last ${n} days`);}
+  const months=t.match(/\b([123])\s*months?\b/);
+  if(months){const n=Number(months[1])*30;return make(dateShift(todayDate,1-n),todayDate,`last ${n} days`);}
   // Explicit rolling ranges. "last week" is treated as the last 7 calendar days including today.
   if(/\b(7\s*day|7\s*days|1\s*week|one\s*week|last\s*week|weekly|past\s*week|கடந்த\s*7\s*நாள்|கடந்த\s*ஒரு\s*வாரம்)\b/.test(t)){
     return make(dateShift(todayDate,-6),todayDate,'last 7 days','rolling');
@@ -1587,7 +1604,7 @@ function answer(q){
   if(!original)return '';
   if(/^(hello|hi|hey|help|what can you do)\b/i.test(t))return 'I answer only from the recorded portal data. Examples: “Lakshmi milk today”, “KM001 last 7 days”, “lowest milk cows today”, “lowest producing cow last 7 days”, “lowest overall production in last 7 days”, “highest overall production last 7 days”, “milk production”, “health due”, or “finance summary”.';
   // Specific cow queries always take priority.
-  if(cow&&i.milk)return cowMilkAnswer(cow,original);
+  if(cow&&(i.milk||!Object.values(i).some(Boolean)||/\b(days?|week|month|today|yesterday)\b/.test(t)))return cowMilkAnswer(cow,original);
   const p=milkPeriodFromQuestion(t);
   // Explicit cow ranking: "lowest milk cows", "lowest producing cow", etc.
   if(i.cow&&i.lowest&&i.milk){
@@ -1617,7 +1634,7 @@ function answer(q){
     return `Milk production — farm total\n• Period: ${p.start} to ${p.end}\n• Total: ${total.toFixed(1)} L\n• Average across calendar days: ${avgCalendar.toFixed(1)} L/day\n• Peak recorded day: ${peak.toFixed(1)} L${peakDate?` on ${peakDate}`:''}\n• Days with recorded production: ${recorded.length}/${dates.length}\n• Cows with a milk record today: ${new Set(data.milk.filter(x=>x.date===s.day&&x.cowId).map(x=>x.cowId)).size}\n\nThese are recorded values only.`;
   }
   if(i.finance)return `Finance summary\n• Recorded income: ${moneyLocal(s.income)}\n• Recorded expenses: ${moneyLocal(s.expense)}\n• Net recorded balance: ${moneyLocal(s.income-s.expense)}\n• Transactions: ${data.finance.length}`;
-  if(i.health)return s.due.length?`Health attention needed\n${s.due.map(x=>`• ${cowName(x.cowId)} — ${x.type}, due ${x.nextDue}`).join('\n')}\n\nTotal due within 7 days: ${s.due.length}.`:`Health status\n• No vaccination or health follow-up is due within the next 7 days.\n• Total health/care records: ${data.health.length}.`;
+  if(i.health&&!i.breeding)return s.due.length?`Health attention needed\n${s.due.map(x=>`• ${cowName(x.cowId)} — ${x.type}, due ${x.nextDue}`).join('\n')}\n\nTotal due within 7 days: ${s.due.length}.`:`Health status\n• No vaccination or health follow-up is due within the next 7 days.\n• Total health/care records: ${data.health.length}.`;
   if(i.breeding)return `Breeding & calving\n• Total events: ${data.breeding.length}\n• Positive/successful results: ${data.breeding.filter(x=>/positive|success/i.test(x.result||'')).length}\n• Currently pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Records with expected calving date: ${data.breeding.filter(x=>x.calving).length}`;
   if(i.inventory)return s.low.length?`Inventory below/minimum stock\n${s.low.map(x=>`• ${x.name}: ${x.stock} ${x.unit} remaining; minimum ${x.minStock}`).join('\n')}\n\nItems needing replenishment: ${s.low.length}.`:`Inventory status\n• Recorded items: ${data.inventory.length}\n• All recorded items are above their minimum stock levels.`;
   if(i.cow)return `Herd summary\n• Active animals: ${s.active.length}\n• Lactating: ${s.active.filter(c=>c.status==='Lactating').length}\n• Pregnant: ${s.active.filter(c=>c.status==='Pregnant').length}\n• Dry: ${s.active.filter(c=>c.status==='Dry').length}\n• Calves: ${s.active.filter(c=>c.status==='Calf').length}`;
@@ -1627,7 +1644,7 @@ function speakAssistantResponse(text){
   if(!('speechSynthesis' in window))return;
   speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(String(text).replace(/[•\n]/g,' '));
-  const lang=$('assistantLang')?.value||'en-IN';u.lang=lang;u.rate=0.95;u.pitch=1;
+  const lang=/[\u0B80-\u0BFF]/.test(text)?'ta-IN':'en-IN';u.lang=lang;u.rate=0.95;u.pitch=1;
   const voices=speechSynthesis.getVoices? speechSynthesis.getVoices():[];
   const match=voices.find(v=>String(v.lang||'').toLowerCase()===lang.toLowerCase())||voices.find(v=>String(v.lang||'').toLowerCase().startsWith(lang.slice(0,2).toLowerCase()));
   if(match)u.voice=match;
@@ -1636,17 +1653,23 @@ function speakAssistantResponse(text){
 function ask(text,spoken=false){
   const q=(text||'').trim();if(!q)return;
   add(q,'user');input.value='';
-  const response=answer(q);setTimeout(()=>{add(response,'bot');if(spoken)speakAssistantResponse(response)},120);
+  try{
+    if(!farmRecordsLoaded){add('Farm records have not loaded from Google Sheets yet. Check the sync status and refresh before asking about totals.','bot');return;}
+    const response=answer(q);setTimeout(()=>{add(response,'bot');if(spoken)speakAssistantResponse(response)},120);
+  }catch(e){console.error('Farm Assistant:',e);add('I could not process this question: '+e.message+'. Please try another question.','bot');}
 }
 launch.onclick=()=>{panel.classList.toggle('show');if(panel.classList.contains('show'))input.focus()};
-closeBtn.onclick=()=>panel.classList.remove('show');
+closeBtn.onclick=()=>{panel.classList.remove('show');window.speechSynthesis?.cancel();stopAssistantListening()};
+let stopAssistantListening=()=>{};
 formEl.onsubmit=e=>{e.preventDefault();ask(input.value,false)};
 document.querySelectorAll('.assistant-suggestions button').forEach(b=>b.onclick=()=>ask(b.textContent,false));
 const Recognizer=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(Recognizer){
   const rec=new Recognizer();rec.continuous=false;rec.interimResults=false;rec.maxAlternatives=3;
-  rec.onstart=()=>{voice.classList.add('listening');voice.textContent='●';voice.title='Listening… speak your Farm Assistant question'};
-  rec.onend=()=>{voice.classList.remove('listening');voice.textContent='🎙';voice.title='Ask by voice'};
+  let listening=false;
+  stopAssistantListening=()=>{if(listening)rec.abort()};
+  rec.onstart=()=>{listening=true;voice.setAttribute('aria-pressed','true');voice.classList.add('listening');voice.textContent='●';voice.title='Listening… speak your Farm Assistant question'};
+  rec.onend=()=>{listening=false;voice.setAttribute('aria-pressed','false');voice.classList.remove('listening');voice.textContent='🎙';voice.title='Ask by voice'};
   rec.onerror=e=>{voice.classList.remove('listening');voice.textContent='🎙';const msg=e&&e.error==='not-allowed'?'Microphone permission is blocked. Allow microphone access for this site and try again.':e&&e.error==='no-speech'?'No speech was detected. Please speak clearly and try again.':e&&e.error==='language-not-supported'?'The selected voice language is not supported by this browser. Choose EN or தமிழ்.':'I could not understand the voice input. Please try again or type the question.';add(msg,'bot');};
   rec.onresult=e=>{
     let said='';
@@ -1655,6 +1678,9 @@ if(Recognizer){
     input.value=said;ask(said,true);
   };
   voice.onclick=()=>{
+    if(listening){rec.stop();return;}
+    if(!window.isSecureContext){add('Open this portal using HTTPS or localhost to use the microphone.','bot');return;}
+    window.speechSynthesis?.cancel();
     const lang=$('assistantLang')?.value||'en-IN';rec.lang=lang;
     try{rec.start()}catch(e){if(e.name!=='InvalidStateError')add('Voice input could not start. Please try again.','bot');}
   };
